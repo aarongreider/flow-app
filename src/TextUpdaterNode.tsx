@@ -12,7 +12,7 @@ function TextUpdaterNode(props: NodeProps) {
     // set the data of the current node when state changes
     const node = reactFlowInstance.getNode(props.id)
     node ? node.data = { ...node?.data, text: userText } : undefined;
-    console.log(node?.data)
+    //console.log(node?.data)
   }, [userText])
 
 
@@ -22,8 +22,9 @@ function TextUpdaterNode(props: NodeProps) {
     //console.log(props.id)
     //console.log(nodes)
     //console.log(reactFlowInstance)
+    console.log(reactFlowInstance.getNode(props.id))
 
-    console.log(evt.target.value)
+    //console.log(evt.target.value)
     setUserText(evt.target.value)
   }, []);
 
@@ -41,10 +42,10 @@ function TextUpdaterNode(props: NodeProps) {
         type="source"
         position={Position.Bottom}
         id="a"
-        style={handleStyle}
+        /* style={handleStyle} */
         isConnectable={props.isConnectable}
       />
-      <Handle type="source" position={Position.Bottom} id="b" isConnectable={props.isConnectable} />
+      {/* <Handle type="source" position={Position.Bottom} id="b" isConnectable={props.isConnectable} /> */}
     </div>
   );
 }
