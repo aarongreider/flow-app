@@ -48,7 +48,7 @@ export default function App() {
       >
         <Controls />
         <MiniMap zoomable pannable />
-        <Background variant='dots' gap={12} size={1} />
+        <Background gap={12} size={1} />
       </ReactFlow>
     </div>
   );
