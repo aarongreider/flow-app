@@ -12,4 +12,20 @@
     color: #777;
     font-size: 12px;
   }
+
+  .text-receiver-node {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height:auto;
+    min-width: 50px;
+    border: 1px solid #eee;
+    padding: 5px;
+    border-radius: 5px;
+    background: white;
+    color: #777;
+  }
+  .text-receiver-node p {
+    margin: 0;
+  }   
   

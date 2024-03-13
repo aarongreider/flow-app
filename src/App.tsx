@@ -8,6 +8,7 @@ import ReactFlow, {
   applyEdgeChanges, applyNodeChanges,
   addEdge,
   SelectionMode,
+  useReactFlow
 } from 'reactflow';
 
 import 'reactflow/dist/style.css';
@@ -31,8 +32,12 @@ export default function App() {
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState([/* initialEdges */]);
 
+
   const onConnect = useCallback(
-    (params: any) => setEdges((eds) => addEdge(params, eds)),
+    (params: any) => { 
+      console.log("Value passed in:", params);
+      console.log("source node type:", nodes.find(node => node.id === params.source))
+      setEdges((eds) => addEdge(params, eds)) },
     [setEdges],
   );
 

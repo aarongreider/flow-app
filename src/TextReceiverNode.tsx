@@ -20,7 +20,7 @@ function TextReceiverNode(props: NodeProps) {
   return (
     <div className="text-receiver-node">
       <Handle type="target" position={Position.Top} isConnectable={props.isConnectable} />
-
+      <p>{props.id}</p>
       <Handle type="source" position={Position.Bottom} id="a" isConnectable={props.isConnectable} />
     </div>
   );
