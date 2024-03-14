@@ -3,14 +3,8 @@ import { Handle, Position, NodeProps, useNodes, useReactFlow } from 'reactflow';
 
 function TextReceiverNode(props: NodeProps) {
   const reactFlowInstance = useReactFlow();
-  const [userText, setUserText] = useState('Default Text');
 
-  useEffect(() => {
-    // set the data of the current node when state changes
-    const node = reactFlowInstance.getNode(props.id)
-    node ? node.data = { ...node?.data, text: userText } : undefined;
-    console.log(node?.data)
-  }, [userText])
+  //console.log("reactflowinstance:",reactFlowInstance.getNodes());
 
 
   const onChange = useCallback((evt: any) => {

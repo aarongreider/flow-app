@@ -8,38 +8,51 @@ import ReactFlow, {
   applyEdgeChanges, applyNodeChanges,
   addEdge,
   SelectionMode,
-  useReactFlow
+  useReactFlow,
+  Panel
 } from 'reactflow';
+import { shallow } from 'zustand/shallow';
+import useStore from './store';
 
 import 'reactflow/dist/style.css';
 import TextUpdaterNode from './TextUpdaterNode';
 import './css/text-updater-node.css';
 
 import TextReceiverNode from './TextReceiverNode';
+import { initialNodes, initialEdges } from './nodes';
 
 
-const initialNodes = [
-  { id: '1', position: { x: 10, y: 0 }, data: { label: '1' }, type: 'textUpdater' },
-  { id: '2', position: { x: 0, y: 100 }, data: { label: '2' }, type: 'textReceiver' },
-];
-const initialEdges = [{ id: 'e1-2', source: '1', target: '2' }];
+
 
 // define the nodeTypes outside of the component to prevent re-renderings
 // could also use useMemo inside the component
 const nodeTypes = { textUpdater: TextUpdaterNode, textReceiver: TextReceiverNode };
 
+const selector = (state: any) => ({
+  nodes: state.nodes,
+  edges: state.edges,
+  onNodesChange: state.onNodesChange,
+  onEdgesChange: state.onEdgesChange,
+  onConnect: state.onConnect,
+});
+
 export default function App() {
-  const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
-  const [edges, setEdges, onEdgesChange] = useEdgesState([/* initialEdges */]);
+  /*   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
+    const [edges, setEdges, onEdgesChange] = useEdgesState([initialEdges]); */
+  const { nodes, edges, onNodesChange, onEdgesChange, onConnect } = useStore(selector, shallow);
 
-
-  const onConnect = useCallback(
-    (params: any) => { 
+  /* const onConnect = useCallback(
+    (params: any) => {
       console.log("Value passed in:", params);
-      console.log("source node type:", nodes.find(node => node.id === params.source))
-      setEdges((eds) => addEdge(params, eds)) },
+      console.log("source node:", nodes.find(node => node.id === params.source))
+      setEdges((eds) => addEdge(params, eds))
+    },
     [setEdges],
-  );
+  ); */
+
+  const printState = () => {
+    console.log(nodes)
+  }
 
   return (
     <div style={{ width: '100vw', height: '100vh' }}>
@@ -56,6 +69,7 @@ export default function App() {
         <Controls />
         <MiniMap zoomable pannable />
         <Background gap={12} size={1} />
+        <Panel position="top-left"><button onClick={printState}>top-left</button></Panel>
       </ReactFlow>
     </div>
   );

@@ -4,8 +4,9 @@ import { Handle, Position, NodeProps, useNodes, useReactFlow } from 'reactflow';
 const handleStyle = { left: 10 };
 
 function TextUpdaterNode(props: NodeProps) {
-  const nodes = useNodes();
+  //const nodes = useNodes();
   const reactFlowInstance = useReactFlow();
+  
   const [userText, setUserText] = useState('Default Text');
 
   useEffect(() => {
@@ -17,14 +18,7 @@ function TextUpdaterNode(props: NodeProps) {
 
 
   const onChange = useCallback((evt: any) => {
-    //console.log(evt.target.value);
-    //console.log(props.xPos)
-    //console.log(props.id)
-    //console.log(nodes)
-    //console.log(reactFlowInstance)
     console.log(reactFlowInstance.getNode(props.id))
-
-    //console.log(evt.target.value)
     setUserText(evt.target.value)
   }, []);
 
@@ -36,16 +30,7 @@ function TextUpdaterNode(props: NodeProps) {
         <label htmlFor="text">Input:</label>
         <input id="text" name="text" onChange={onChange} className="nodrag" />
       </div>
-      {/* <p>There are currently {nodes.length} nodes!</p> */}
-      {/* <p>x: {reactFlowInstance.getNode('1')?.position.x}  y: {reactFlowInstance.getNode('1')?.position.y}</p> */}
-      <Handle
-        type="source"
-        position={Position.Bottom}
-        id="a"
-        /* style={handleStyle} */
-        isConnectable={props.isConnectable}
-      />
-      {/* <Handle type="source" position={Position.Bottom} id="b" isConnectable={props.isConnectable} /> */}
+      <Handle type="source" position={Position.Bottom} id="a" isConnectable={props.isConnectable} />
     </div>
   );
 }
