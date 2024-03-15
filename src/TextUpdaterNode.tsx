@@ -5,10 +5,8 @@ import useStore from './store';
 const handleStyle = { left: 10 };
 
 function TextUpdaterNode(props: NodeProps) {
-  //const nodes = useNodes();
-  const reactFlowInstance = useReactFlow();
-  const updateNodeText = useStore((s) => s.updateNodeText);
-  
+  const updateNodeText = useStore((state) => state.updateNodeText);
+
   const [userText, setUserText] = useState('Default Text');
 
   useEffect(() => {
@@ -22,7 +20,7 @@ function TextUpdaterNode(props: NodeProps) {
 
 
   const onChange = useCallback((evt: any) => {
-    console.log(reactFlowInstance.getNode(props.id))
+    //console.log(reactFlowInstance.getNode(props.id))
     setUserText(evt.target.value)
   }, []);
 
