@@ -11,18 +11,15 @@ import { shallow } from 'zustand/shallow';
 import useStore from './store';
 
 import 'reactflow/dist/style.css';
+
 import DialogueNode from './DialogueNode';
+import ResponseNode from './ResponseNode';
+import TextReceiverNode from './TextReceiverNode';
 import CustomEdge from './EdgeButton';
+
 import './css/text-updater-node.css';
 
-import TextReceiverNode from './TextReceiverNode';
-
-
-
-
-// define the nodeTypes outside of the component to prevent re-renderings
-// could also use useMemo inside the component
-const nodeTypes = { dialogue: DialogueNode, textReceiver: TextReceiverNode };
+const nodeTypes = { dialogue: DialogueNode, textReceiver: TextReceiverNode, response: ResponseNode };
 const edgeTypes = { customEdge: CustomEdge };
 
 const selector = (state: any) => ({
@@ -49,14 +46,18 @@ export default function App() {
   useEffect(() => {
     const newCount = idCount + 1;
     setIdCount(newCount)
-  },[nodes])
+
+    // set the nodes in localstorage
+    localStorage.setItem('nodes', JSON.stringify(nodes));
+    localStorage.setItem('edges', JSON.stringify(edges));
+  },[nodes, edges])
 
   const printState = () => {
     console.log(nodes)
   }
 
-  const addInputNode = (xPos: number = 0, yPos: number = 100) => {
-    setNodes([...nodes, { id: `${idCount}`, position: { x: xPos, y: yPos }, data: { label: 'diaglogueNode' }, type: 'dialogue' }])
+  const addInputNode = (type: string, xPos: number = 0, yPos: number = 100) => {
+    setNodes([...nodes, { id: `${idCount}`, position: { x: xPos, y: yPos }, data: { label: 'diaglogueNode' }, type: type }])
   }
 
   const onDragStart = (event: any, nodeType: any) => {
@@ -85,9 +86,9 @@ export default function App() {
         x: event.clientX - 100,
         y: event.clientY,
       });
-      addInputNode(position.x, position.y)
+      addInputNode(type, position.x, position.y)
     } else {
-      addInputNode();
+      addInputNode(type, );
     }
   },
     [nodes],
@@ -116,7 +117,10 @@ export default function App() {
           <Background gap={12} size={1} />
           <Panel position="top-left"><button onClick={printState}>Print State</button></Panel>
           <Panel position="top-left" style={{ top: '50px' }}>
-            <button onClick={() => { addInputNode() }} onDragStart={(event) => onDragStart(event, 'input')} draggable>Add Dialogue Node</button>
+            <button onClick={() => { addInputNode('dialogue') }} onDragStart={(event) => onDragStart(event, 'dialogue')} draggable>Add Dialogue</button>
+          </Panel>
+          <Panel position="top-left" style={{ top: '100px' }}>
+            <button onClick={() => { addInputNode('response') }} onDragStart={(event) => onDragStart(event, 'response')} draggable>Add Response</button>
           </Panel>
         </ReactFlow>
       </div>

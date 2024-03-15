@@ -13,7 +13,7 @@ import {
   applyEdgeChanges,
 } from 'reactflow';
 
-import {initialNodes, initialEdges} from './nodes';
+import { initialNodes, initialEdges } from './nodes';
 
 type RFState = {
   nodes: Node[];
@@ -23,13 +23,18 @@ type RFState = {
   onConnect: OnConnect;
   setNodes: (nodes: Node[]) => void;
   setEdges: (edges: Edge[]) => void;
-  updateNodeText: (nodeID: string, text: string) => void;
+  updateNodeText: (nodeID: string, character?: string, dialogue?: string) => void;
 };
+
+if (!localStorage.getItem('nodes') || !localStorage.getItem('edges')) {
+  localStorage.setItem('nodes', JSON.stringify(initialNodes))
+  localStorage.setItem('edges', JSON.stringify(initialEdges))
+}
 
 // this is our useStore hook that we can use in our components to get parts of the store and call actions
 const useStore = create<RFState>((set, get) => ({
-  nodes: initialNodes,
-  edges: initialEdges,
+  nodes: JSON.parse(localStorage.getItem('nodes')),
+  edges: JSON.parse(localStorage.getItem('edges')),
   /* REACTFLOW STORE SETTERS */
   onNodesChange: (changes: NodeChange[]) => {
     set({
@@ -43,7 +48,7 @@ const useStore = create<RFState>((set, get) => ({
   },
   onConnect: (connection: Connection) => {
     set({
-      edges: addEdge({...connection, type: 'customEdge'}, get().edges),
+      edges: addEdge({ ...connection, type: 'customEdge' }, get().edges),
     });
   },
   setNodes: (nodes: Node[]) => {
@@ -53,12 +58,12 @@ const useStore = create<RFState>((set, get) => ({
     set({ edges });
   },
   /* CUSTOM STORE SETTERS */
-  updateNodeText: (nodeId: string, text: string) => {
+  updateNodeText: (nodeId: string, character: string, dialogue: string) => {
     set({
       nodes: get().nodes.map((node) => {
         if (node.id === nodeId) {
           // it's important to create a new object here, to inform React Flow about the changes
-          return { ...node, data: { ...node.data, text } };
+          return { ...node, data: { ...node.data, character: character, dialogue: dialogue } };
         }
         return node;
       }),
