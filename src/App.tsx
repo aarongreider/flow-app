@@ -19,7 +19,6 @@ import TextUpdaterNode from './TextUpdaterNode';
 import './css/text-updater-node.css';
 
 import TextReceiverNode from './TextReceiverNode';
-import { initialNodes, initialEdges } from './nodes';
 
 
 
@@ -37,21 +36,15 @@ const selector = (state: any) => ({
 });
 
 export default function App() {
-  /*   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
-    const [edges, setEdges, onEdgesChange] = useEdgesState([initialEdges]); */
   const { nodes, edges, onNodesChange, onEdgesChange, onConnect } = useStore(selector, shallow);
-
-  /* const onConnect = useCallback(
-    (params: any) => {
-      console.log("Value passed in:", params);
-      console.log("source node:", nodes.find(node => node.id === params.source))
-      setEdges((eds) => addEdge(params, eds))
-    },
-    [setEdges],
-  ); */
+  const setNodes = useStore((state) => state.setNodes);
 
   const printState = () => {
     console.log(nodes)
+  }
+
+  const addNode = () => {
+    setNodes([...nodes, { id: '3', position: { x: 0, y: 100 }, data: { label: '3' }, type: 'textUpdater' }])
   }
 
   return (
@@ -69,7 +62,8 @@ export default function App() {
         <Controls />
         <MiniMap zoomable pannable />
         <Background gap={12} size={1} />
-        <Panel position="top-left"><button onClick={printState}>top-left</button></Panel>
+        <Panel position="top-left"><button onClick={printState}>Print State</button></Panel>
+        <Panel position="top-right"><button onClick={addNode}>Add Input Node</button></Panel>
       </ReactFlow>
     </div>
   );

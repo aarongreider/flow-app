@@ -10,11 +10,6 @@ function TextUpdaterNode(props: NodeProps) {
   const [userText, setUserText] = useState('Default Text');
 
   useEffect(() => {
-    // set the data of the current node when state changes
-    /* const node = reactFlowInstance.getNode(props.id)
-    node ? node.data = { ...node?.data, text: userText } : undefined; */
-    //console.log(node?.data)
-
     updateNodeText(props.id, userText)
   }, [userText])
 
