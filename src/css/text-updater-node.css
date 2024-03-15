@@ -19,13 +19,17 @@
     justify-content: center;
     height:auto;
     min-width: 50px;
+    max-width: 200px;
     border: 1px solid #eee;
     padding: 5px;
     border-radius: 5px;
     background: white;
     color: #777;
+    
   }
   .text-receiver-node p {
     margin: 0;
+    text-overflow: ellipsis;
+    overflow: hidden;
   }   
   

@@ -4,7 +4,7 @@ import useStore from './store';
 
 const handleStyle = { left: 10 };
 
-function TextUpdaterNode(props: NodeProps) {
+function DialogueNode(props: NodeProps) {
   const updateNodeText = useStore((state) => state.updateNodeText);
 
   const [userText, setUserText] = useState('Default Text');
@@ -23,13 +23,14 @@ function TextUpdaterNode(props: NodeProps) {
     <div className="text-updater-node">
       <Handle type="target" position={Position.Top} isConnectable={props.isConnectable} />
       <div>
-
+        <label htmlFor='character'>Name:</label>
+        <input id="character"></input>
         <label htmlFor="text">Input:</label>
-        <input id="text" name="text" onChange={(onChange)} className="nodrag" />
+        <textarea id="text" name="text" onChange={(onChange)} className="nodrag" />
       </div>
       <Handle type="source" position={Position.Bottom} id="a" isConnectable={props.isConnectable} />
     </div>
   );
 }
 
-export default TextUpdaterNode;
+export default DialogueNode;

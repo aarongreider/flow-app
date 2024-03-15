@@ -43,7 +43,7 @@ const useStore = create<RFState>((set, get) => ({
   },
   onConnect: (connection: Connection) => {
     set({
-      edges: addEdge(connection, get().edges),
+      edges: addEdge({...connection, type: 'customEdge'}, get().edges),
     });
   },
   setNodes: (nodes: Node[]) => {
