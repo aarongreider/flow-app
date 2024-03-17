@@ -14,13 +14,13 @@ import 'reactflow/dist/style.css';
 
 import DialogueNode from './DialogueNode';
 import ResponseNode from './ResponseNode';
+import ExpositionNode from './ExpositionNode';
+import MetaNode from './MetaNode';
 import TextReceiverNode from './TextReceiverNode';
 import CustomEdge from './EdgeButton';
 
 import './css/text-updater-node.css';
 
-const nodeTypes = { dialogue: DialogueNode, textReceiver: TextReceiverNode, response: ResponseNode };
-const edgeTypes = { customEdge: CustomEdge };
 
 const selector = (state: any) => ({
   nodes: state.nodes,
@@ -29,6 +29,15 @@ const selector = (state: any) => ({
   onEdgesChange: state.onEdgesChange,
   onConnect: state.onConnect,
 });
+
+const nodeTypes = {
+  dialogue: DialogueNode,
+  textReceiver: TextReceiverNode,
+  response: ResponseNode,
+  exposition: ExpositionNode,
+  meta: MetaNode
+};
+const edgeTypes = { customEdge: CustomEdge };
 
 export default function App() {
   const { nodes, edges, onNodesChange, onEdgesChange, onConnect } = useStore(selector, shallow);
@@ -50,14 +59,14 @@ export default function App() {
     // set the nodes in localstorage
     localStorage.setItem('nodes', JSON.stringify(nodes));
     localStorage.setItem('edges', JSON.stringify(edges));
-  },[nodes, edges])
+  }, [nodes, edges])
 
   const printState = () => {
     console.log(nodes)
   }
 
-  const addInputNode = (type: string, xPos: number = 0, yPos: number = 100) => {
-    setNodes([...nodes, { id: `${idCount}`, position: { x: xPos, y: yPos }, data: { label: 'diaglogueNode' }, type: type }])
+  const addNode = (type: string, xPos: number = 0, yPos: number = 100) => {
+    setNodes([...nodes, { id: `${idCount}`, position: { x: xPos, y: yPos }, data: {}, type: type }])
   }
 
   const onDragStart = (event: any, nodeType: any) => {
@@ -86,9 +95,9 @@ export default function App() {
         x: event.clientX - 100,
         y: event.clientY,
       });
-      addInputNode(type, position.x, position.y)
+      addNode(type, position.x, position.y)
     } else {
-      addInputNode(type, );
+      addNode(type,);
     }
   },
     [nodes],
@@ -117,10 +126,16 @@ export default function App() {
           <Background gap={12} size={1} />
           <Panel position="top-left"><button onClick={printState}>Print State</button></Panel>
           <Panel position="top-left" style={{ top: '50px' }}>
-            <button onClick={() => { addInputNode('dialogue') }} onDragStart={(event) => onDragStart(event, 'dialogue')} draggable>Add Dialogue</button>
+            <button onClick={() => { addNode('dialogue') }} onDragStart={(event) => onDragStart(event, 'dialogue')} draggable>Add Dialogue</button>
           </Panel>
           <Panel position="top-left" style={{ top: '100px' }}>
-            <button onClick={() => { addInputNode('response') }} onDragStart={(event) => onDragStart(event, 'response')} draggable>Add Response</button>
+            <button onClick={() => { addNode('response') }} onDragStart={(event) => onDragStart(event, 'response')} draggable>Add Response</button>
+          </Panel>
+          <Panel position="top-left" style={{ top: '150px' }}>
+            <button onClick={() => { addNode('exposition') }} onDragStart={(event) => onDragStart(event, 'exposition')} draggable>Add Exposition</button>
+          </Panel>
+          <Panel position="top-left" style={{ top: '200px' }}>
+            <button onClick={() => { addNode('meta') }} onDragStart={(event) => onDragStart(event, 'meta')} draggable>Add Meta Node</button>
           </Panel>
         </ReactFlow>
       </div>

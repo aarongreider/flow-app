@@ -1,56 +1,89 @@
-.text-updater-node {
-    height:auto;
-    border: 1px solid #eee;
-    padding: 5px;
-    border-radius: 5px;
-    background: white;
-    color: #777;
-  }
-  
-  .text-updater-node label {
-    display: block;
-    color: #777;
-    font-size: 12px;
-  }
+label {
+  display: block;
+  color: #777;
+  font-size: 12px;
+}
 
-  .text-receiver-node {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height:auto;
-    min-width: 50px;
-    max-width: 200px;
-    border: 1px solid #eee;
-    padding: 5px;
-    border-radius: 5px;
-    background: white;
-    color: #777;
-    
-  }
-  .text-receiver-node p {
-    margin: 0;
-    text-overflow: ellipsis;
-    overflow: hidden;
-  }   
+p {
+  margin: 0;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
 
-  .response-node {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height:auto;
-    border: 1px solid #eee;
-    padding: 2.5px;
-    margin: 0;
-    border-radius: 5px;
-    background: white;
-    color: #777;
-    width : 70px;
-    overflow: hidden;
-  }
-  .response-node input {
-    width: 100%;
-    background: inherit;
-    border: none;
-    color: #777;
-  }
-  
+input {
+  width: 100%;
+  background: inherit;
+  border: none;
+  color: #777;
+}
+
+.text-receiver-node {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: auto;
+  border: 1px solid #eee;
+  padding: 2.5px;
+  margin: 0;
+  border-radius: 5px;
+  background: white;
+  color: #777;
+  width: 70px;
+  overflow: hidden;
+}
+
+.dialogue-node {
+  height: auto;
+  border: 1px solid #eee;
+  padding: 5px;
+  border-radius: 5px;
+  background: white;
+  color: #777;
+}
+
+.response-node {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: auto;
+  border: 1px solid #eee;
+  padding: 2.5px;
+  margin: 0;
+  border-radius: 5px;
+  background: white;
+  color: #777;
+  width: 70px;
+  overflow: hidden;
+}
+
+.exposition-node {
+  height: auto;
+  border: 1px solid #eee;
+  padding: 5px;
+  border-radius: 5px;
+  background: white;
+  color: #777;
+  width: auto;
+}
+.exposition-node textarea {
+  width: 100%;
+  background: inherit;
+  border: none;
+  color: #777;
+}
+
+.meta-node {
+  height: auto;
+  border: 1px solid #eee;
+  padding: 5px;
+  border-radius: 5px;
+  background: white;
+  color: #777;
+  width: auto;
+}
+.meta-node textarea {
+  width: 100%;
+  background: inherit;
+  border: none;
+  color: #777;
+}/*# sourceMappingURL=text-updater-node.css.map */

@@ -25,7 +25,7 @@ function DialogueNode(props: NodeProps) {
   }, []);
 
   return (
-    <div className="text-updater-node">
+    <div className="dialogue-node">
       <Handle type="target" position={Position.Top} isConnectable={props.isConnectable} />
       <div>
         <label htmlFor='character'>Name:</label>
