@@ -23,18 +23,24 @@ type RFState = {
   onConnect: OnConnect;
   setNodes: (nodes: Node[]) => void;
   setEdges: (edges: Edge[]) => void;
-  updateNodeText: (nodeID: string, character?: string, dialogue?: string) => void;
+  updateNodeText: (nodeID: string, props: object) => void;
 };
 
+// Ensure initial nodes and edges exist in localStorage, if not assign inital values
 if (!localStorage.getItem('nodes') || !localStorage.getItem('edges')) {
   localStorage.setItem('nodes', JSON.stringify(initialNodes))
   localStorage.setItem('edges', JSON.stringify(initialEdges))
 }
 
+// Retrieve nodes and edges from localStorage or use initial values
+const storedNodes: Node[] = JSON.parse(localStorage.getItem('nodes')) ?? initialNodes;
+const storedEdges: Edge[] = JSON.parse(localStorage.getItem('edges')) ?? initialEdges;
+
+
 // this is our useStore hook that we can use in our components to get parts of the store and call actions
 const useStore = create<RFState>((set, get) => ({
-  nodes: JSON.parse(localStorage.getItem('nodes')),
-  edges: JSON.parse(localStorage.getItem('edges')),
+  nodes: storedNodes,
+  edges: storedEdges,
   /* REACTFLOW STORE SETTERS */
   onNodesChange: (changes: NodeChange[]) => {
     set({
@@ -58,12 +64,12 @@ const useStore = create<RFState>((set, get) => ({
     set({ edges });
   },
   /* CUSTOM STORE SETTERS */
-  updateNodeText: (nodeId: string, character: string, dialogue: string) => {
+  updateNodeText: (nodeId: string, props: object) => {
     set({
       nodes: get().nodes.map((node) => {
         if (node.id === nodeId) {
           // it's important to create a new object here, to inform React Flow about the changes
-          return { ...node, data: { ...node.data, character: character, dialogue: dialogue } };
+          return { ...node, data: { ...node.data, ...props } };
         }
         return node;
       }),
