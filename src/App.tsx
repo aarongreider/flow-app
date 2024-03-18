@@ -19,7 +19,8 @@ import MetaNode from './MetaNode';
 import TextReceiverNode from './TextReceiverNode';
 import CustomEdge from './EdgeButton';
 
-import './css/text-updater-node.css';
+import './css/components.css';
+import './css/general.css'
 
 
 const selector = (state: any) => ({

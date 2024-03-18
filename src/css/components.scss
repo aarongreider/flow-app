@@ -22,25 +22,6 @@
   overflow: hidden;
 }
 
-label {
-  display: block;
-  color: #777;
-  font-size: 12px;
-}
-
-p {
-  margin: 0;
-  text-overflow: ellipsis;
-  overflow: hidden;
-}
-
-input {
-  width: 100%;
-  background: inherit;
-  border: none;
-  color: #777;
-}
-
 .text-receiver-node {
   @include singleInputNode()
 }
@@ -68,11 +49,4 @@ input {
 .meta-node {
   @include multiInputNode();
   width: auto;
-
-  textarea {
-    width: 100%;
-    background: inherit;
-    border: none;
-    color: #777;
-  }
 }
