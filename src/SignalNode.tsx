@@ -2,16 +2,16 @@ import { useState, useCallback, useEffect, useRef } from 'react';
 import { Handle, Position, NodeProps } from 'reactflow';
 import useStore from './store';
 
-function ResponseNode(props: NodeProps) {
+function SignalNode(props: NodeProps) {
   const nodes = useStore((state) => state.nodes);
   const updateNodeText = useStore((state) => state.updateNodeText);
 
-  const [response, setResponse] = useState(nodes.find(node => node.id === props.id)?.data?.response ?? "I'm good, thanks!");
+  const [signalKey, setSignalKey] = useState(nodes.find(node => node.id === props.id)?.data?.signal ?? "SignalKey");
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    updateNodeText(props.id, { response: response })
-  }, [response])
+    updateNodeText(props.id, { response: signalKey })
+  }, [signalKey])
 
   useEffect(() => {
     // resize text area
@@ -25,20 +25,20 @@ function ResponseNode(props: NodeProps) {
       inputRef.current.style.width = `${scrollWidth}px`
     }
 
-  }, [inputRef, response])
+  }, [inputRef, signalKey])
 
   const onChange = useCallback((evt: any) => {
     //console.log(reactFlowInstance.getNode(props.id))
-    setResponse(evt.target.value)
+    setSignalKey(evt.target.value)
   }, []);
 
   return (
-    <div className="response-node">
+    <div className="signal-node">
       <Handle className="handle target" type="target" position={Position.Top} isConnectable={props.isConnectable} />
-      <input ref={inputRef} id="response" onChange={onChange} value={response}></input>
+      <input ref={inputRef} id="signal" onChange={onChange} value={signalKey}></input>
       <Handle className="handle source" type="source" position={Position.Bottom} id="a" isConnectable={props.isConnectable} />
     </div>
   );
 }
 
-export default ResponseNode;
+export default SignalNode;

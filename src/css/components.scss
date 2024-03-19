@@ -13,12 +13,12 @@
   justify-content: center;
   height: auto;
   border: 1px solid #eee;
-  padding: 2.5px;
+  padding: 12px 10px;
   margin: 0;
   border-radius: 5px;
   background: white;
   color: #777;
-  width: 70px;
+  width: auto;
   overflow: hidden;
 }
 
@@ -32,12 +32,21 @@ $sans-serif: "IvyEpic Variable";
 $serif: "IvyOra Display";
 $italic: "IvyJournal";
 
-.react-flow__handle.connectionindicator {
+.handle {
   background: $sage-light;
   border: none;
   width: 10px;
   height: 10px;
+
+  &.target {
+    top: -15px;
+  }
+
+  &.source {
+    bottom: -15px;
+  }
 }
+
 
 .react-flow__edge-path {
   stroke: $sage-light;
@@ -77,7 +86,6 @@ $italic: "IvyJournal";
 
 .response-node {
   @include singleInputNode();
-  padding: 12px 10px;
   border-radius: 15px;
   width: auto;
 
@@ -103,4 +111,21 @@ $italic: "IvyJournal";
 .meta-node {
   @include multiInputNode();
   width: auto;
+}
+
+.signal-node {
+  @include singleInputNode();
+  background-color: $sage-light;
+
+  .react-flow__handle.connectionindicator {
+    background-color: white;
+    border: 2px solid $sage-light;
+  }
+
+  input {
+    color: white;
+    font-weight: 600;
+    overflow: visible;
+    padding: 1px;
+  }
 }

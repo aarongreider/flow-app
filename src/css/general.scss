@@ -1,8 +1,8 @@
-$BG: 'E3E3E3';
-$sage-light: '87BC83';
-$sage-text: '70A76C';
-$dark-grey: '484B50';
-$light-grey: '9BA2AE';
+$BG: #E3E3E3;
+$sage-light: #87BC83;
+$sage-text: #70A76C;
+$dark-grey: #484B50;
+$light-grey: #9BA2AE;
 
 $sans-serif: "IvyEpic Variable";
 $serif: "IvyOra Display";
@@ -11,6 +11,10 @@ $italic: "IvyJournal";
 html {
     background: #E3E3E3;
     font-family: $sans-serif;
+}
+
+body {
+    margin: 0px;
 }
 
 label {
@@ -48,7 +52,7 @@ textarea {
 
 button {
     border-radius: 8px;
-    border: 1px solid transparent;
+    border: 2px solid transparent;
     padding: 0.6em 1.2em;
     font-size: 1em;
     font-weight: 500;
@@ -57,12 +61,12 @@ button {
     cursor: pointer;
     transition: border-color 0.25s;
 
-    :hover {
-        border-color: #646cff;
+    &:hover {
+        border-color: $sage-text;
     }
 
-    :focus,
-    :focus-visible {
+    &:focus,
+    &:focus-visible {
         outline: 4px auto -webkit-focus-ring-color;
     }
 }

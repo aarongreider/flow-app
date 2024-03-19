@@ -1,8 +1,14 @@
-.react-flow__handle.connectionindicator {
+.handle {
   background: #87BC83;
   border: none;
   width: 10px;
   height: 10px;
+}
+.handle.target {
+  top: -15px;
+}
+.handle.source {
+  bottom: -15px;
 }
 
 .react-flow__edge-path {
@@ -27,12 +33,12 @@
   justify-content: center;
   height: auto;
   border: 1px solid #eee;
-  padding: 2.5px;
+  padding: 12px 10px;
   margin: 0;
   border-radius: 5px;
   background: white;
   color: #777;
-  width: 70px;
+  width: auto;
   overflow: hidden;
 }
 
@@ -58,14 +64,13 @@
   justify-content: center;
   height: auto;
   border: 1px solid #eee;
-  padding: 2.5px;
+  padding: 12px 10px;
   margin: 0;
   border-radius: 5px;
   background: white;
   color: #777;
-  width: 70px;
+  width: auto;
   overflow: hidden;
-  padding: 12px 10px;
   border-radius: 15px;
   width: auto;
 }
@@ -99,4 +104,30 @@
   background: white;
   color: #777;
   width: auto;
+}
+
+.signal-node {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: auto;
+  border: 1px solid #eee;
+  padding: 12px 10px;
+  margin: 0;
+  border-radius: 5px;
+  background: white;
+  color: #777;
+  width: auto;
+  overflow: hidden;
+  background-color: #87BC83;
+}
+.signal-node .react-flow__handle.connectionindicator {
+  background-color: white;
+  border: 2px solid #87BC83;
+}
+.signal-node input {
+  color: white;
+  font-weight: 600;
+  overflow: visible;
+  padding: 1px;
 }/*# sourceMappingURL=components.css.map */

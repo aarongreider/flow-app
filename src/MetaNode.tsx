@@ -34,9 +34,9 @@ function MetaNode(props: NodeProps) {
 
     return (
         <div className="meta-node">
-            <Handle type="target" position={Position.Top} isConnectable={props.isConnectable} />
+            <Handle className="handle target" type="target" position={Position.Top} isConnectable={props.isConnectable} />
             <textarea ref={textAreaRef} id="meta" onChange={onChange} value={meta}></textarea>
-            <Handle type="source" position={Position.Bottom} id="a" isConnectable={props.isConnectable} />
+            <Handle className="handle source" type="source" position={Position.Bottom} id="a" isConnectable={props.isConnectable} />
         </div>
     );
 }

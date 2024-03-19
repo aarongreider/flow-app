@@ -16,6 +16,7 @@ import DialogueNode from './DialogueNode';
 import ResponseNode from './ResponseNode';
 import ExpositionNode from './ExpositionNode';
 import MetaNode from './MetaNode';
+import SignalNode from './SignalNode';
 import TextReceiverNode from './TextReceiverNode';
 import CustomEdge from './EdgeButton';
 
@@ -36,7 +37,8 @@ const nodeTypes = {
   textReceiver: TextReceiverNode,
   response: ResponseNode,
   exposition: ExpositionNode,
-  meta: MetaNode
+  meta: MetaNode,
+  signal: SignalNode,
 };
 const edgeTypes = { customEdge: CustomEdge };
 
@@ -137,6 +139,9 @@ export default function App() {
           </Panel>
           <Panel position="top-left" style={{ top: '200px' }}>
             <button onClick={() => { addNode('meta') }} onDragStart={(event) => onDragStart(event, 'meta')} draggable>Add Meta Node</button>
+          </Panel>
+          <Panel position="top-left" style={{ top: '250px' }}>
+            <button onClick={() => { addNode('signal') }} onDragStart={(event) => onDragStart(event, 'signal')} draggable>Add Signal</button>
           </Panel>
         </ReactFlow>
       </div>

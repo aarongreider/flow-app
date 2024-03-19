@@ -1,8 +1,9 @@
 import { useState, useCallback, useEffect, useRef } from 'react';
-import { Handle, Position, NodeProps } from 'reactflow';
+import { Handle, Position, NodeProps, useUpdateNodeInternals } from 'reactflow';
 import useStore from './store';
 
 function DialogueNode(props: NodeProps) {
+  const updateNodeInternals = useUpdateNodeInternals();
   const nodes = useStore((state) => state.nodes);
   const updateNodeText = useStore((state) => state.updateNodeText);
 
@@ -13,6 +14,7 @@ function DialogueNode(props: NodeProps) {
 
   useEffect(() => {
     updateNodeText(props.id, { character: character, dialogue: dialogue })
+    updateNodeInternals(props.id);
   }, [dialogue, character])
 
   useEffect(() => {
@@ -43,14 +45,14 @@ function DialogueNode(props: NodeProps) {
 
   return (
     <div className="dialogue-node">
-      <Handle type="target" position={Position.Top} isConnectable={props.isConnectable} /* style={{ top: '-15px' }} */ />
+      <Handle className="handle target" type="target" position={Position.Top} isConnectable={props.isConnectable} /* style={{ top: '-15px' }} */ />
       <div>
         <label className='characterLabel' htmlFor='character'>Character</label>
         <input id="character" onChange={(onChangeCharacter)} value={character}></input>
         <label className='dialogue' htmlFor="dialogue" style={{ display: 'none' }} >Dialogue</label>
         <textarea ref={textAreaRef} id="dialogue" name="dialogue" onChange={(onChangeDialogue)} value={dialogue} />
       </div>
-      <Handle type="source" position={Position.Bottom} id="a" isConnectable={props.isConnectable} />
+      <Handle className="handle source" type="source" position={Position.Bottom} id="a" isConnectable={props.isConnectable} />
     </div>
   );
 }
