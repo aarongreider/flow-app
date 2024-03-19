@@ -1,8 +1,8 @@
 @mixin multiInputNode {
   height: auto;
   border: 1px solid #eee;
-  padding: 5px;
-  border-radius: 5px;
+  padding: 16px 19px;
+  border-radius: 10px;
   background: white;
   color: #777;
 }
@@ -22,16 +22,68 @@
   overflow: hidden;
 }
 
+$BG: #E3E3E3;
+$sage-light: #87BC83;
+$sage-text: #70A76C;
+$dark-grey: #484B50;
+$light-grey: #9BA2AE;
+
+$sans-serif: "IvyEpic Variable";
+$serif: "IvyOra Display";
+$italic: "IvyJournal";
+
+.react-flow__handle.connectionindicator {
+  background: $sage-light;
+  border: none;
+  width: 10px;
+  height: 10px;
+}
+
+.react-flow__edge-path {
+  stroke: $sage-light;
+  stroke-width: 2px;
+}
+
+.deleteButton {
+  width: 10px;
+  height: 10px;
+  //font-size: 10px;
+  background-color: $sage-light;
+  padding: 0px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  outline: 1.75px $sage-text solid;
+}
+
 .text-receiver-node {
   @include singleInputNode()
 }
 
 .dialogue-node {
   @include multiInputNode();
+  max-width: 250px;
+
+  input {
+    font-family: "IvyOra Display";
+    font-size: 24px;
+    font-weight: 500;
+    margin-bottom: 10px;
+  }
+
 }
 
 .response-node {
   @include singleInputNode();
+  padding: 12px 10px;
+  border-radius: 15px;
+  width: auto;
+
+  input {
+    font-weight: 600;
+  }
 }
 
 .exposition-node {
@@ -42,7 +94,9 @@
     width: 100%;
     background: inherit;
     border: none;
-    color: #777;
+    color: $sage-text;
+    font-family: $italic;
+    font-style: italic;
   }
 }
 

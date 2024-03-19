@@ -1,5 +1,5 @@
 import { useState, useCallback, useEffect, useRef } from 'react';
-import { Handle, Position, NodeProps, useNodes, useReactFlow } from 'reactflow';
+import { Handle, Position, NodeProps } from 'reactflow';
 import useStore from './store';
 
 function DialogueNode(props: NodeProps) {
@@ -43,12 +43,12 @@ function DialogueNode(props: NodeProps) {
 
   return (
     <div className="dialogue-node">
-      <Handle type="target" position={Position.Top} isConnectable={props.isConnectable} />
+      <Handle type="target" position={Position.Top} isConnectable={props.isConnectable} /* style={{ top: '-15px' }} */ />
       <div>
-        <label htmlFor='character'>Name:</label>
+        <label className='characterLabel' htmlFor='character'>Character</label>
         <input id="character" onChange={(onChangeCharacter)} value={character}></input>
-        <label htmlFor="dialogue">Input:</label>
-        <textarea ref={textAreaRef} id="dialogue" name="dialogue" onChange={(onChangeDialogue)} className="nodrag" value={dialogue} />
+        <label className='dialogue' htmlFor="dialogue" style={{ display: 'none' }} >Dialogue</label>
+        <textarea ref={textAreaRef} id="dialogue" name="dialogue" onChange={(onChangeDialogue)} value={dialogue} />
       </div>
       <Handle type="source" position={Position.Bottom} id="a" isConnectable={props.isConnectable} />
     </div>

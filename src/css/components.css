@@ -1,3 +1,26 @@
+.react-flow__handle.connectionindicator {
+  background: #87BC83;
+  border: none;
+  width: 10px;
+  height: 10px;
+}
+
+.react-flow__edge-path {
+  stroke: #87BC83;
+  stroke-width: 2px;
+}
+
+.deleteButton {
+  width: 10px;
+  height: 10px;
+  background-color: #87BC83;
+  padding: 0px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  outline: 1.75px #70A76C solid;
+}
+
 .text-receiver-node {
   display: flex;
   align-items: center;
@@ -16,10 +39,17 @@
 .dialogue-node {
   height: auto;
   border: 1px solid #eee;
-  padding: 5px;
-  border-radius: 5px;
+  padding: 16px 19px;
+  border-radius: 10px;
   background: white;
   color: #777;
+  max-width: 250px;
+}
+.dialogue-node input {
+  font-family: "IvyOra Display";
+  font-size: 24px;
+  font-weight: 500;
+  margin-bottom: 10px;
 }
 
 .response-node {
@@ -35,13 +65,19 @@
   color: #777;
   width: 70px;
   overflow: hidden;
+  padding: 12px 10px;
+  border-radius: 15px;
+  width: auto;
+}
+.response-node input {
+  font-weight: 600;
 }
 
 .exposition-node {
   height: auto;
   border: 1px solid #eee;
-  padding: 5px;
-  border-radius: 5px;
+  padding: 16px 19px;
+  border-radius: 10px;
   background: white;
   color: #777;
   width: auto;
@@ -50,14 +86,16 @@
   width: 100%;
   background: inherit;
   border: none;
-  color: #777;
+  color: #70A76C;
+  font-family: "IvyJournal";
+  font-style: italic;
 }
 
 .meta-node {
   height: auto;
   border: 1px solid #eee;
-  padding: 5px;
-  border-radius: 5px;
+  padding: 16px 19px;
+  border-radius: 10px;
   background: white;
   color: #777;
   width: auto;

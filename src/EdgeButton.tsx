@@ -17,27 +17,20 @@ export default function CustomEdge({ id, sourceX, sourceY, targetX, targetY }: a
 
   return (
     <>
-      <BaseEdge id={id} path={edgePath} />
+      <BaseEdge id={id} path={edgePath} /* style={{ stroke: 'blue' }} */ />
       <EdgeLabelRenderer>
         <button
           style={{
             position: 'absolute', transform: `translate(-50%, -50%) translate(${labelX}px,${labelY}px)`,
             pointerEvents: 'all',
-            width: '12px', height: '12px',
-            background: 'white',
-            fontSize: '10px',
-            color: 'darkgray',
-            padding: '0px',
-            display: 'flex', 
-            alignItems: 'center', 
-            justifyContent: 'center',
-          }} 
-          className="nodrag nopan"
+          }}
+          className="deleteButton nodrag nopan"
           onClick={() => {
             setEdges((es) => es.filter((e) => e.id !== id));
           }}
         >
-          <p style={{top:'-2px', position: "absolute", margin: "0"}}>-</p>
+          {/* <p style={{ top: '-2px', position: "absolute", margin: "0" }}>-</p> */}
+          <div style={{ width: '5px', height: "2.25px", backgroundColor: 'white' }}></div>
         </button>
       </EdgeLabelRenderer>
     </>

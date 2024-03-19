@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback, useEffect, useRef } from 'react';
 import { Handle, Position, NodeProps } from 'reactflow';
 import useStore from './store';
 
@@ -7,10 +7,25 @@ function ResponseNode(props: NodeProps) {
   const updateNodeText = useStore((state) => state.updateNodeText);
 
   const [response, setResponse] = useState(nodes.find(node => node.id === props.id)?.data?.response ?? "");
+  const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     updateNodeText(props.id, { response: response })
   }, [response])
+
+  useEffect(() => {
+    // resize text area
+    console.log(inputRef.current)
+    if (inputRef.current) {
+      // We need to reset the height first to get the correct scrollHeight for the textarea
+      inputRef.current.style.width = '0px'
+      const { scrollWidth } = inputRef.current
+
+      // Now we set the height directly
+      inputRef.current.style.width = `${scrollWidth}px`
+    }
+
+  }, [inputRef, response])
 
   const onChange = useCallback((evt: any) => {
     //console.log(reactFlowInstance.getNode(props.id))
@@ -20,7 +35,7 @@ function ResponseNode(props: NodeProps) {
   return (
     <div className="response-node">
       <Handle type="target" position={Position.Top} isConnectable={props.isConnectable} />
-      <input id="response" onChange={onChange} value={response}></input>
+      <input ref={inputRef} id="response" onChange={onChange} value={response}></input>
       <Handle type="source" position={Position.Bottom} id="a" isConnectable={props.isConnectable} />
     </div>
   );

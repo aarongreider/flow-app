@@ -1,20 +1,29 @@
+html {
+  background: #E3E3E3;
+  font-family: "IvyEpic Variable";
+}
+
 label {
   display: block;
   color: #777;
-  font-size: 12px;
+  font-size: 14px;
 }
 
 p {
   margin: 0;
   text-overflow: ellipsis;
   overflow: hidden;
+  font-family: "IvyEpic Variable";
 }
 
 input {
+  font-family: "IvyEpic Variable";
   width: 100%;
   background: inherit;
   border: none;
   color: #777;
+  padding: 0;
+  margin: 0;
 }
 
 textarea {
@@ -22,6 +31,9 @@ textarea {
   background: inherit;
   border: none;
   color: #777;
+  font-family: "IvyEpic Variable";
+  font-size: 13px;
+  padding: 0;
 }
 
 button {

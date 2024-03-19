@@ -20,7 +20,7 @@ function ExpositionNode(props: NodeProps) {
   return (
     <div className="exposition-node">
       <Handle type="target" position={Position.Top} isConnectable={props.isConnectable} />
-      <textarea id="exposition" className="nodrag" onChange={onChange} value={exposition}></textarea>
+      <textarea id="exposition" onChange={onChange} value={exposition}></textarea>
       <Handle type="source" position={Position.Bottom} id="a" isConnectable={props.isConnectable} />
     </div>
   );
