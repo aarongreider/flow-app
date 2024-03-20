@@ -31,10 +31,12 @@ if (!localStorage.getItem('nodes') || !localStorage.getItem('edges')) {
   localStorage.setItem('nodes', JSON.stringify(initialNodes))
   localStorage.setItem('edges', JSON.stringify(initialEdges))
 }
+let lsNode = localStorage.getItem('nodes') ?? ''
+let lsEdge = localStorage.getItem('edges') ?? ''
 
 // Retrieve nodes and edges from localStorage or use initial values
-const storedNodes: Node[] = JSON.parse(localStorage.getItem('nodes')) ?? initialNodes;
-const storedEdges: Edge[] = JSON.parse(localStorage.getItem('edges')) ?? initialEdges;
+const storedNodes: Node[] = JSON.parse(lsNode) ?? initialNodes;
+const storedEdges: Edge[] = JSON.parse(lsEdge) ?? initialEdges;
 
 
 // this is our useStore hook that we can use in our components to get parts of the store and call actions

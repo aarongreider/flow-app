@@ -1,5 +1,5 @@
-import { useState, useCallback, useEffect } from 'react';
-import { Handle, Position, NodeProps, useNodes, useReactFlow, Edge } from 'reactflow';
+import { useState, useEffect } from 'react';
+import { Handle, Position, NodeProps, Edge } from 'reactflow';
 import useStore from './store';
 
 function TextReceiverNode(props: NodeProps) {
