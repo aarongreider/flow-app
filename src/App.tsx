@@ -48,6 +48,22 @@ export default function App() {
   const [reactFlowInstance, setReactFlowInstance] = useState<any>(null);
   const [idCount, setIdCount] = useState<number>(nodes.length + 1)
 
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    // keep tabs on window resizes to check if user is mobile
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768); // Adjust the width threshold as needed
+    };
+
+    handleResize(); // Initial check
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
   useEffect(() => {
     // this is a bit of a hacky way to force the viewport to initialize itself
     // otherwise, it won't initialize until a node is moved or added
@@ -124,24 +140,27 @@ export default function App() {
           edgeTypes={edgeTypes}
           fitView
         >
-          <Controls />
+          <Controls style={{ top: '0', left: 'auto', right: '0', bottom: 'auto', display: 'flex' }} />
           <MiniMap zoomable pannable />
           <Background gap={12} size={1} />
-          <Panel position="top-left"><button onClick={printState}>Print State</button></Panel>
-          <Panel position="top-left" style={{ top: '50px' }}>
-            <button onClick={() => { addNode('dialogue') }} onDragStart={(event) => onDragStart(event, 'dialogue')} draggable>Add Dialogue</button>
-          </Panel>
-          <Panel position="top-left" style={{ top: '100px' }}>
-            <button onClick={() => { addNode('response') }} onDragStart={(event) => onDragStart(event, 'response')} draggable>Add Response</button>
-          </Panel>
-          <Panel position="top-left" style={{ top: '150px' }}>
-            <button onClick={() => { addNode('exposition') }} onDragStart={(event) => onDragStart(event, 'exposition')} draggable>Add Exposition</button>
-          </Panel>
-          <Panel position="top-left" style={{ top: '200px' }}>
-            <button onClick={() => { addNode('meta') }} onDragStart={(event) => onDragStart(event, 'meta')} draggable>Add Meta Node</button>
-          </Panel>
-          <Panel position="top-left" style={{ top: '250px' }}>
-            <button onClick={() => { addNode('signal') }} onDragStart={(event) => onDragStart(event, 'signal')} draggable>Add Signal</button>
+          <Panel position="top-left" style={{ display: "flex", gap: '8px', flexDirection: 'column', left: '10px', top: '10px' }}>
+            {isMobile ? undefined : <button onClick={printState}>Print State</button>}
+            <button onClick={() => { addNode('dialogue') }} onDragStart={(event) => onDragStart(event, 'dialogue')} draggable>
+              <span className="material-symbols-outlined">maps_ugc </span> {isMobile ? undefined : "Add Dialogue"}
+            </button>
+            <button onClick={() => { addNode('response') }} onDragStart={(event) => onDragStart(event, 'response')} draggable>
+              <span className="material-symbols-outlined">comic_bubble</span>{isMobile ? undefined : "Add Response"}
+            </button>
+            <button onClick={() => { addNode('exposition') }} onDragStart={(event) => onDragStart(event, 'exposition')} draggable>
+              <span className="material-symbols-outlined">local_library</span>{isMobile ? undefined : 'Add Exposition'}
+            </button>
+            <button onClick={() => { addNode('meta') }} onDragStart={(event) => onDragStart(event, 'meta')} draggable>
+              <span className="material-symbols-outlined">select_all</span>{isMobile ? undefined : "Add Meta Node"}
+            </button>
+            <button onClick={() => { addNode('signal') }} onDragStart={(event) => onDragStart(event, 'signal')} draggable>
+              <span className="material-symbols-outlined">sensors</span>{isMobile ? undefined : "Add Signal"}
+            </button>
+
           </Panel>
         </ReactFlow>
       </div>
