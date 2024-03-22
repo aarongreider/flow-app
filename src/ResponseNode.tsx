@@ -15,7 +15,7 @@ function ResponseNode(props: NodeProps) {
 
   useEffect(() => {
     // resize text area
-    console.log(inputRef.current)
+    //console.log(inputRef.current)
     if (inputRef.current) {
       // We need to reset the height first to get the correct scrollHeight for the textarea
       inputRef.current.style.width = '0px'

@@ -1,9 +1,10 @@
 import { useState, useCallback, useEffect, useRef } from 'react';
 import { Handle, Position, NodeProps, useUpdateNodeInternals } from 'reactflow';
 import useStore from './store';
+import TextArea from './TextArea';
 
 function DialogueNode(props: NodeProps) {
-  const updateNodeInternals = useUpdateNodeInternals();
+  //const updateNodeInternals = useUpdateNodeInternals();
   const nodes = useStore((state) => state.nodes);
   const updateNodeText = useStore((state) => state.updateNodeText);
 
@@ -14,7 +15,7 @@ function DialogueNode(props: NodeProps) {
 
   useEffect(() => {
     updateNodeText(props.id, { character: character, dialogue: dialogue })
-    updateNodeInternals(props.id);
+    //updateNodeInternals(props.id); // refresh the reactflow interactivity
   }, [dialogue, character])
 
   useEffect(() => {
@@ -31,15 +32,7 @@ function DialogueNode(props: NodeProps) {
 
   }, [textAreaRef, dialogue])
 
-
-
-  const onChangeDialogue = useCallback((evt: any) => {
-    //console.log(reactFlowInstance.getNode(props.id))
-    setDialogue(evt.target.value)
-  }, []);
-
   const onChangeCharacter = useCallback((evt: any) => {
-    //console.log(reactFlowInstance.getNode(props.id))
     setCharacter(evt.target.value)
   }, []);
 
@@ -50,7 +43,8 @@ function DialogueNode(props: NodeProps) {
         <label className='characterLabel' htmlFor='character'>Character</label>
         <input id="character" onChange={(onChangeCharacter)} value={character}></input>
         <label className='dialogue' htmlFor="dialogue" style={{ display: 'none' }} >Dialogue</label>
-        <textarea ref={textAreaRef} id="dialogue" name="dialogue" onChange={(onChangeDialogue)} value={dialogue} />
+        {/* <textarea ref={textAreaRef} id="dialogue" name="dialogue" onChange={(onChangeDialogue)} value={dialogue} /> */}
+        <TextArea id={props.id} dataKey={"dialogue"}></TextArea>
       </div>
       <Handle className="handle source" type="source" position={Position.Bottom} id="a" isConnectable={props.isConnectable} />
     </div>
