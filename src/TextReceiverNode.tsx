@@ -16,7 +16,7 @@ function TextReceiverNode(props: NodeProps) {
   }, [nodes, edges])
 
   return (
-    <div className="text-receiver-node">
+    <div className="text-receiver-node nodeWrapper">
       <Handle type="target" position={Position.Top} isConnectable={props.isConnectable} />
       <p>{sourceNode ? sourceNode.data?.text : undefined}</p>
       <Handle type="source" position={Position.Bottom} id="a" isConnectable={props.isConnectable} />

@@ -1,26 +1,12 @@
-import { useState, useCallback, useEffect } from 'react';
 import { Handle, Position, NodeProps } from 'reactflow';
-import useStore from './store';
+import TextArea from './TextArea';
 
 function ExpositionNode(props: NodeProps) {
-  const nodes = useStore((state) => state.nodes);
-  const updateNodeText = useStore((state) => state.updateNodeText);
-
-  const [exposition, setExposition] = useState(nodes.find(node => node.id === props.id)?.data?.exposition ?? "In world, where sea slugs ruled the land...");
-
-  useEffect(() => {
-    updateNodeText(props.id, { response: exposition })
-  }, [exposition])
-
-  const onChange = useCallback((evt: any) => {
-    //console.log(reactFlowInstance.getNode(props.id))
-    setExposition(evt.target.value)
-  }, []);
 
   return (
-    <div className="exposition-node">
+    <div className="exposition-node nodeWrapper">
       <Handle type="target" position={Position.Top} isConnectable={props.isConnectable} />
-      <textarea id="exposition" onChange={onChange} value={exposition}></textarea>
+      <TextArea id={props.id} dataKey='exposition' defaultText="In world, where sea slugs ruled the land..." />
       <Handle type="source" position={Position.Bottom} id="a" isConnectable={props.isConnectable} />
     </div>
   );

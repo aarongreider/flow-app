@@ -54,6 +54,7 @@ button {
     width: min-content;
     text-wrap: nowrap;
     margin: 0;
+    padding: 10px;
 
     display: flex;
     align-items: center;
@@ -61,7 +62,8 @@ button {
 
     border-radius: 50px;
     border: 2px solid transparent;
-    padding: 10px;
+    color: $dark-grey;
+
     font-size: 1em;
     font-weight: 500;
     font-family: inherit;
