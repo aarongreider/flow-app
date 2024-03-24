@@ -62,12 +62,14 @@
 
 .dialogue-node {
   height: auto;
+  min-width: 250px;
   border: 1px solid #eee;
   padding: 16px 19px;
   border-radius: 10px;
   background: white;
   color: #777;
-  max-width: 250px;
+  width: -moz-min-content;
+  width: min-content;
 }
 .dialogue-node input {
   font-family: "IvyOra Display";
@@ -98,6 +100,7 @@
 
 .exposition-node {
   height: auto;
+  min-width: 250px;
   border: 1px solid #eee;
   padding: 16px 19px;
   border-radius: 10px;
@@ -116,12 +119,12 @@
 
 .meta-node {
   height: auto;
+  min-width: 250px;
   border: 1px solid #eee;
   padding: 16px 19px;
   border-radius: 10px;
   background: white;
   color: #777;
-  width: auto;
 }
 
 .signal-node {
