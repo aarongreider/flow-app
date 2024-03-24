@@ -129,7 +129,7 @@ export default function App() {
 
   return (
     <ReactFlowProvider>
-      <div style={{ width: '100vw', height: '100vh' }}>
+      <div style={{ width: '100svw', height: '100svh' }}>
         <ReactFlow
           onInit={setReactFlowInstance}
           nodes={nodes}

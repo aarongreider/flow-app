@@ -1,6 +1,6 @@
 html {
   background: #E3E3E3;
-  font-family: "IvyEpic Variable";
+  font-family: ivyepic, "IvyEpic Variable";
 }
 
 body {
@@ -18,11 +18,11 @@ p {
   font-size: 18px;
   text-overflow: ellipsis;
   overflow: hidden;
-  font-family: "IvyEpic Variable";
+  font-family: ivyepic, "IvyEpic Variable";
 }
 
 input {
-  font-family: "IvyEpic Variable";
+  font-family: ivyepic, "IvyEpic Variable";
   font-size: 16px;
   width: 100%;
   background: inherit;
@@ -37,7 +37,7 @@ textarea {
   background: inherit;
   border: none;
   color: #777;
-  font-family: "IvyEpic Variable";
+  font-family: ivyepic, "IvyEpic Variable";
   font-size: 16px;
   padding: 0;
 }

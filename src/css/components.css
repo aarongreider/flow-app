@@ -72,7 +72,7 @@
   width: min-content;
 }
 .dialogue-node input {
-  font-family: "IvyOra Display";
+  font-family: ivyora-display, "IvyOra Display";
   font-size: 30px;
   font-weight: 500;
   margin-bottom: 10px;
@@ -113,7 +113,7 @@
   background: inherit;
   border: none;
   color: #70A76C;
-  font-family: "IvyJournal";
+  font-family: ivyjournal, "IvyJournal";
   font-style: italic;
 }
 

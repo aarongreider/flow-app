@@ -4,9 +4,9 @@ $sage-text: #70A76C;
 $dark-grey: #484B50;
 $light-grey: #9BA2AE;
 
-$sans-serif: "IvyEpic Variable";
-$serif: "IvyOra Display";
-$italic: "IvyJournal";
+$sans-serif: ivyepic, "IvyEpic Variable";
+$serif: ivyora-display, "IvyOra Display";
+$italic: ivyjournal, "IvyJournal";
 
 html {
     background: #E3E3E3;
@@ -28,11 +28,11 @@ p {
     font-size: 18px;
     text-overflow: ellipsis;
     overflow: hidden;
-    font-family: "IvyEpic Variable";
+    font-family: $sans-serif;
 }
 
 input {
-    font-family: "IvyEpic Variable";
+    font-family: $sans-serif;
     font-size: 16px;
     width: 100%;
     background: inherit;

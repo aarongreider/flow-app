@@ -30,9 +30,9 @@ $sage-text: #70A76C;
 $dark-grey: #484B50;
 $light-grey: #9BA2AE;
 
-$sans-serif: "IvyEpic Variable";
-$serif: "IvyOra Display";
-$italic: "IvyJournal";
+$sans-serif: ivyepic, "IvyEpic Variable";
+$serif: ivyora-display, "IvyOra Display";
+$italic: ivyjournal, "IvyJournal";
 
 .handle {
   background: $sage-light;
@@ -96,7 +96,7 @@ $italic: "IvyJournal";
   width: min-content;
 
   input {
-    font-family: "IvyOra Display";
+    font-family: $serif;
     font-size: 30px;
     font-weight: 500;
     margin-bottom: 10px;
