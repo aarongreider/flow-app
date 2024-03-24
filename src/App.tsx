@@ -59,6 +59,11 @@ export default function App() {
     handleResize(); // Initial check
     window.addEventListener('resize', handleResize);
 
+    window.addEventListener('touchstart', function (event) {
+      // Handle touchstart event here
+      event.preventDefault();
+    });
+
     return () => {
       window.removeEventListener('resize', handleResize);
     };
@@ -141,7 +146,7 @@ export default function App() {
           fitView
         >
           <Controls style={{ top: '0', left: 'auto', right: '0', bottom: 'auto', display: 'flex' }} />
-          <MiniMap zoomable pannable />
+          {isMobile ? undefined : <MiniMap zoomable pannable />}
           <Background gap={12} size={1} />
           <Panel position="top-left" style={{ display: "flex", gap: '8px', flexDirection: 'column', left: '10px', top: '10px' }}>
             {isMobile ? undefined : <button onClick={printState}>Print State</button>}

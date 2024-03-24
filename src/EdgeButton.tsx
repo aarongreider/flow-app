@@ -24,7 +24,7 @@ export default function CustomEdge({ id, sourceX, sourceY, targetX, targetY }: a
             position: 'absolute', transform: `translate(-50%, -50%) translate(${labelX}px,${labelY}px)`,
             pointerEvents: 'all',
           }}
-          className="deleteButton nodrag nopan"
+          className="deleteEdgeButton nodrag nopan"
           onClick={() => {
             setEdges((es) => es.filter((e) => e.id !== id));
           }}

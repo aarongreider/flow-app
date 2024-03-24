@@ -11,33 +11,38 @@
   bottom: -15px;
 }
 
+.nodeWrapper.selected {
+  outline: 4px #87BC83 solid;
+}
+
 .react-flow__edge-path {
   stroke: #87BC83;
   stroke-width: 2px;
 }
 
-/* .react-flow__panel.bottom {
-  bottom: auto;
-}
-
-.react-flow__minimap {
-  bottom: 0 !important;
-}
-
-.react-flow__controls {
-  top: 0;
-  right: 0;
-  left: auto;
-} */
-.deleteButton {
+.deleteEdgeButton {
   width: 10px;
   height: 10px;
-  background-color: #87BC83;
   padding: 0px;
   display: flex;
   align-items: center;
   justify-content: center;
+  background-color: #87BC83;
   outline: 1.75px #70A76C solid;
+}
+
+.nodeButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  pointer-events: all;
+  width: 14px;
+  height: 14px;
+  padding: 0px;
+  background-color: white;
+  outline: none;
+  box-shadow: rgba(0, 0, 0, 0.2) 0px 1px 3px, rgba(0, 0, 0, 0.15) 0px 2px 8px;
 }
 
 .text-receiver-node {
