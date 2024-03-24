@@ -10,7 +10,7 @@ function ExpositionNode(props: NodeProps) {
 
 
   return (
-    <div className="exposition-node nodeWrapper">
+    <div className={`exposition-node nodeWrapper ${selected ? 'selected' : ''}`}>
       {selected ? <DeleteNodeButton id={props.id} /> : undefined}
       <SelectNodeButton selected={selected} onSelect={() => setSelected(!selected)} />
       <Handle className="handle target" type="target" position={Position.Top} isConnectable={props.isConnectable} />

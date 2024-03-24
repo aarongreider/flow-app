@@ -10,11 +10,12 @@ body {
 label {
   display: block;
   color: #777;
-  font-size: 14px;
+  font-size: 16px;
 }
 
 p {
   margin: 0;
+  font-size: 18px;
   text-overflow: ellipsis;
   overflow: hidden;
   font-family: "IvyEpic Variable";
@@ -22,6 +23,7 @@ p {
 
 input {
   font-family: "IvyEpic Variable";
+  font-size: 16px;
   width: 100%;
   background: inherit;
   border: none;
@@ -36,7 +38,7 @@ textarea {
   border: none;
   color: #777;
   font-family: "IvyEpic Variable";
-  font-size: 13px;
+  font-size: 16px;
   padding: 0;
 }
 
@@ -52,7 +54,7 @@ button {
   border-radius: 50px;
   border: 2px solid transparent;
   color: #484B50;
-  font-size: 1em;
+  font-size: 16px;
   font-weight: 500;
   font-family: inherit;
   cursor: pointer;

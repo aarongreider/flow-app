@@ -7,7 +7,7 @@ import SelectNodeButton from './SelectNodeButton';
 function SignalNode(props: NodeProps) {
   const [selected, setSelected] = useState<boolean>(false)
   return (
-    <div className="signal-node nodeWrapper">
+    <div className={`signal-node nodeWrapper ${selected ? 'selected' : ''}`}>
       {selected ? <DeleteNodeButton id={props.id} /> : undefined}
       <SelectNodeButton selected={selected} onSelect={() => setSelected(!selected)} />
       <Handle className="handle target" type="target" position={Position.Top} isConnectable={props.isConnectable} />

@@ -7,7 +7,7 @@ import SelectNodeButton from './SelectNodeButton';
 function ResponseNode(props: NodeProps) {
   const [selected, setSelected] = useState<boolean>(false)
   return (
-    <div className="response-node nodeWrapper">
+    <div className={`response-node nodeWrapper ${selected ? 'selected' : ''}`}>
       {selected ? <DeleteNodeButton id={props.id} /> : undefined}
       <SelectNodeButton selected={selected} onSelect={() => setSelected(!selected)} />
       <Handle className="handle target" type="target" position={Position.Top} isConnectable={props.isConnectable} />
