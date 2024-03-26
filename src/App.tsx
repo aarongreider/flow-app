@@ -22,6 +22,9 @@ import CustomEdge from './EdgeButton';
 
 import './css/components.css';
 import './css/general.css'
+import LoginButton from './LoginButton';
+import LogoutButton from './LogoutButton';
+import Profile from './Profile';
 
 
 const selector = (state: any) => ({
@@ -50,6 +53,7 @@ export default function App() {
 
   const [isMobile, setIsMobile] = useState(false);
 
+  //#region boilerplate and utils
   useEffect(() => {
     // keep tabs on window resizes to check if user is mobile
     const handleResize = () => {
@@ -126,10 +130,12 @@ export default function App() {
   },
     [nodes],
   );
+  //#endregion
 
   return (
     <ReactFlowProvider>
       <div style={{ width: '100svw', height: '100svh' }}>
+        <LoginButton /><LogoutButton /><Profile />
         <ReactFlow
           onInit={setReactFlowInstance}
           nodes={nodes}
@@ -165,7 +171,6 @@ export default function App() {
             <button onClick={() => { addNode('signal') }} onDragStart={(event) => onDragStart(event, 'signal')} draggable>
               <span className="material-symbols-outlined">sensors</span>{isMobile ? undefined : "Add Signal"}
             </button>
-
           </Panel>
         </ReactFlow>
       </div>
