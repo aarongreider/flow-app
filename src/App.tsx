@@ -9,6 +9,9 @@ import ReactFlow, {
 } from 'reactflow';
 import { shallow } from 'zustand/shallow';
 import useStore from './store';
+import { useAuth0 } from "@auth0/auth0-react";
+import { getStorage, ref, getDownloadURL } from "firebase/storage";
+
 
 import 'reactflow/dist/style.css';
 
@@ -52,6 +55,64 @@ export default function App() {
   const [idCount, setIdCount] = useState<number>(nodes.length + 1)
 
   const [isMobile, setIsMobile] = useState(false);
+  //const { user, update, isAuthenticated, getAccessTokenSilently } = useAuth0();
+  const auth0 = useAuth0();
+
+  useEffect(() => {
+    console.log('context', auth0)
+    console.log('user', auth0.user)
+    //console.log(auth0.update)
+    //getUserMetadata()
+  }, [auth0])
+
+
+
+  // Create a reference to the file you want to download
+  const storage = getStorage();
+  const pathReference = ref(storage, 'path/to/file.json');
+
+  // Get the download URL
+  getDownloadURL(pathReference)
+    .then((url: string) => {
+      // `url` is the download URL for the file
+      fetch(url)
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error(`Error getting JSON: ${response.status}`);
+          }
+          return response.json();
+        })
+        .then((data) => {
+          // `data` is the JSON object from the file
+          console.log(data);
+        })
+        .catch((error) => {
+          console.error(`Error getting JSON: ${error}`);
+        });
+    })
+    .catch((error: any) => {
+      console.error(`Error getting download URL: ${error}`);
+    });
+
+
+  /* const getUserMetadata = async () => {
+    if (auth0.isAuthenticated && auth0.user) {
+      var myHeaders = new Headers();
+      myHeaders.append("Accept", "application/json");
+
+      var requestOptions = {
+        method: 'GET',
+        headers: myHeaders,
+        redirect: 'follow'
+      };
+
+      fetch(`https://dev-k7eu453201ptp0k4.us.auth0.com/api/v2/users/${auth0.user.sub}`, requestOptions)
+        .then(response => response.text())
+        .then(result => console.log(result))
+        .catch(error => console.log('error', error));
+    }
+  }; */
+
 
   //#region boilerplate and utils
   useEffect(() => {
@@ -88,6 +149,8 @@ export default function App() {
     localStorage.setItem('nodes', JSON.stringify(nodes));
     localStorage.setItem('edges', JSON.stringify(edges));
   }, [nodes, edges])
+
+
 
   const printState = () => {
     console.log(nodes)

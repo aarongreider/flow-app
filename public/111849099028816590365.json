@@ -1,0 +1,675 @@
+{
+    "nodes": [
+        {
+            "id": "6",
+            "position": {
+                "x": 10.23414769849045,
+                "y": 140.4485057796371
+            },
+            "data": {
+                "label": "diaglogueNode",
+                "responseText": "Hi!",
+                "response": "Hi!"
+            },
+            "type": "response",
+            "width": 52,
+            "height": 48,
+            "selected": false,
+            "positionAbsolute": {
+                "x": 10.23414769849045,
+                "y": 140.4485057796371
+            },
+            "dragging": false
+        },
+        {
+            "id": "8",
+            "position": {
+                "x": 164.28822627492633,
+                "y": 143.703726566971
+            },
+            "data": {
+                "label": "diaglogueNode",
+                "response": "yo yo yo!"
+            },
+            "type": "response",
+            "width": 92,
+            "height": 48,
+            "selected": false,
+            "dragging": false,
+            "positionAbsolute": {
+                "x": 164.28822627492633,
+                "y": 143.703726566971
+            }
+        },
+        {
+            "id": "60",
+            "position": {
+                "x": -51.19160207995321,
+                "y": 424.10021415556224
+            },
+            "data": {
+                "label": "diaglogueNode",
+                "response": "You're mom"
+            },
+            "type": "response",
+            "width": 114,
+            "height": 48,
+            "selected": false,
+            "dragging": false,
+            "positionAbsolute": {
+                "x": -51.19160207995321,
+                "y": 424.10021415556224
+            }
+        },
+        {
+            "id": "117",
+            "position": {
+                "x": 185.15890221478705,
+                "y": 418.79571658235943
+            },
+            "data": {
+                "label": "diaglogueNode",
+                "response": "My mom"
+            },
+            "type": "response",
+            "width": 92,
+            "height": 48,
+            "selected": false,
+            "positionAbsolute": {
+                "x": 185.15890221478705,
+                "y": 418.79571658235943
+            },
+            "dragging": false
+        },
+        {
+            "id": "175",
+            "position": {
+                "x": -152.883550659641,
+                "y": 533.3318121597187
+            },
+            "data": {
+                "label": "diaglogueNode",
+                "character": "Mumbo",
+                "dialogue": "am i a joke to you???"
+            },
+            "type": "dialogue",
+            "width": 292,
+            "height": 141,
+            "selected": false,
+            "dragging": false,
+            "positionAbsolute": {
+                "x": -152.883550659641,
+                "y": 533.3318121597187
+            }
+        },
+        {
+            "id": "10",
+            "position": {
+                "x": 1.4310915187389242,
+                "y": -179.71173265875203
+            },
+            "data": {
+                "exposition": "In a world, where sea snails ruled the land... ",
+                "response": "In world, where sea snails ruled the land..."
+            },
+            "type": "exposition",
+            "width": 292,
+            "height": 80,
+            "selected": false,
+            "positionAbsolute": {
+                "x": 1.4310915187389242,
+                "y": -179.71173265875203
+            },
+            "dragging": false
+        },
+        {
+            "id": "422",
+            "position": {
+                "x": 167.32584743404448,
+                "y": 517.9237731600704
+            },
+            "data": {
+                "character": "Jumbo",
+                "dialogue": "Well, fetch me three mushrooms for my stew!!!\n\nI am in need of 3 mushrooms!"
+            },
+            "type": "dialogue",
+            "width": 292,
+            "height": 196,
+            "selected": false,
+            "positionAbsolute": {
+                "x": 167.32584743404448,
+                "y": 517.9237731600704
+            },
+            "dragging": false
+        },
+        {
+            "id": "49",
+            "position": {
+                "x": 413.97836966509703,
+                "y": 99.27554015427069
+            },
+            "data": {
+                "meta": "The character fetches 3 mushrooms, solemnly bring them back to Jumbo, the ancient sea snail."
+            },
+            "type": "meta",
+            "width": 292,
+            "height": 99,
+            "selected": false,
+            "positionAbsolute": {
+                "x": 413.97836966509703,
+                "y": 99.27554015427069
+            },
+            "dragging": false
+        },
+        {
+            "id": "20",
+            "position": {
+                "x": -42.47926745781817,
+                "y": 728.4908341284616
+            },
+            "data": {
+                "character": "Jumbo",
+                "dialogue": "You know what??? I don't like your attitude. And actually, I didn't like your sweater anyway!!",
+                "exposition": "In world, where sea slugs ruled the land...",
+                "response": "okay okay"
+            },
+            "type": "dialogue",
+            "width": 100,
+            "height": 48,
+            "selected": false,
+            "positionAbsolute": {
+                "x": -42.47926745781817,
+                "y": 728.4908341284616
+            },
+            "dragging": false
+        },
+        {
+            "id": "66",
+            "position": {
+                "x": 208.72937667389846,
+                "y": 784.8525958511402
+            },
+            "data": {
+                "meta": "// The character fetches 3 mushrooms, solemnly bring them back to Jumbo, the ancient sea snail."
+            },
+            "type": "meta",
+            "width": 292,
+            "height": 99,
+            "selected": false,
+            "positionAbsolute": {
+                "x": 208.72937667389846,
+                "y": 784.8525958511402
+            },
+            "dragging": false
+        },
+        {
+            "id": "20",
+            "position": {
+                "x": -42.47926745781817,
+                "y": 728.4908341284616
+            },
+            "data": {
+                "exposition": "In world, where sea slugs ruled the land...",
+                "response": "okay okay"
+            },
+            "type": "exposition",
+            "width": 100,
+            "height": 48,
+            "selected": false,
+            "positionAbsolute": {
+                "x": -42.47926745781817,
+                "y": 728.4908341284616
+            },
+            "dragging": false
+        },
+        {
+            "id": "100",
+            "position": {
+                "x": -205.65458660735092,
+                "y": 848.5761947050705
+            },
+            "data": {
+                "exposition": "In the background, there were two npc's, who had no idea what was going on. "
+            },
+            "type": "exposition",
+            "width": 292,
+            "height": 99,
+            "selected": false,
+            "positionAbsolute": {
+                "x": -205.65458660735092,
+                "y": 848.5761947050705
+            },
+            "dragging": false
+        },
+        {
+            "id": "19",
+            "position": {
+                "x": -200.78199325141094,
+                "y": 986.9991667793535
+            },
+            "data": {
+                "meta": "The character fetches 3 more mushrooms, solemnly bring them back to Jumbo, the ancient sea slug."
+            },
+            "type": "meta",
+            "width": 292,
+            "height": 99,
+            "selected": false,
+            "dragging": false,
+            "positionAbsolute": {
+                "x": -200.78199325141094,
+                "y": 986.9991667793535
+            }
+        },
+        {
+            "id": "20",
+            "position": {
+                "x": -42.47926745781817,
+                "y": 728.4908341284616
+            },
+            "data": {
+                "response": "okay okay"
+            },
+            "type": "response",
+            "width": 100,
+            "height": 48,
+            "selected": false,
+            "positionAbsolute": {
+                "x": -42.47926745781817,
+                "y": 728.4908341284616
+            },
+            "dragging": false
+        },
+        {
+            "id": "21",
+            "position": {
+                "x": 521.93909828563,
+                "y": 366.6679420564218
+            },
+            "data": {
+                "response": "AYOOOOO"
+            },
+            "type": "response",
+            "width": 114,
+            "height": 48,
+            "selected": false,
+            "positionAbsolute": {
+                "x": 521.93909828563,
+                "y": 366.6679420564218
+            },
+            "dragging": false
+        },
+        {
+            "id": "27",
+            "position": {
+                "x": 37.7411970765258,
+                "y": -286.20143709739136
+            },
+            "data": {
+                "signal": "GameStart"
+            },
+            "type": "signal",
+            "width": 110,
+            "height": 50,
+            "selected": false,
+            "positionAbsolute": {
+                "x": 37.7411970765258,
+                "y": -286.20143709739136
+            },
+            "dragging": false
+        },
+        {
+            "id": "24",
+            "position": {
+                "x": -76.65455884151623,
+                "y": -53.14530985541331
+            },
+            "data": {
+                "character": "Mumbo Jumbo McJumboson",
+                "dialogue": "Hi! How are you today?"
+            },
+            "type": "dialogue",
+            "width": 392,
+            "height": 141,
+            "selected": false,
+            "positionAbsolute": {
+                "x": -76.65455884151623,
+                "y": -53.14530985541331
+            },
+            "dragging": false
+        },
+        {
+            "id": "150",
+            "position": {
+                "x": -49.11969174772038,
+                "y": 240.3402272575033
+            },
+            "data": {
+                "character": "Mumbo Jumbo",
+                "dialogue": "Hi! How are you today?"
+            },
+            "type": "dialogue",
+            "width": 292,
+            "height": 141,
+            "selected": false,
+            "positionAbsolute": {
+                "x": -49.11969174772038,
+                "y": 240.3402272575033
+            },
+            "dragging": false
+        },
+        {
+            "id": "37",
+            "position": {
+                "x": 520.9039064949286,
+                "y": 258.99815337028963
+            },
+            "data": {
+                "response": "I love sea slugs!"
+            },
+            "type": "response",
+            "width": 136,
+            "height": 48,
+            "selected": false,
+            "dragging": false,
+            "positionAbsolute": {
+                "x": 520.9039064949286,
+                "y": 258.99815337028963
+            }
+        }
+    ],
+    "edges": [
+        {
+            "source": "1",
+            "sourceHandle": "a",
+            "target": "6",
+            "targetHandle": null,
+            "type": "customEdge",
+            "id": "reactflow__edge-1a-6",
+            "selected": false
+        },
+        {
+            "source": "8",
+            "sourceHandle": "a",
+            "target": "5",
+            "targetHandle": null,
+            "type": "customEdge",
+            "id": "reactflow__edge-8a-5",
+            "selected": false
+        },
+        {
+            "source": "5",
+            "sourceHandle": "a",
+            "target": "117",
+            "targetHandle": null,
+            "type": "customEdge",
+            "id": "reactflow__edge-5a-117",
+            "selected": false
+        },
+        {
+            "source": "60",
+            "sourceHandle": "a",
+            "target": "175",
+            "targetHandle": null,
+            "type": "customEdge",
+            "id": "reactflow__edge-60a-175",
+            "selected": false
+        },
+        {
+            "source": "117",
+            "sourceHandle": "a",
+            "target": "422",
+            "targetHandle": null,
+            "type": "customEdge",
+            "id": "reactflow__edge-117a-422",
+            "selected": false
+        },
+        {
+            "source": "1",
+            "sourceHandle": "a",
+            "target": "8",
+            "targetHandle": null,
+            "type": "customEdge",
+            "id": "reactflow__edge-1a-8",
+            "selected": false
+        },
+        {
+            "source": "10",
+            "sourceHandle": "a",
+            "target": "1",
+            "targetHandle": null,
+            "type": "customEdge",
+            "id": "reactflow__edge-10a-1",
+            "selected": false
+        },
+        {
+            "source": "175",
+            "sourceHandle": "a",
+            "target": "20",
+            "targetHandle": null,
+            "type": "customEdge",
+            "id": "reactflow__edge-175a-20",
+            "selected": false
+        },
+        {
+            "source": "422",
+            "sourceHandle": "a",
+            "target": "66",
+            "targetHandle": null,
+            "type": "customEdge",
+            "id": "reactflow__edge-422a-66",
+            "selected": false
+        },
+        {
+            "source": "20",
+            "sourceHandle": "a",
+            "target": "100",
+            "targetHandle": null,
+            "type": "customEdge",
+            "id": "reactflow__edge-20a-100",
+            "selected": false
+        },
+        {
+            "source": "100",
+            "sourceHandle": "a",
+            "target": "19",
+            "targetHandle": null,
+            "type": "customEdge",
+            "id": "reactflow__edge-100a-19",
+            "selected": false
+        },
+        {
+            "source": "27",
+            "sourceHandle": "a",
+            "target": "10",
+            "targetHandle": null,
+            "type": "customEdge",
+            "id": "reactflow__edge-27a-10",
+            "selected": false
+        },
+        {
+            "source": "5",
+            "sourceHandle": "a",
+            "target": "60",
+            "targetHandle": null,
+            "type": "customEdge",
+            "id": "reactflow__edge-5a-60",
+            "selected": false
+        },
+        {
+            "source": "6",
+            "sourceHandle": "a",
+            "target": "42",
+            "targetHandle": null,
+            "type": "customEdge",
+            "id": "reactflow__edge-6a-42",
+            "selected": false
+        },
+        {
+            "source": "8",
+            "sourceHandle": "a",
+            "target": "42",
+            "targetHandle": null,
+            "type": "customEdge",
+            "id": "reactflow__edge-8a-42",
+            "selected": false
+        },
+        {
+            "source": "42",
+            "sourceHandle": "a",
+            "target": "60",
+            "targetHandle": null,
+            "type": "customEdge",
+            "id": "reactflow__edge-42a-60",
+            "selected": false
+        },
+        {
+            "source": "42",
+            "sourceHandle": "a",
+            "target": "117",
+            "targetHandle": null,
+            "type": "customEdge",
+            "id": "reactflow__edge-42a-117",
+            "selected": false
+        },
+        {
+            "source": "6",
+            "sourceHandle": "a",
+            "target": "213",
+            "targetHandle": null,
+            "type": "customEdge",
+            "id": "reactflow__edge-6a-213",
+            "selected": false
+        },
+        {
+            "source": "8",
+            "sourceHandle": "a",
+            "target": "213",
+            "targetHandle": null,
+            "type": "customEdge",
+            "id": "reactflow__edge-8a-213",
+            "selected": false
+        },
+        {
+            "source": "213",
+            "sourceHandle": "a",
+            "target": "60",
+            "targetHandle": null,
+            "type": "customEdge",
+            "id": "reactflow__edge-213a-60",
+            "selected": false
+        },
+        {
+            "source": "213",
+            "sourceHandle": "a",
+            "target": "117",
+            "targetHandle": null,
+            "type": "customEdge",
+            "id": "reactflow__edge-213a-117",
+            "selected": false
+        },
+        {
+            "source": "10",
+            "sourceHandle": "a",
+            "target": "259",
+            "targetHandle": null,
+            "type": "customEdge",
+            "id": "reactflow__edge-10a-259"
+        },
+        {
+            "source": "259",
+            "sourceHandle": "a",
+            "target": "6",
+            "targetHandle": null,
+            "type": "customEdge",
+            "id": "reactflow__edge-259a-6",
+            "selected": false
+        },
+        {
+            "source": "259",
+            "sourceHandle": "a",
+            "target": "8",
+            "targetHandle": null,
+            "type": "customEdge",
+            "id": "reactflow__edge-259a-8",
+            "selected": false
+        },
+        {
+            "source": "10",
+            "sourceHandle": "a",
+            "target": "24",
+            "targetHandle": null,
+            "type": "customEdge",
+            "id": "reactflow__edge-10a-24"
+        },
+        {
+            "source": "24",
+            "sourceHandle": "a",
+            "target": "6",
+            "targetHandle": null,
+            "type": "customEdge",
+            "id": "reactflow__edge-24a-6",
+            "selected": false
+        },
+        {
+            "source": "24",
+            "sourceHandle": "a",
+            "target": "8",
+            "targetHandle": null,
+            "type": "customEdge",
+            "id": "reactflow__edge-24a-8",
+            "selected": false
+        },
+        {
+            "source": "6",
+            "sourceHandle": "a",
+            "target": "150",
+            "targetHandle": null,
+            "type": "customEdge",
+            "id": "reactflow__edge-6a-150",
+            "selected": false
+        },
+        {
+            "source": "8",
+            "sourceHandle": "a",
+            "target": "150",
+            "targetHandle": null,
+            "type": "customEdge",
+            "id": "reactflow__edge-8a-150",
+            "selected": false
+        },
+        {
+            "source": "150",
+            "sourceHandle": "a",
+            "target": "60",
+            "targetHandle": null,
+            "type": "customEdge",
+            "id": "reactflow__edge-150a-60",
+            "selected": false
+        },
+        {
+            "source": "150",
+            "sourceHandle": "a",
+            "target": "117",
+            "targetHandle": null,
+            "type": "customEdge",
+            "id": "reactflow__edge-150a-117",
+            "selected": false
+        },
+        {
+            "source": "49",
+            "sourceHandle": "a",
+            "target": "37",
+            "targetHandle": null,
+            "type": "customEdge",
+            "id": "reactflow__edge-49a-37"
+        },
+        {
+            "source": "37",
+            "sourceHandle": "a",
+            "target": "21",
+            "targetHandle": null,
+            "type": "customEdge",
+            "id": "reactflow__edge-37a-21"
+        }
+    ]
+}
