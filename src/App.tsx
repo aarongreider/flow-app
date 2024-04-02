@@ -49,6 +49,7 @@ const nodeTypes = {
 const edgeTypes = { customEdge: CustomEdge };
 
 export default function App() {
+  
   const { nodes, edges, onNodesChange, onEdgesChange, onConnect } = useStore(selector, shallow);
   const setNodes = useStore((state) => state.setNodes);
   const [reactFlowInstance, setReactFlowInstance] = useState<any>(null);
@@ -65,53 +66,6 @@ export default function App() {
     //getUserMetadata()
   }, [auth0])
 
-
-
-  // Create a reference to the file you want to download
-  const storage = getStorage();
-  const pathReference = ref(storage, 'path/to/file.json');
-
-  // Get the download URL
-  getDownloadURL(pathReference)
-    .then((url: string) => {
-      // `url` is the download URL for the file
-      fetch(url)
-        .then((response) => {
-          if (!response.ok) {
-            throw new Error(`Error getting JSON: ${response.status}`);
-          }
-          return response.json();
-        })
-        .then((data) => {
-          // `data` is the JSON object from the file
-          console.log(data);
-        })
-        .catch((error) => {
-          console.error(`Error getting JSON: ${error}`);
-        });
-    })
-    .catch((error: any) => {
-      console.error(`Error getting download URL: ${error}`);
-    });
-
-
-  /* const getUserMetadata = async () => {
-    if (auth0.isAuthenticated && auth0.user) {
-      var myHeaders = new Headers();
-      myHeaders.append("Accept", "application/json");
-
-      var requestOptions = {
-        method: 'GET',
-        headers: myHeaders,
-        redirect: 'follow'
-      };
-
-      fetch(`https://dev-k7eu453201ptp0k4.us.auth0.com/api/v2/users/${auth0.user.sub}`, requestOptions)
-        .then(response => response.text())
-        .then(result => console.log(result))
-        .catch(error => console.log('error', error));
-    }
-  }; */
 
 
   //#region boilerplate and utils
@@ -198,7 +152,8 @@ export default function App() {
   return (
     <ReactFlowProvider>
       <div style={{ width: '100svw', height: '100svh' }}>
-        <LoginButton /><LogoutButton /><Profile />
+        {auth0.isAuthenticated ? <LogoutButton /> : <LoginButton />}
+        {auth0.isAuthenticated ? <Profile /> : undefined}
         <ReactFlow
           onInit={setReactFlowInstance}
           nodes={nodes}
