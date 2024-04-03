@@ -2,7 +2,7 @@ import {
     Edge,
     Node,
   } from 'reactflow';
-  import { getUserData, setUserData } from './firebase';
+  import { applyUserNodes, setUserData } from './firebase';
 
 export const initialNodes = [
     { id: '1', position: { x: 10, y: 0 }, data: { label: '1' }, type: 'dialogue' },
@@ -17,32 +17,21 @@ type UserState = {
     edges: Edge[];
   }
   
-  export function getInitialState(isAuthenticated: boolean, user?: any) {
+  export function loadInitialState(isAuthenticated: boolean, user?: any) {
     // this function gets the initial state depending on if the user is logged on or not. 
   
     const initial: UserState = { nodes: [], edges: [] }
     
     // default: if no logged in user, get or assign cached values
-    let cache = getCachedNodes()
+    /* let cache = getCachedNodes()
     initial.nodes = cache.nodes;
-    initial.edges = cache.edges;
+    initial.edges = cache.edges; */
   
     if (isAuthenticated && user) {
+        // trigger the setting of user data 
       const userID = user.sub.split("|")[1]
-      const data: any = getUserData(userID);
-      
-      if (!data) {
-        // if data returns false, there is no data in firestore for this user
-        // so we set new user data with inital nodes, then return them
-        setUserData(userID, initial.nodes, initial.edges)
-  
-      } else {
-        initial.nodes = data.nodes;
-        initial.edges = data.edges;
-      }
+      applyUserNodes(userID);
     }
-  
-    return initial
   }
   
   function getCachedNodes() {

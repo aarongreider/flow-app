@@ -1,6 +1,7 @@
 import { initializeApp } from "firebase/app";
 //import { getAnalytics } from "firebase/analytics";
 import { Edge, Node, } from 'reactflow';
+import useStore from './store';
 
 import { getFirestore, collection, doc, getDoc, setDoc } from "firebase/firestore"; queueMicrotask
 import { initialNodes, initialEdges } from './InitialNodes';
@@ -21,14 +22,18 @@ const app = initializeApp(firebaseConfig);
 
 // Initialize Cloud Firestore and get a reference to the service
 const db = getFirestore(app);
-getUserData('12345')
 
-export function getUserData(userID: string) {
+export function applyUserNodes(userID: string) {
+    // init zustand setNodes
+    console.log("applying user nodes...")
+    const setNodes = useStore((state) => state.setNodes);
+
     const docRef = (doc(db, `flow-users/${userID}`))
     getDoc(docRef).then((data) => {
         if (data.exists()) {
             console.log('Document data:', data.data());
-            return data
+            // set nodes with document data
+            //setNodes([...data.data().nodes])
         } else {
             console.log('No such document!');
             return false;
@@ -39,14 +44,14 @@ export function getUserData(userID: string) {
 }
 
 export function setUserData(userID: string, nodes: Node[], edges: Edge[]) {
-    //const docRef = (doc(db, `flow-users/${userID}`))
-    console.log("data to write to database", { nodes: [...nodes], edges: [...edges] })
-    /* setDoc(docRef, { ...nodes, ...edges }, { merge: true })
+    const docRef = (doc(db, `flow-users/${userID}`))
+
+    setDoc(docRef, { nodes: [...nodes], edges: [...edges] }, { merge: true })
         .then(() => {
-            console.log("data written to database", { ...nodes, ...edges })
+            console.log("data written to database", { nodes: [...nodes], edges: [...edges] })
         }).catch((error) => {
             console.error('Error setting document:', error);
-        }); */
+        });
 }
 
 

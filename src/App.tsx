@@ -10,8 +10,7 @@ import ReactFlow, {
 import { shallow } from 'zustand/shallow';
 import useStore from './store';
 import { useAuth0 } from "@auth0/auth0-react";
-import { getStorage, ref, getDownloadURL } from "firebase/storage";
-import { getInitialState } from './InitialNodes';
+import { loadInitialState } from './InitialNodes';
 
 
 import 'reactflow/dist/style.css';
@@ -65,10 +64,14 @@ export default function App() {
     console.log('user', auth0.user)
 
     // if this snippet runs, auth0 has changed, which means it needs to reload the displayed (initial) nodes
-    const displayedNodes = getInitialState(auth0.isAuthenticated, auth0.user)
-    console.log("User updated, new displayed nodes: ", displayedNodes)
+    // 
+    if (auth0.isAuthenticated) {
+      loadInitialState(auth0.isAuthenticated, auth0.user)
+    }
+    //console.log("User updated, new displayed nodes: ", displayedNodes)
 
     // setNodes([...nodes])
+    // can;t set nodes here becuase of asynchronously getting data
 
   }, [auth0])
 

@@ -12,7 +12,7 @@ import {
   applyNodeChanges,
   applyEdgeChanges,
 } from 'reactflow';
-import { getInitialState } from './InitialNodes';
+import { initialNodes, initialEdges } from './InitialNodes';
 
 
 type RFState = {
@@ -26,12 +26,10 @@ type RFState = {
   updateNodeText: (nodeID: string, props: object) => void;
 };
 
-const initial = getInitialState(false)
-
 // this is our useStore hook that we can use in our components to get parts of the store and call actions
 const useStore = create<RFState>((set, get) => ({
-  nodes: initial.nodes,
-  edges: initial.edges,
+  nodes: initialNodes,
+  edges: initialEdges,
   /* REACTFLOW STORE SETTERS */
   onNodesChange: (changes: NodeChange[]) => {
     set({
