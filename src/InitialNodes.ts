@@ -2,7 +2,6 @@ import {
     Edge,
     Node,
   } from 'reactflow';
-  import { applyUserNodes, setUserData } from './Firebase';
 
 export const initialNodes = [
     { id: '1', position: { x: 10, y: 0 }, data: { label: '1' }, type: 'dialogue' },
@@ -30,7 +29,7 @@ type UserState = {
     if (isAuthenticated && user) {
         // trigger the setting of user data 
       const userID = user.sub.split("|")[1]
-      applyUserNodes(userID);
+      //applyUserNodes(userID);
     }
   }
   

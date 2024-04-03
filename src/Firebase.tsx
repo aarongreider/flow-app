@@ -26,27 +26,15 @@ const app = initializeApp(firebaseConfig);
 // Initialize Cloud Firestore and get a reference to the service
 const db = getFirestore(app);
 
-export function applyUserNodes(userID: string) {
+function applyUserNodes(userID: string) {
     // init zustand setNodes
     console.log("applying user nodes...")
-    const setNodes = useStore((state) => state.setNodes);
+    
 
-    const docRef = (doc(db, `flow-users/${userID}`))
-    getDoc(docRef).then((data) => {
-        if (data.exists()) {
-            console.log('Document data:', data.data());
-            // set nodes with document data
-            //setNodes([...data.data().nodes])
-        } else {
-            console.log('No such document!');
-            return false;
-        }
-    }).catch((error) => {
-        console.error('Error getting document:', error);
-    });
+    
 }
 
-export function setUserData(userID: string, nodes: Node[], edges: Edge[]) {
+function setUserData(userID: string, nodes: Node[], edges: Edge[]) {
     const docRef = (doc(db, `flow-users/${userID}`))
 
     setDoc(docRef, { nodes: [...nodes], edges: [...edges] }, { merge: true })
@@ -60,23 +48,43 @@ export function setUserData(userID: string, nodes: Node[], edges: Edge[]) {
 interface FirebaseProps {
 
 }
+
 function Firebase(props: FirebaseProps) {
-    const [userID, setUserID] = useState<string>()
+    const setNodes = useStore((state) => state.setNodes);
+    const setEdges = useStore((state) => state.setEdges);
     const auth0 = useAuth0();
+    
 
 
     useEffect(() => {
         if (auth0.user && auth0.isAuthenticated) {
             console.log('user', auth0.user)
-            setUserID(auth0.user.sub?.split("|")[1])
+            const id = auth0.user.sub?.split("|")[1]
+
+            // set nodes based on result of firestore request
+            const docRef = (doc(db, `flow-users/${id}`))
+            getDoc(docRef).then((data) => {
+                if (data.exists()) {
+                    console.log('Document data:', data.data());
+                    // set nodes with document data
+                    setNodes([...data.data().nodes])
+                    setEdges([...data.data().edges])
+                } else {
+                    console.log('No such document!');
+                }
+            }).catch((error) => {
+                console.error('Error getting document:', error);
+            });
         }
 
-        // set nodes based on result of nodes
+        
     }, [auth0])
 
     return (
         <>
-            {auth0.isAuthenticated ? <img src="https://gifdb.com/images/high/animated-stars-loading-icon-38ccjfav8iijnqrb.gif" /> : undefined}
+            {auth0.isAuthenticated ? undefined :
+                <img style={{pointerEvents: 'none', position: 'absolute', right: 0,  width: '150px'}} 
+                    src="https://gifdb.com/images/high/animated-stars-loading-icon-38ccjfav8iijnqrb.gif" />}
         </>
     )
 }

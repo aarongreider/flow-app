@@ -28,6 +28,7 @@ import './css/general.css'
 import LoginButton from './LoginButton';
 import LogoutButton from './LogoutButton';
 import Profile from './Profile';
+import Firebase from './Firebase';
 
 
 const selector = (state: any) => ({
@@ -58,23 +59,6 @@ export default function App() {
   const [isMobile, setIsMobile] = useState(false);
   //const { user, update, isAuthenticated, getAccessTokenSilently } = useAuth0();
   const auth0 = useAuth0();
-
-/*   useEffect(() => {
-    //console.log('context', auth0)
-    console.log('user', auth0.user)
-
-    // if this snippet runs, auth0 has changed, which means it needs to reload the displayed (initial) nodes
-    // 
-    if (auth0.isAuthenticated) {
-      loadInitialState(auth0.isAuthenticated, auth0.user)
-    }
-    //console.log("User updated, new displayed nodes: ", displayedNodes)
-
-    // setNodes([...nodes])
-    // can;t set nodes here becuase of asynchronously getting data
-
-  }, [auth0]) */
-
 
 
   //#region boilerplate and utils
@@ -136,7 +120,7 @@ export default function App() {
 
   const onDrop = useCallback((event: any) => {
     event.preventDefault();
-    console.log("on drop", event)
+    //console.log("on drop", event)
     const type = event.dataTransfer.getData('application/reactflow');
 
     // check if the dropped element is valid
@@ -160,6 +144,7 @@ export default function App() {
 
   return (
     <ReactFlowProvider>
+      <Firebase />
       <div style={{ width: '100svw', height: '100svh' }}>
         {auth0.isAuthenticated ? <LogoutButton /> : <LoginButton />}
         {auth0.isAuthenticated ? <Profile /> : undefined}
