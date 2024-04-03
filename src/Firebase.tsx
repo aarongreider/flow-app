@@ -23,25 +23,18 @@ const app = initializeApp(firebaseConfig);
 // Initialize Cloud Firestore and get a reference to the service
 const db = getFirestore(app);
 
-function setUserData(userID: string, nodes: Node[], edges: Edge[]) {
-    const docRef = (doc(db, `flow-users/${userID}`))
-
-    setDoc(docRef, { nodes: [...nodes], edges: [...edges] }, { merge: true })
-        .then(() => {
-            console.log("data written to database", { nodes: [...nodes], edges: [...edges] })
-        }).catch((error) => {
-            console.error('Error setting document:', error);
-        });
-}
-
 interface FirebaseProps {
 
 }
 
 function Firebase(props: FirebaseProps) {
+    const nodes = useStore((state) => state.nodes);
+    const edges = useStore((state) => state.edges);
     const setNodes = useStore((state) => state.setNodes);
     const setEdges = useStore((state) => state.setEdges);
     const auth0 = useAuth0();
+
+    const [userID, setUserID] = useState<string>()
 
 
 
@@ -51,6 +44,7 @@ function Firebase(props: FirebaseProps) {
         if (auth0.user && auth0.isAuthenticated) {
             console.log('user', auth0.user)
             const id = auth0.user.sub?.split("|")[1]
+            setUserID(id);
 
             // set nodes based on result of firestore request
             const docRef = (doc(db, `flow-users/${id}`))
@@ -72,7 +66,20 @@ function Firebase(props: FirebaseProps) {
     }, [auth0])
 
     const handleSave = () => {
+        
+        if (!userID) {
+            alert("You must be logged in to use the Cloud Save feature.")
+            return;
+        }
 
+        const docRef = (doc(db, `flow-users/${userID}`))
+
+        setDoc(docRef, { nodes: [...nodes], edges: [...edges] }, { merge: true })
+            .then(() => {
+                console.log("data written to database", { nodes: [...nodes], edges: [...edges] })
+            }).catch((error) => {
+                console.error('Error setting document:', error);
+            });
     }
 
     return (
