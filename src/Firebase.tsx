@@ -5,6 +5,9 @@ import useStore from './store';
 
 import { getFirestore, collection, doc, getDoc, setDoc } from "firebase/firestore"; queueMicrotask
 import { initialNodes, initialEdges } from './InitialNodes';
+import { useState, useEffect } from "react";
+import { useAuth0 } from "@auth0/auth0-react";
+import { setUserId } from "firebase/analytics";
 
 const firebaseConfig = {
     apiKey: "AIzaSyAQOWLW33YmcldSc_tpJgpcH9Nl-jXF5Ec",
@@ -54,7 +57,28 @@ export function setUserData(userID: string, nodes: Node[], edges: Edge[]) {
         });
 }
 
+interface FirebaseProps {
+
+}
+function Firebase(props: FirebaseProps) {
+    const [userID, setUserID] = useState<string>()
+    const auth0 = useAuth0();
 
 
+    useEffect(() => {
+        if (auth0.user && auth0.isAuthenticated) {
+            console.log('user', auth0.user)
+            setUserID(auth0.user.sub?.split("|")[1])
+        }
 
-// set the user's data
+        // set nodes based on result of nodes
+    }, [auth0])
+
+    return (
+        <>
+            {auth0.isAuthenticated ? <img src="https://gifdb.com/images/high/animated-stars-loading-icon-38ccjfav8iijnqrb.gif" /> : undefined}
+        </>
+    )
+}
+
+export default Firebase;

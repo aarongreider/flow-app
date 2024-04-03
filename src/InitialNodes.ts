@@ -2,7 +2,7 @@ import {
     Edge,
     Node,
   } from 'reactflow';
-  import { applyUserNodes, setUserData } from './firebase';
+  import { applyUserNodes, setUserData } from './Firebase';
 
 export const initialNodes = [
     { id: '1', position: { x: 10, y: 0 }, data: { label: '1' }, type: 'dialogue' },

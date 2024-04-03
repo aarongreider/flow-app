@@ -59,7 +59,7 @@ export default function App() {
   //const { user, update, isAuthenticated, getAccessTokenSilently } = useAuth0();
   const auth0 = useAuth0();
 
-  useEffect(() => {
+/*   useEffect(() => {
     //console.log('context', auth0)
     console.log('user', auth0.user)
 
@@ -73,7 +73,7 @@ export default function App() {
     // setNodes([...nodes])
     // can;t set nodes here becuase of asynchronously getting data
 
-  }, [auth0])
+  }, [auth0]) */
 
 
 
