@@ -11,6 +11,7 @@ import { shallow } from 'zustand/shallow';
 import useStore from './store';
 import { useAuth0 } from "@auth0/auth0-react";
 import { getStorage, ref, getDownloadURL } from "firebase/storage";
+import { getInitialState } from './InitialNodes';
 
 
 import 'reactflow/dist/style.css';
@@ -49,7 +50,7 @@ const nodeTypes = {
 const edgeTypes = { customEdge: CustomEdge };
 
 export default function App() {
-  
+
   const { nodes, edges, onNodesChange, onEdgesChange, onConnect } = useStore(selector, shallow);
   const setNodes = useStore((state) => state.setNodes);
   const [reactFlowInstance, setReactFlowInstance] = useState<any>(null);
@@ -60,10 +61,15 @@ export default function App() {
   const auth0 = useAuth0();
 
   useEffect(() => {
-    console.log('context', auth0)
+    //console.log('context', auth0)
     console.log('user', auth0.user)
-    //console.log(auth0.update)
-    //getUserMetadata()
+
+    // if this snippet runs, auth0 has changed, which means it needs to reload the displayed (initial) nodes
+    const displayedNodes = getInitialState(auth0.isAuthenticated, auth0.user)
+    console.log("User updated, new displayed nodes: ", displayedNodes)
+
+    // setNodes([...nodes])
+
   }, [auth0])
 
 

@@ -1,7 +1,9 @@
 import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
+//import { getAnalytics } from "firebase/analytics";
+import { Edge, Node, } from 'reactflow';
 
-import { getFirestore, collection, doc, getDoc } from "firebase/firestore"; queueMicrotask
+import { getFirestore, collection, doc, getDoc, setDoc } from "firebase/firestore"; queueMicrotask
+import { initialNodes, initialEdges } from './InitialNodes';
 
 const firebaseConfig = {
     apiKey: "AIzaSyAQOWLW33YmcldSc_tpJgpcH9Nl-jXF5Ec",
@@ -15,22 +17,39 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
+//const analytics = getAnalytics(app);
 
 // Initialize Cloud Firestore and get a reference to the service
 const db = getFirestore(app);
+getUserData('12345')
 
-const docRef = (doc(db, 'flow-users/test-document'))
-getDoc(docRef).then((data) => {
-    if (data.exists()) {
-        console.log('Document data:', data.data());
-    } else {
-        console.log('No such document!');
-    }
-})
-    .catch((error) => {
+export function getUserData(userID: string) {
+    const docRef = (doc(db, `flow-users/${userID}`))
+    getDoc(docRef).then((data) => {
+        if (data.exists()) {
+            console.log('Document data:', data.data());
+            return data
+        } else {
+            console.log('No such document!');
+            return false;
+        }
+    }).catch((error) => {
         console.error('Error getting document:', error);
     });
+}
+
+export function setUserData(userID: string, nodes: Node[], edges: Edge[]) {
+    //const docRef = (doc(db, `flow-users/${userID}`))
+    console.log("data to write to database", { nodes: [...nodes], edges: [...edges] })
+    /* setDoc(docRef, { ...nodes, ...edges }, { merge: true })
+        .then(() => {
+            console.log("data written to database", { ...nodes, ...edges })
+        }).catch((error) => {
+            console.error('Error setting document:', error);
+        }); */
+}
+
+
 
 
 // set the user's data

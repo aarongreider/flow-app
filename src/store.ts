@@ -12,8 +12,8 @@ import {
   applyNodeChanges,
   applyEdgeChanges,
 } from 'reactflow';
+import { getInitialState } from './InitialNodes';
 
-import { initialNodes, initialEdges } from './nodes';
 
 type RFState = {
   nodes: Node[];
@@ -26,23 +26,12 @@ type RFState = {
   updateNodeText: (nodeID: string, props: object) => void;
 };
 
-// Ensure initial nodes and edges exist in localStorage, if not assign inital values
-if (!localStorage.getItem('nodes') || !localStorage.getItem('edges')) {
-  localStorage.setItem('nodes', JSON.stringify(initialNodes))
-  localStorage.setItem('edges', JSON.stringify(initialEdges))
-}
-let lsNode = localStorage.getItem('nodes') ?? ''
-let lsEdge = localStorage.getItem('edges') ?? ''
-
-// Retrieve nodes and edges from localStorage or use initial values
-const storedNodes: Node[] = JSON.parse(lsNode) ?? initialNodes;
-const storedEdges: Edge[] = JSON.parse(lsEdge) ?? initialEdges;
-
+const initial = getInitialState(false)
 
 // this is our useStore hook that we can use in our components to get parts of the store and call actions
 const useStore = create<RFState>((set, get) => ({
-  nodes: storedNodes,
-  edges: storedEdges,
+  nodes: initial.nodes,
+  edges: initial.edges,
   /* REACTFLOW STORE SETTERS */
   onNodesChange: (changes: NodeChange[]) => {
     set({
