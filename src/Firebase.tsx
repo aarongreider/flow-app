@@ -1,9 +1,8 @@
 import { initializeApp } from "firebase/app";
 //import { getAnalytics } from "firebase/analytics";
-import { Edge, Node, } from 'reactflow';
 import useStore from './store';
 
-import { getFirestore, collection, doc, getDoc, setDoc } from "firebase/firestore"; queueMicrotask
+import { getFirestore, doc, getDoc, setDoc } from "firebase/firestore"; queueMicrotask
 import { useState, useEffect } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 
@@ -23,11 +22,8 @@ const app = initializeApp(firebaseConfig);
 // Initialize Cloud Firestore and get a reference to the service
 const db = getFirestore(app);
 
-interface FirebaseProps {
 
-}
-
-function Firebase(props: FirebaseProps) {
+function Firebase() {
     const nodes = useStore((state) => state.nodes);
     const edges = useStore((state) => state.edges);
     const setNodes = useStore((state) => state.setNodes);
@@ -66,7 +62,7 @@ function Firebase(props: FirebaseProps) {
     }, [auth0])
 
     const handleSave = () => {
-        
+
         if (!userID) {
             alert("You must be logged in to use the Cloud Save feature.")
             return;

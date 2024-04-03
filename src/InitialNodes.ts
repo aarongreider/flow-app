@@ -1,7 +1,7 @@
-import {
+/* import {
     Edge,
     Node,
-  } from 'reactflow';
+  } from 'reactflow'; */
 
 export const initialNodes = [
     { id: '1', position: { x: 10, y: 0 }, data: { label: '1' }, type: 'dialogue' },
@@ -11,29 +11,13 @@ export const initialNodes = [
 
 export const initialEdges = [{ id: 'e1-2', source: '1', target: '2', type: 'customEdge' }];
 
-type UserState = {
+/* type UserState = {
     nodes: Node[];
     edges: Edge[];
-  }
+  } */
+
   
-  export function loadInitialState(isAuthenticated: boolean, user?: any) {
-    // this function gets the initial state depending on if the user is logged on or not. 
-  
-    const initial: UserState = { nodes: [], edges: [] }
-    
-    // default: if no logged in user, get or assign cached values
-    /* let cache = getCachedNodes()
-    initial.nodes = cache.nodes;
-    initial.edges = cache.edges; */
-  
-    if (isAuthenticated && user) {
-        // trigger the setting of user data 
-      const userID = user.sub.split("|")[1]
-      //applyUserNodes(userID);
-    }
-  }
-  
-  function getCachedNodes() {
+/*   function getCachedNodes() {
     const cache: UserState = { nodes: [], edges: [] }
     // get cached nodes or assign cached nodes
     if (!localStorage.getItem('nodes') || !localStorage.getItem('edges')) {
@@ -49,4 +33,4 @@ type UserState = {
   
     return cache;
   
-  }
+  } */

@@ -2,7 +2,6 @@ import { useState, useCallback, useEffect } from 'react';
 import ReactFlow, {
   ReactFlowProvider,
   MiniMap,
-  Controls,
   Background,
   SelectionMode,
   Panel
@@ -10,7 +9,6 @@ import ReactFlow, {
 import { shallow } from 'zustand/shallow';
 import useStore from './store';
 import { useAuth0 } from "@auth0/auth0-react";
-import { loadInitialState } from './InitialNodes';
 
 
 import 'reactflow/dist/style.css';
@@ -27,7 +25,6 @@ import './css/components.css';
 import './css/general.css'
 import LoginButton from './LoginButton';
 import LogoutButton from './LogoutButton';
-import Profile from './Profile';
 import Firebase from './Firebase';
 
 
@@ -150,7 +147,7 @@ export default function App() {
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '8px', position: 'absolute', right: '10px', top: '10px', zIndex: 1 }}>
           {auth0.isAuthenticated ? <><LogoutButton /><Firebase /></> : <LoginButton />}
         </div>
-        
+
         <ReactFlow
           onInit={setReactFlowInstance}
           nodes={nodes}
