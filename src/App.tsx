@@ -144,10 +144,13 @@ export default function App() {
 
   return (
     <ReactFlowProvider>
-      <Firebase />
+
       <div style={{ width: '100svw', height: '100svh' }}>
-        {auth0.isAuthenticated ? <LogoutButton /> : <LoginButton />}
-        {auth0.isAuthenticated ? <Profile /> : undefined}
+        
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '8px', position: 'absolute', right: '10px', top: '10px', zIndex: 1 }}>
+          {auth0.isAuthenticated ? <><LogoutButton /><Firebase /></> : <LoginButton />}
+        </div>
+        
         <ReactFlow
           onInit={setReactFlowInstance}
           nodes={nodes}
@@ -163,10 +166,10 @@ export default function App() {
           edgeTypes={edgeTypes}
           fitView
         >
-          <Controls style={{ top: '0', left: 'auto', right: '0', bottom: 'auto', display: 'flex' }} />
+          {/* <Controls style={{ top: '0', left: 'auto', right: '0', bottom: 'auto', display: 'flex' }} /> */}
           {isMobile ? undefined : <MiniMap zoomable pannable />}
           <Background gap={12} size={1} />
-          <Panel position="top-left" style={{ display: "flex", gap: '8px', flexDirection: 'column', left: '10px', top: '10px' }}>
+          <Panel position="top-left" style={{ display: "flex", gap: '8px', flexDirection: 'column',/*  left: '10px', top: '10px' */ }}>
             {isMobile ? undefined : <button onClick={printState}>Print State</button>}
             <button onClick={() => { addNode('dialogue') }} onDragStart={(event) => onDragStart(event, 'dialogue')} draggable>
               <span className="material-symbols-outlined">maps_ugc </span> {isMobile ? undefined : "Add Dialogue"}
