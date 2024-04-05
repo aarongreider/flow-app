@@ -6,15 +6,17 @@ interface InputProps {
     dataKey: string,
     className?: string,
     defaultText: string,
+    onChange?: (val: string) => void,
 }
 
-function Input({ id, dataKey, className, defaultText }: InputProps) {
+function Input({ id, dataKey, className, defaultText, onChange = () => {} }: InputProps) {
     const nodes = useStore((state) => state.nodes);
     const updateNodeText = useStore((state) => state.updateNodeText);
 
     const [textValue, setTextValue] = useState(nodes.find(node => node.id === id)?.data[dataKey] ?? defaultText);
 
     const inputRef = useRef<HTMLInputElement>(null);
+    
 
 
     useEffect(() => {
@@ -30,6 +32,7 @@ function Input({ id, dataKey, className, defaultText }: InputProps) {
             // Now we set the height directly
             inputRef.current.style.width = `${scrollWidth}px`
         }
+        onChange(textValue)
 
     }, [inputRef, textValue])
 
