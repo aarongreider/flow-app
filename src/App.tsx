@@ -4,7 +4,8 @@ import ReactFlow, {
   MiniMap,
   Background,
   SelectionMode,
-  Panel
+  Panel,
+  FitView
 } from 'reactflow';
 import { shallow } from 'zustand/shallow';
 import useStore from './store';
@@ -26,6 +27,7 @@ import './css/general.css'
 import LoginButton from './LoginButton';
 import LogoutButton from './LogoutButton';
 import Firebase from './Firebase';
+import TokenNode from './TokenNode';
 
 
 const selector = (state: any) => ({
@@ -43,6 +45,7 @@ const nodeTypes = {
   exposition: ExpositionNode,
   meta: MetaNode,
   signal: SignalNode,
+  token: TokenNode,
 };
 const edgeTypes = { customEdge: CustomEdge };
 
@@ -62,7 +65,7 @@ export default function App() {
   useEffect(() => {
     // keep tabs on window resizes to check if user is mobile
     const handleResize = () => {
-      setIsMobile(window.innerWidth < 768); // Adjust the width threshold as needed
+      setIsMobile(window.innerWidth < 770); // Adjust the width threshold as needed
     };
 
     handleResize(); // Initial check
@@ -161,8 +164,11 @@ export default function App() {
           selectionMode={SelectionMode.Partial}
           nodeTypes={nodeTypes} // DO NOT FORGET THIS PART
           edgeTypes={edgeTypes}
+          minZoom={.25}
+          maxZoom={2}
           fitView
         >
+        
           {/* <Controls style={{ top: '0', left: 'auto', right: '0', bottom: 'auto', display: 'flex' }} /> */}
           {isMobile ? undefined : <MiniMap zoomable pannable />}
           <Background gap={12} size={1} />
@@ -182,6 +188,9 @@ export default function App() {
             </button>
             <button onClick={() => { addNode('signal') }} onDragStart={(event) => onDragStart(event, 'signal')} draggable>
               <span className="material-symbols-outlined">sensors</span>{isMobile ? undefined : "Add Signal"}
+            </button>
+            <button onClick={() => { addNode('token') }} onDragStart={(event) => onDragStart(event, 'token')} draggable>
+              <span className="material-symbols-outlined">{/* poker_chip */} {/* deployed_code */} key_vertical</span>{isMobile ? undefined : "Add Token"}
             </button>
           </Panel>
         </ReactFlow>

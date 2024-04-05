@@ -16,6 +16,7 @@ function SelectNodeButton(props: ButtonProps) {
             >
                 <div style={{ width: '5px', height: "5px", borderRadius: '50px', backgroundColor: `${props.selected ? 'white' : 'lightgrey'}` }}></div>
             </button>
+            <div style={{height: '65%', width: '25px', right: '-20px', top:'40px' ,/* background: 'red', */ position: "absolute", cursor: 'crosshair'}}></div>
         </>)
 }
 

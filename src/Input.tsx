@@ -41,7 +41,7 @@ function Input({ id, dataKey, className, defaultText }: InputProps) {
     return (
         <>
             <label htmlFor={dataKey} style={{ display: 'none' }} >{dataKey}</label>
-            <input className={className} ref={inputRef} id={dataKey} name={dataKey} onChange={(onChangeInput)} value={textValue} />
+            <input className={` ${className}`} ref={inputRef} id={dataKey} name={dataKey} onChange={(onChangeInput)} value={textValue} />
         </>
     );
 }

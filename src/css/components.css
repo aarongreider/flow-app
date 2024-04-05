@@ -3,6 +3,8 @@
   border: none;
   width: 10px;
   height: 10px;
+  padding: 0 40px;
+  background-clip: content-box;
 }
 .handle.target {
   top: -15px;
@@ -42,7 +44,7 @@
   padding: 0px;
   background-color: white;
   outline: none;
-  box-shadow: rgba(0, 0, 0, 0.2) 0px 1px 3px, rgba(0, 0, 0, 0.15) 0px 2px 8px;
+  filter: drop-shadow(0px 1px 3px rgba(0, 0, 0, 0.2)) drop-shadow(0px 2px 8px rgba(0, 0, 0, 0.15));
 }
 
 .text-receiver-node {
@@ -127,7 +129,7 @@
   color: #777;
 }
 
-.signal-node {
+.signal-node, .token-node {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -142,13 +144,17 @@
   overflow: hidden;
   background-color: #87BC83;
 }
-.signal-node .react-flow__handle.connectionindicator {
+.signal-node .handle, .token-node .handle {
   background-color: white;
-  border: 2px solid #87BC83;
+  filter: drop-shadow(0px 1px 3px rgba(0, 0, 0, 0.2)) drop-shadow(0px 2px 8px rgba(0, 0, 0, 0.15));
 }
-.signal-node input {
+.signal-node input, .token-node input {
   color: white;
   font-weight: 600;
   overflow: visible;
   padding: 1px;
+}
+
+.token-node {
+  background-color: #e8c046;
 }/*# sourceMappingURL=components.css.map */

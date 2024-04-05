@@ -43,7 +43,7 @@ function TextArea({ id, dataKey, className, defaultText }: TextAreaProps) {
     return (
         <>
             <label htmlFor={dataKey} style={{ display: 'none' }} >{dataKey}</label>
-            <textarea className={className} ref={textAreaRef} id={dataKey} name={dataKey} onChange={(onChangeTextArea)} value={textValue} />
+            <textarea className={`nodrag ${className}`} ref={textAreaRef} id={dataKey} name={dataKey} onChange={(onChangeTextArea)} value={textValue} />
         </>
     );
 }
