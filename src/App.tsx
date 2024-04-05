@@ -5,7 +5,6 @@ import ReactFlow, {
   Background,
   SelectionMode,
   Panel,
-  FitView
 } from 'reactflow';
 import { shallow } from 'zustand/shallow';
 import useStore from './store';
