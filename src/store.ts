@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import { User } from "firebase/auth";
 import {
   Connection,
   Edge,
@@ -14,22 +15,29 @@ import {
 } from 'reactflow';
 import { initialNodes, initialEdges } from './InitialNodes';
 
-
+// reactflow default state type
 type RFState = {
   nodes: Node[];
   edges: Edge[];
+  user: User | null;
   onNodesChange: OnNodesChange;
   onEdgesChange: OnEdgesChange;
   onConnect: OnConnect;
   setNodes: (nodes: Node[]) => void;
   setEdges: (edges: Edge[]) => void;
   updateNodeText: (nodeID: string, props: object) => void;
+  updateUser: (user: User) => void;
 };
 
 // this is our useStore hook that we can use in our components to get parts of the store and call actions
 const useStore = create<RFState>((set, get) => ({
+  /* REACTFLOW VARIABLES */
   nodes: initialNodes,
   edges: initialEdges,
+
+  /* CUSTOM VARIABLES */
+  user: null,
+
   /* REACTFLOW STORE SETTERS */
   onNodesChange: (changes: NodeChange[]) => {
     set({
@@ -52,6 +60,7 @@ const useStore = create<RFState>((set, get) => ({
   setEdges: (edges: Edge[]) => {
     set({ edges });
   },
+  
   /* CUSTOM STORE SETTERS */
   updateNodeText: (nodeId: string, props: object) => {
     set({
@@ -64,6 +73,9 @@ const useStore = create<RFState>((set, get) => ({
       }),
     });
   },
+  updateUser: (user: User) => {
+    set({ user })
+  }
 }));
 
 export default useStore;

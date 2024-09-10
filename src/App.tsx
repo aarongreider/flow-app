@@ -8,8 +8,6 @@ import ReactFlow, {
 } from 'reactflow';
 import { shallow } from 'zustand/shallow';
 import useStore from './store';
-import { useAuth0 } from "@auth0/auth0-react";
-
 
 import 'reactflow/dist/style.css';
 
@@ -24,7 +22,7 @@ import CustomEdge from './EdgeButton';
 import './css/components.css';
 import './css/general.css'
 import LoginButton from './LoginButton';
-import LogoutButton from './LogoutButton';
+
 import Firebase from './Firebase';
 import TokenNode from './TokenNode';
 
@@ -52,12 +50,12 @@ export default function App() {
 
   const { nodes, edges, onNodesChange, onEdgesChange, onConnect } = useStore(selector, shallow);
   const setNodes = useStore((state) => state.setNodes);
+
   const [reactFlowInstance, setReactFlowInstance] = useState<any>(null);
   const [idCount, setIdCount] = useState<number>(nodes.length + 1)
 
   const [isMobile, setIsMobile] = useState(false);
-  //const { user, update, isAuthenticated, getAccessTokenSilently } = useAuth0();
-  const auth0 = useAuth0();
+
 
 
   //#region boilerplate and utils
@@ -116,7 +114,6 @@ export default function App() {
     event.dataTransfer.dropEffect = 'move';
     //console.log("drag over", event)
   }, []);
-
   const onDrop = useCallback((event: any) => {
     event.preventDefault();
     //console.log("on drop", event)
@@ -145,10 +142,7 @@ export default function App() {
     <ReactFlowProvider>
 
       <div style={{ width: '100svw', height: '100svh' }}>
-        
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '8px', position: 'absolute', right: '10px', top: '10px', zIndex: 1 }}>
-          {auth0.isAuthenticated ? <><LogoutButton /><Firebase /></> : <LoginButton />}
-        </div>
+        <Firebase />
 
         <ReactFlow
           onInit={setReactFlowInstance}
@@ -167,7 +161,7 @@ export default function App() {
           maxZoom={2}
           fitView
         >
-        
+
           {/* <Controls style={{ top: '0', left: 'auto', right: '0', bottom: 'auto', display: 'flex' }} /> */}
           {isMobile ? undefined : <MiniMap zoomable pannable />}
           <Background gap={12} size={1} />
