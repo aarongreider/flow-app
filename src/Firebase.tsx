@@ -4,7 +4,7 @@ import useStore from './store';
 
 import { getFirestore, doc, getDoc, setDoc } from "firebase/firestore"; queueMicrotask
 import { useState, useEffect } from "react";
-import { getAuth, Auth, GoogleAuthProvider, signInWithPopup, signOut, setPersistence, browserLocalPersistence } from "firebase/auth";
+import { getAuth, Auth, GoogleAuthProvider, signInWithPopup, signOut, setPersistence, browserLocalPersistence, onAuthStateChanged } from "firebase/auth";
 
 const firebaseConfig = {
     apiKey: "AIzaSyAQOWLW33YmcldSc_tpJgpcH9Nl-jXF5Ec",
@@ -22,6 +22,8 @@ const app = initializeApp(firebaseConfig);
 // Initialize Cloud Firestore and get a reference to the service
 const db = getFirestore(app);
 const auth: Auth = getAuth();
+console.log(auth.currentUser);
+
 const provider = new GoogleAuthProvider();
 auth.setPersistence(browserLocalPersistence)
 
@@ -71,6 +73,21 @@ function Firebase() {
             });
         }
     }, [userID])
+
+    useEffect(() => {
+        const unsubscribe = onAuthStateChanged(auth, (user) => {
+            if (user) {
+                console.log("User is logged in:", user);
+                updateUser(user); // Set user in Zustand store
+            } else {
+                console.log("No user logged in.");
+                //@ts-ignore
+                updateUser(null);
+            }
+        });
+
+        return () => unsubscribe(); // Clean up the listener
+    }, [updateUser])
 
     const handleSave = () => {
 
