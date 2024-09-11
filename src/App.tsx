@@ -1,3 +1,4 @@
+//#region imports
 import { useState, useCallback, useEffect } from 'react';
 import ReactFlow, {
   ReactFlowProvider,
@@ -23,9 +24,9 @@ import './css/components.css';
 import './css/general.css'
 import LoginButton from './LoginButton';
 
-import Firebase from './Firebase';
+import Firebase, { fetchPage } from './Firebase';
 import TokenNode from './TokenNode';
-
+//#endregion
 
 const selector = (state: any) => ({
   nodes: state.nodes,
@@ -50,11 +51,13 @@ export default function App() {
 
   const { nodes, edges, onNodesChange, onEdgesChange, onConnect } = useStore(selector, shallow);
   const setNodes = useStore((state) => state.setNodes);
+  const user = useStore((state) => state.user);
 
   const [reactFlowInstance, setReactFlowInstance] = useState<any>(null);
   const [idCount, setIdCount] = useState<number>(nodes.length + 1)
 
   const [isMobile, setIsMobile] = useState(false);
+  const [pageListVisible, setPageListVisible] = useState(false);
 
 
 
@@ -93,6 +96,12 @@ export default function App() {
     localStorage.setItem('nodes', JSON.stringify(nodes));
     localStorage.setItem('edges', JSON.stringify(edges));
   }, [nodes, edges])
+
+  useEffect(() => {
+    console.log("Toggling Page List:", pageListVisible);
+    /* fetchPage(user, "project 1", "page 1") */
+
+  }, [pageListVisible])
 
 
 
@@ -136,6 +145,11 @@ export default function App() {
   },
     [nodes],
   );
+
+  const togglePageList = () => {
+    let toggle = !pageListVisible;
+    setPageListVisible(toggle);
+  }
   //#endregion
 
   return (
@@ -163,8 +177,15 @@ export default function App() {
         >
 
           {/* <Controls style={{ top: '0', left: 'auto', right: '0', bottom: 'auto', display: 'flex' }} /> */}
-          {isMobile ? undefined : <MiniMap zoomable pannable />}
+          {/* {isMobile ? undefined : <MiniMap zoomable pannable />} */}
+          <Panel position="bottom-right" style={{ display: "flex", gap: '8px', flexDirection: 'column', bottom: '10px'}}>
+            <button onClick={togglePageList}>
+              <span className="material-symbols-outlined">description </span>
+            </button>
+          </Panel>
+
           <Background gap={12} size={1} />
+
           <Panel position="top-left" style={{ display: "flex", gap: '8px', flexDirection: 'column',/*  left: '10px', top: '10px' */ }}>
             {isMobile ? undefined : <button onClick={printState}>Print State</button>}
             <button onClick={() => { addNode('dialogue') }} onDragStart={(event) => onDragStart(event, 'dialogue')} draggable>
@@ -186,6 +207,7 @@ export default function App() {
               <span className="material-symbols-outlined">{/* poker_chip */} {/* deployed_code */} key_vertical</span>{isMobile ? undefined : "Add Token"}
             </button>
           </Panel>
+
         </ReactFlow>
       </div>
     </ReactFlowProvider>

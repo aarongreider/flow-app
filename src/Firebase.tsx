@@ -1,10 +1,16 @@
 import { initializeApp } from "firebase/app";
 //import { getAnalytics } from "firebase/analytics";
 import useStore from './store';
+import { Edge, Node, } from 'reactflow';
 
-import { getFirestore, doc, getDoc, setDoc } from "firebase/firestore"; queueMicrotask
+import { getFirestore, doc, getDoc, setDoc, updateDoc } from "firebase/firestore"; queueMicrotask
 import { useState, useEffect } from "react";
-import { getAuth, Auth, GoogleAuthProvider, signInWithPopup, signOut, setPersistence, browserLocalPersistence, onAuthStateChanged } from "firebase/auth";
+import { getAuth, Auth, GoogleAuthProvider, signInWithPopup, signOut, browserLocalPersistence, onAuthStateChanged, User } from "firebase/auth";
+
+type PageFetch = {
+    nodes: Node[];
+    edges: Edge[];
+}
 
 const firebaseConfig = {
     apiKey: "AIzaSyAQOWLW33YmcldSc_tpJgpcH9Nl-jXF5Ec",
@@ -35,46 +41,46 @@ function Firebase() {
     const setEdges = useStore((state) => state.setEdges);
     const updateUser = useStore((state) => state.updateUser);
 
-    const [userID, setUserID] = useState<string>()
     const [error, setError] = useState(null);
 
 
+    useEffect(() => { // if the user is logged in, set the nodes to match what is stored in their user database
 
-    useEffect(() => {
-        // if the user is logged in, set the nodes to match what is stored in their user database
         //TODO: support pages and handle setting the nodes more gracefully
-
-        console.log("getting current user...");
+        // set nodes based on result of firestore request
 
         // manually getting user's data with users uid matched with firebase's dictionary
         // need to find a firebase native way to get a user's data.
-        if (user) {
-            console.log('user', user)
-            const id = user.uid
-            setUserID(id);
-        }
-    }, [user])
 
-    useEffect(() => {
-        if (user) {
-            // set nodes based on result of firestore request
-            const docRef = (doc(db, `flow-users/${userID}`))
-            getDoc(docRef).then((data) => {
-                if (data.exists()) {
-                    console.log('Document data:', data.data());
+        /* if (user) {
+            const docRef = (doc(db, `flow-users/${user.uid}`))
+            getDoc(docRef).then((response) => {
+                if (response.exists()) {
+                    console.log('Document data:', response.data());
                     // set nodes with document data
-                    setNodes([...data.data().nodes])
-                    setEdges([...data.data().edges])
+                    
                 } else {
                     console.log('No such document!');
                 }
             }).catch((error) => {
                 console.error('Error getting document:', error);
             });
-        }
-    }, [userID])
+        } */
 
-    useEffect(() => {
+        const get = async () => {
+            const response = await fetchPage(user, "project 1", "page 1")
+            if (response) {
+                const { edges, nodes } = response;
+                setEdges(edges);
+                setNodes(nodes);
+            }
+        }
+        get();
+
+
+    }, [user])
+
+    useEffect(() => { // properly handle login persistence and changes
         const unsubscribe = onAuthStateChanged(auth, (user) => {
             if (user) {
                 console.log("User is logged in:", user);
@@ -89,21 +95,12 @@ function Firebase() {
         return () => unsubscribe(); // Clean up the listener
     }, [updateUser])
 
-    const handleSave = () => {
-
-        if (!userID) {
-            alert("You must be logged in to use the Cloud Save feature.")
-            return;
+    const handleSave = async () => { // when the user hits the save button
+        try {
+            await setPage(user, "project 1", "page 1", nodes, edges)
+        } catch (error) {
+            console.log("set page error", error);
         }
-
-        const docRef = (doc(db, `flow-users/${userID}`))
-
-        setDoc(docRef, { nodes: [...nodes], edges: [...edges] }, { merge: true })
-            .then(() => {
-                console.log("data written to database", { nodes: [...nodes], edges: [...edges] })
-            }).catch((error) => {
-                console.error('Error setting document:', error);
-            });
     }
 
     const handleGoogleSignIn = async () => {
@@ -154,3 +151,76 @@ function Firebase() {
 }
 
 export default Firebase;
+
+
+
+
+export const fetchPage = async (user: User | null, projectID: string, pageID: string): Promise<PageFetch> => {
+
+    if (user) {
+        const docRef = (doc(db, `flow-users/${user.uid}/projects/${projectID}/pages/${pageID}`))
+
+        try {
+            const response = await getDoc(docRef);
+            if (response.exists()) {
+                console.log('Document data:', response.data());
+                //return response.data() as PageFetch;
+            } else {
+                console.log('No such document!');
+            }
+        } catch (error) {
+            console.error('Error getting document:', error);
+        };
+    }
+
+    return { nodes: [], edges: [] }
+}
+
+export const setPage = async (user: User | null, projectID: string, pageID: string, nodes: Node[], edges: Edge[]) => {
+    if (user) {
+        const docRef = (doc(db, `flow-users/${user.uid}/projects/${projectID}/pages/${pageID}`))
+
+        try {
+            await updateDoc(docRef, { nodes: [...nodes], edges: [...edges] })
+            console.log(`${projectID} ${pageID} updated successfully`);
+        } catch (error) {
+            console.log(error);
+            /* try {
+                setDoc(docRef, { nodes: [...nodes], edges: [...edges] }, { merge: true })
+                    .then(() => {
+                        console.log("data written to database", { nodes: [...nodes], edges: [...edges] })
+                    }).catch((error) => {
+                        console.error('Error setting document:', error);
+                    });
+            } catch (error) {
+                console.log(error);
+                
+            } */
+        }
+    } else {
+        alert("You must be logged in to use the Cloud Save feature.")
+        return;
+    }
+}
+
+export const getProjectList = async (user: User): Promise<string[]> => {
+    /* if (user) {
+        const docRef = (doc(db, `flow-users/${user.uid}/projects`))
+
+        try {
+            const response = await listCollections(docRef);
+            if (response.exists()) {
+                console.log('Document data:', response.data());
+                //return response.data() as PageFetch;
+            } else {
+                console.log('No such document!');
+            }
+        } catch (error) {
+            console.error('Error getting document:', error);
+        };
+    } */
+    return []
+}
+export const getPageList = async (): Promise<string[]> => {
+    return []
+}

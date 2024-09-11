@@ -20,6 +20,8 @@ type RFState = {
   nodes: Node[];
   edges: Edge[];
   user: User | null;
+  projectID: string;
+  pageID: string;
   onNodesChange: OnNodesChange;
   onEdgesChange: OnEdgesChange;
   onConnect: OnConnect;
@@ -27,6 +29,8 @@ type RFState = {
   setEdges: (edges: Edge[]) => void;
   updateNodeText: (nodeID: string, props: object) => void;
   updateUser: (user: User) => void;
+  setProjectID: (id: string) => void;
+  setPageID: (id: string) => void;
 };
 
 // this is our useStore hook that we can use in our components to get parts of the store and call actions
