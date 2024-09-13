@@ -12,20 +12,20 @@ import useStore from './store';
 
 import 'reactflow/dist/style.css';
 
-import DialogueNode from './DialogueNode';
-import ResponseNode from './ResponseNode';
-import ExpositionNode from './ExpositionNode';
-import MetaNode from './MetaNode';
-import SignalNode from './SignalNode';
-import TextReceiverNode from './TextReceiverNode';
-import CustomEdge from './EdgeButton';
+import DialogueNode from './components/DialogueNode';
+import ResponseNode from './components/ResponseNode';
+import ExpositionNode from './components/ExpositionNode';
+import MetaNode from './components/MetaNode';
+import SignalNode from './components/SignalNode';
+import TextReceiverNode from './components/TextReceiverNode';
+import CustomEdge from './components/EdgeButton';
 
 import './css/components.css';
 import './css/general.css'
-import LoginButton from './LoginButton';
+import LoginButton from './components/LoginButton';
 
 import Firebase, { fetchPage } from './Firebase';
-import TokenNode from './TokenNode';
+import TokenNode from './components/TokenNode';
 //#endregion
 
 const selector = (state: any) => ({

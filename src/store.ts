@@ -22,6 +22,7 @@ type RFState = {
   user: User | null;
   projectID: string;
   pageID: string;
+  register: string[];
   onNodesChange: OnNodesChange;
   onEdgesChange: OnEdgesChange;
   onConnect: OnConnect;
@@ -31,6 +32,7 @@ type RFState = {
   updateUser: (user: User) => void;
   setProjectID: (id: string) => void;
   setPageID: (id: string) => void;
+  setRegister: (register: string[]) => void;
 };
 
 // this is our useStore hook that we can use in our components to get parts of the store and call actions
@@ -38,9 +40,11 @@ const useStore = create<RFState>((set, get) => ({
   /* REACTFLOW VARIABLES */
   nodes: initialNodes,
   edges: initialEdges,
-
+  projectID: "project 1",
+  pageID: "page 1",
   /* CUSTOM VARIABLES */
   user: null,
+  register: [],
 
   /* REACTFLOW STORE SETTERS */
   onNodesChange: (changes: NodeChange[]) => {
@@ -64,7 +68,7 @@ const useStore = create<RFState>((set, get) => ({
   setEdges: (edges: Edge[]) => {
     set({ edges });
   },
-  
+
   /* CUSTOM STORE SETTERS */
   updateNodeText: (nodeId: string, props: object) => {
     set({
@@ -78,8 +82,17 @@ const useStore = create<RFState>((set, get) => ({
     });
   },
   updateUser: (user: User) => {
-    set({ user })
-  }
+    set({ user });
+  },
+  setProjectID: (id: string) => {
+    set({ projectID: id });
+  },
+  setPageID: (id: string) => {
+    set({ pageID: id });
+  },
+  setRegister: (register: string[]) => {
+    set({register})
+  },
 }));
 
 export default useStore;

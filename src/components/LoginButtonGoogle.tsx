@@ -1,13 +1,9 @@
 import { signInWithRedirect, GoogleAuthProvider, getRedirectResult } from "firebase/auth";
 import { useEffect, useState } from "react";
-import useStore from './store';
-import auth from './Firebase';
+import auth from '../Firebase';
 
 
 const LoginButtonGoogle = () => {
-    const user = useStore((state) => state.user);
-    const updateUser = useStore((state) => state.updateUser);
-
     const [error, setError] = useState(null);
 
     const handleGoogleSignIn = async () => {

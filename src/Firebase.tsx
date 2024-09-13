@@ -2,15 +2,11 @@ import { initializeApp } from "firebase/app";
 //import { getAnalytics } from "firebase/analytics";
 import useStore from './store';
 import { Edge, Node, } from 'reactflow';
+import { PageFetch } from "./types";
 
-import { getFirestore, doc, getDoc, setDoc, updateDoc } from "firebase/firestore"; queueMicrotask
+import { getFirestore, doc, getDoc, updateDoc } from "firebase/firestore"; queueMicrotask
 import { useState, useEffect } from "react";
 import { getAuth, Auth, GoogleAuthProvider, signInWithPopup, signOut, browserLocalPersistence, onAuthStateChanged, User } from "firebase/auth";
-
-type PageFetch = {
-    nodes: Node[];
-    edges: Edge[];
-}
 
 const firebaseConfig = {
     apiKey: "AIzaSyAQOWLW33YmcldSc_tpJgpcH9Nl-jXF5Ec",
@@ -37,6 +33,8 @@ function Firebase() {
     const nodes = useStore((state) => state.nodes);
     const edges = useStore((state) => state.edges);
     const user = useStore((state) => state.user);
+    const projectID = useStore((state) => state.projectID);
+    const pageID = useStore((state) => state.pageID);
     const setNodes = useStore((state) => state.setNodes);
     const setEdges = useStore((state) => state.setEdges);
     const updateUser = useStore((state) => state.updateUser);
@@ -52,23 +50,12 @@ function Firebase() {
         // manually getting user's data with users uid matched with firebase's dictionary
         // need to find a firebase native way to get a user's data.
 
-        /* if (user) {
-            const docRef = (doc(db, `flow-users/${user.uid}`))
-            getDoc(docRef).then((response) => {
-                if (response.exists()) {
-                    console.log('Document data:', response.data());
-                    // set nodes with document data
-                    
-                } else {
-                    console.log('No such document!');
-                }
-            }).catch((error) => {
-                console.error('Error getting document:', error);
-            });
-        } */
-
         const get = async () => {
-            const response = await fetchPage(user, "project 1", "page 1")
+            console.log("fetching page...");
+            
+            const response = await fetchPage(user, projectID, pageID)
+            console.log("recieved response", response);
+            
             if (response) {
                 const { edges, nodes } = response;
                 setEdges(edges);
@@ -76,8 +63,6 @@ function Firebase() {
             }
         }
         get();
-
-
     }, [user])
 
     useEffect(() => { // properly handle login persistence and changes
@@ -97,7 +82,7 @@ function Firebase() {
 
     const handleSave = async () => { // when the user hits the save button
         try {
-            await setPage(user, "project 1", "page 1", nodes, edges)
+            await setPage(user, projectID, pageID, nodes, edges)
         } catch (error) {
             console.log("set page error", error);
         }
@@ -164,7 +149,7 @@ export const fetchPage = async (user: User | null, projectID: string, pageID: st
             const response = await getDoc(docRef);
             if (response.exists()) {
                 console.log('Document data:', response.data());
-                //return response.data() as PageFetch;
+                return response.data() as PageFetch;
             } else {
                 console.log('No such document!');
             }
