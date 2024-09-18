@@ -14,6 +14,7 @@ import {
   applyEdgeChanges,
 } from 'reactflow';
 import { initialNodes, initialEdges } from './InitialNodes';
+import { Register } from './types';
 
 // reactflow default state type
 type RFState = {
@@ -22,7 +23,7 @@ type RFState = {
   user: User | null;
   projectID: string;
   pageID: string;
-  register: string[];
+  register: Register;
   onNodesChange: OnNodesChange;
   onEdgesChange: OnEdgesChange;
   onConnect: OnConnect;
@@ -32,7 +33,7 @@ type RFState = {
   updateUser: (user: User) => void;
   setProjectID: (id: string) => void;
   setPageID: (id: string) => void;
-  setRegister: (register: string[]) => void;
+  setRegister: (register: Register) => void;
 };
 
 // this is our useStore hook that we can use in our components to get parts of the store and call actions
@@ -44,7 +45,10 @@ const useStore = create<RFState>((set, get) => ({
   pageID: "page 1",
   /* CUSTOM VARIABLES */
   user: null,
-  register: [],
+  register: {
+    project1: ['page1', 'page2', 'page3'],
+    project2: ['page1', 'page2', 'page3'],
+},
 
   /* REACTFLOW STORE SETTERS */
   onNodesChange: (changes: NodeChange[]) => {
@@ -90,7 +94,7 @@ const useStore = create<RFState>((set, get) => ({
   setPageID: (id: string) => {
     set({ pageID: id });
   },
-  setRegister: (register: string[]) => {
+  setRegister: (register: Register) => {
     set({register})
   },
 }));

@@ -20,12 +20,12 @@ import SignalNode from './components/SignalNode';
 import TextReceiverNode from './components/TextReceiverNode';
 import CustomEdge from './components/EdgeButton';
 
-import './css/components.css';
+import './css/nodeStyles.css';
 import './css/general.css'
-import LoginButton from './components/LoginButton';
 
 import Firebase, { fetchPage } from './Firebase';
 import TokenNode from './components/TokenNode';
+import ProjectsPopup from './components/ProjectsPopup';
 //#endregion
 
 const selector = (state: any) => ({
@@ -51,13 +51,12 @@ export default function App() {
 
   const { nodes, edges, onNodesChange, onEdgesChange, onConnect } = useStore(selector, shallow);
   const setNodes = useStore((state) => state.setNodes);
-  const user = useStore((state) => state.user);
 
   const [reactFlowInstance, setReactFlowInstance] = useState<any>(null);
   const [idCount, setIdCount] = useState<number>(nodes.length + 1)
 
   const [isMobile, setIsMobile] = useState(false);
-  const [pageListVisible, setPageListVisible] = useState(false);
+  const [registerVisible, setRegisterVisible] = useState(false);
 
 
 
@@ -96,12 +95,6 @@ export default function App() {
     localStorage.setItem('nodes', JSON.stringify(nodes));
     localStorage.setItem('edges', JSON.stringify(edges));
   }, [nodes, edges])
-
-  useEffect(() => {
-    console.log("Toggling Page List:", pageListVisible);
-    /* fetchPage(user, "project 1", "page 1") */
-
-  }, [pageListVisible])
 
 
 
@@ -147,8 +140,8 @@ export default function App() {
   );
 
   const togglePageList = () => {
-    let toggle = !pageListVisible;
-    setPageListVisible(toggle);
+    let toggle = !registerVisible;
+    setRegisterVisible(toggle);
   }
   //#endregion
 
@@ -157,6 +150,7 @@ export default function App() {
 
       <div style={{ width: '100svw', height: '100svh' }}>
         <Firebase />
+        <ProjectsPopup visible={registerVisible}/>
 
         <ReactFlow
           onInit={setReactFlowInstance}
