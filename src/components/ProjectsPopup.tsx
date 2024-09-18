@@ -9,7 +9,7 @@ interface PopupProps {
 function ProjectsPopup({visible}: PopupProps) {
     const register = useStore((state) => state.register);
     return <>
-        <div className={visible ? 'visible' : 'hidden'} style={{zIndex: 100, position: 'absolute'}}>
+        <div className={visible ? 'projectPopup' : 'hidden'} style={{zIndex: 100, position: 'absolute'}}>
             <h1 className='ProjectsPopup'>Projects</h1>
             <ul>
                 {Object.keys(register).map((project) => (
@@ -31,7 +31,7 @@ interface ProjectWidgetProps {
 function ProjectWidget({name, pages}: ProjectWidgetProps) {
     //const register = useStore((state) => state.register);
     return <>
-        <li>{name}
+        <li className='toggleItem'>{name}
             <ul>
                 {pages.map((page) => (
                     <li key={page}>{page}</li>

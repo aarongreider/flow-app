@@ -20,8 +20,9 @@ import SignalNode from './components/SignalNode';
 import TextReceiverNode from './components/TextReceiverNode';
 import CustomEdge from './components/EdgeButton';
 
-import './css/nodeStyles.css';
 import './css/general.css'
+import './css/components.css'
+import './css/nodeStyles.css';
 
 import Firebase, { fetchPage } from './Firebase';
 import TokenNode from './components/TokenNode';
