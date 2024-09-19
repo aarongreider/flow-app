@@ -34,6 +34,7 @@ type RFState = {
   setProjectID: (id: string) => void;
   setPageID: (id: string) => void;
   setRegister: (register: Register) => void;
+  updateRegisterItem: (project: string, oldPageName: string, newPageName: string) => void;
 };
 
 // this is our useStore hook that we can use in our components to get parts of the store and call actions
@@ -41,14 +42,11 @@ const useStore = create<RFState>((set, get) => ({
   /* REACTFLOW VARIABLES */
   nodes: initialNodes,
   edges: initialEdges,
-  projectID: "project 1",
+  projectID: "default project",
   pageID: "page 1",
   /* CUSTOM VARIABLES */
   user: null,
-  register: {
-    project1: ['page1', 'page2', 'page3'],
-    project2: ['page1', 'page2', 'page3'],
-},
+  register: {},
 
   /* REACTFLOW STORE SETTERS */
   onNodesChange: (changes: NodeChange[]) => {
@@ -95,7 +93,20 @@ const useStore = create<RFState>((set, get) => ({
     set({ pageID: id });
   },
   setRegister: (register: Register) => {
-    set({register})
+    set({ register })
+  },
+  updateRegisterItem: (projectID: string, oldPageID: string, newPageID: string) => {
+    const newRegister = { ...get().register };
+
+    // Find the project array and rename the page, if found
+    if (newRegister[projectID]) {
+      newRegister[projectID] = newRegister[projectID].map(page =>
+        page === oldPageID ? newPageID : page
+      );
+    }
+    console.log(`updated register item`, newRegister);
+
+    set({ register: newRegister })
   },
 }));
 

@@ -151,7 +151,7 @@ export default function App() {
 
       <div style={{ width: '100svw', height: '100svh' }}>
         <Firebase />
-        <ProjectsPopup visible={registerVisible}/>
+        <ProjectsPopup visible={registerVisible} toggleVisible={togglePageList}/>
 
         <ReactFlow
           onInit={setReactFlowInstance}
@@ -174,7 +174,7 @@ export default function App() {
           {/* <Controls style={{ top: '0', left: 'auto', right: '0', bottom: 'auto', display: 'flex' }} /> */}
           {/* {isMobile ? undefined : <MiniMap zoomable pannable />} */}
           <Panel position="bottom-right" style={{ display: "flex", gap: '8px', flexDirection: 'column', bottom: '10px'}}>
-            <button onClick={togglePageList}>
+            <button onClick={togglePageList} style={{zIndex: 101}}>
               <span className="material-symbols-outlined">description </span>
             </button>
           </Panel>

@@ -2,9 +2,9 @@ import { initializeApp } from "firebase/app";
 //import { getAnalytics } from "firebase/analytics";
 import useStore from './store';
 import { Edge, Node, } from 'reactflow';
-import { PageFetch } from "./types";
+import { MetadataFetch, PageFetch } from "./types";
 
-import { getFirestore, doc, getDoc, updateDoc } from "firebase/firestore"; queueMicrotask
+import { getFirestore, doc, getDoc, updateDoc, setDoc } from "firebase/firestore"; queueMicrotask
 import { useState, useEffect } from "react";
 import { getAuth, Auth, GoogleAuthProvider, signInWithPopup, signOut, browserLocalPersistence, onAuthStateChanged, User } from "firebase/auth";
 
@@ -35,9 +35,11 @@ function Firebase() {
     const user = useStore((state) => state.user);
     const projectID = useStore((state) => state.projectID);
     const pageID = useStore((state) => state.pageID);
+    const register = useStore((state) => state.register);
     const setNodes = useStore((state) => state.setNodes);
     const setEdges = useStore((state) => state.setEdges);
     const updateUser = useStore((state) => state.updateUser);
+    const setRegister = useStore((state) => state.setRegister);
 
     const [error, setError] = useState(null);
 
@@ -49,17 +51,24 @@ function Firebase() {
 
         // manually getting user's data with users uid matched with firebase's dictionary
         // need to find a firebase native way to get a user's data.
-
+  
         const get = async () => {
             console.log("fetching page...");
-            
+
             const response = await fetchPage(user, projectID, pageID)
             console.log("recieved response", response);
-            
+
+            const metadata = await fetchMetadata(user);
+            console.log("recieved metadata", metadata);
+
             if (response) {
                 const { edges, nodes } = response;
                 setEdges(edges);
                 setNodes(nodes);
+            }
+            if (metadata) {
+                const {register} = metadata;
+                setRegister(register)
             }
         }
         get();
@@ -80,8 +89,23 @@ function Firebase() {
         return () => unsubscribe(); // Clean up the listener
     }, [updateUser])
 
+
+    const syncRegister = async () => {
+        if (user) {
+            const docRef = (doc(db, `flow-users/${user.uid}`))
+
+            try {
+                await updateDoc(docRef, { register })
+                console.log(`register updated successfully`);
+            } catch (error) {
+                console.log(error);
+            }
+        }
+    }
+
     const handleSave = async () => { // when the user hits the save button
         try {
+            await syncRegister();
             await setPage(user, projectID, pageID, nodes, edges)
         } catch (error) {
             console.log("set page error", error);
@@ -160,8 +184,31 @@ export const fetchPage = async (user: User | null, projectID: string, pageID: st
 
     return { nodes: [], edges: [] }
 }
+export const fetchMetadata = async (user: User | null): Promise<MetadataFetch> => {
+    // fetch all metadata, including the register and all tokens
+
+    if (user) {
+        const docRef = (doc(db, `flow-users/${user.uid}`))
+
+        try {
+            const response = await getDoc(docRef);
+            if (response.exists()) {
+                console.log('Document data:', response.data());
+                return response.data() as MetadataFetch;
+            } else {
+                console.log('No such document!');
+            }
+        } catch (error) {
+            console.error('Error getting document:', error);
+        };
+    }
+
+    return { register: {}, tokens:"dummy token" }
+}
 
 export const setPage = async (user: User | null, projectID: string, pageID: string, nodes: Node[], edges: Edge[]) => {
+    // if the user is logged in, attempt to update the nodes and edges of the specified page within the project 
+    // if updateDoc runs an error, then use setDoc. this is for efficiency and data saving
     if (user) {
         const docRef = (doc(db, `flow-users/${user.uid}/projects/${projectID}/pages/${pageID}`))
 
@@ -170,42 +217,20 @@ export const setPage = async (user: User | null, projectID: string, pageID: stri
             console.log(`${projectID} ${pageID} updated successfully`);
         } catch (error) {
             console.log(error);
-            /* try {
+            try {
                 setDoc(docRef, { nodes: [...nodes], edges: [...edges] }, { merge: true })
                     .then(() => {
-                        console.log("data written to database", { nodes: [...nodes], edges: [...edges] })
+                        console.log(`${projectID} ${pageID} set successfully`, { nodes: [...nodes], edges: [...edges] })
                     }).catch((error) => {
                         console.error('Error setting document:', error);
                     });
             } catch (error) {
                 console.log(error);
                 
-            } */
+            }
         }
     } else {
         alert("You must be logged in to use the Cloud Save feature.")
         return;
     }
-}
-
-export const getProjectList = async (user: User): Promise<string[]> => {
-    /* if (user) {
-        const docRef = (doc(db, `flow-users/${user.uid}/projects`))
-
-        try {
-            const response = await listCollections(docRef);
-            if (response.exists()) {
-                console.log('Document data:', response.data());
-                //return response.data() as PageFetch;
-            } else {
-                console.log('No such document!');
-            }
-        } catch (error) {
-            console.error('Error getting document:', error);
-        };
-    } */
-    return []
-}
-export const getPageList = async (): Promise<string[]> => {
-    return []
 }

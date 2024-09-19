@@ -6,6 +6,11 @@ export type PageFetch = {
     edges: Edge[];
 }
 
+export type MetadataFetch = {
+    register: Register;
+    tokens: string;
+}
+
 export type Register = {
     [project: string]: string[];
 }

@@ -1,14 +1,78 @@
-.projectPopup {
-    display: flex;
-    flex-direction: column;
+$hover-transition: background-color 100ms ease-out;
+
+.projectPopupContainer {
+    position: absolute;
     align-items: center;
-    background: white;
-    border: 1.5px solid lightgrey;
-    border-radius: 10px;
-    padding: 20px;
-    min-width: 360px;
+    justify-content: center;
+    width: 100svw;
+    height: 100svh;
+    z-index: 50;
+    background-color: rgba(0, 0, 0, 0.38);
+    backdrop-filter: blur(2px);
+
+
+    .projectPopup {
+        display: flex;
+        flex-direction: column;
+        min-width: 360px;
+        height: min-content;
+        max-height: 80svh;
+        scroll-behavior: smooth;
+        padding: 20px;
+        margin-bottom: 10%;
+
+        background: white;
+        border: 1.5px solid lightgrey;
+        border-radius: 10px;
+
+        h1 {
+            margin: 0;
+        }
+
+        ul {
+            margin-bottom: 10px;
+
+            ul {
+                padding: 8px 0 0 12px;
+                list-style-type: none;
+            }
+        }
+
+        li {
+            cursor: pointer;
+
+            li {
+                border-top: 1px solid #d8d8d8;
+                padding: 4px;
+                display: flex;
+                justify-content: space-between;
+                transition: $hover-transition;
+
+                &:hover {
+                    background-color: #f2f2f2;
+                }
+            }
+
+
+            li:last-child {
+                border-bottom: 1px solid #d8d8d8;
+            }
+        }
+
+        li::marker {
+            font-size: .7em;
+        }
+    }
 }
 
-.toggleItem {
-    width: 100%;
+.pageToolbar {
+    span {
+        font-size: 1em;
+        padding: 3px;
+        border-radius: 5px;
+        transition:  $hover-transition;
+        &:hover {
+            background-color: #d8d8d8;
+        }
+    }
 }
