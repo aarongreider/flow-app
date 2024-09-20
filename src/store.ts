@@ -14,7 +14,8 @@ import {
   applyEdgeChanges,
 } from 'reactflow';
 import { initialNodes, initialEdges } from './InitialNodes';
-import { Register } from './types';
+import { getPageIndex, getProjectIndex, Project } from './types';
+import { nanoid } from 'nanoid';
 
 // reactflow default state type
 type RFState = {
@@ -23,7 +24,7 @@ type RFState = {
   user: User | null;
   projectID: string;
   pageID: string;
-  register: Register;
+  register: Project[];
   onNodesChange: OnNodesChange;
   onEdgesChange: OnEdgesChange;
   onConnect: OnConnect;
@@ -33,8 +34,8 @@ type RFState = {
   updateUser: (user: User) => void;
   setProjectID: (id: string) => void;
   setPageID: (id: string) => void;
-  setRegister: (register: Register) => void;
-  updateRegisterItem: (project: string, oldPageName: string, newPageName: string) => void;
+  setRegister: (register: Project[]) => void;
+  updatePageName: (project: string, oldPageName: string, newPageName: string) => void;
 };
 
 // this is our useStore hook that we can use in our components to get parts of the store and call actions
@@ -42,11 +43,20 @@ const useStore = create<RFState>((set, get) => ({
   /* REACTFLOW VARIABLES */
   nodes: initialNodes,
   edges: initialEdges,
-  projectID: "default project",
+  projectID: "project 1",
   pageID: "page 1",
   /* CUSTOM VARIABLES */
   user: null,
-  register: {},
+  register: [
+    {
+        name: 'project 1',
+        pages: [{ name: 'page1', key: nanoid() }, { name: 'page2', key: nanoid() }, { name: 'page3', key: nanoid() },]
+    },
+    {
+        name: 'project 2',
+        pages: [{ name: 'page1', key: nanoid() }, { name: 'page2', key: nanoid() }, { name: 'page3', key: nanoid() },]
+    },
+],
 
   /* REACTFLOW STORE SETTERS */
   onNodesChange: (changes: NodeChange[]) => {
@@ -90,23 +100,29 @@ const useStore = create<RFState>((set, get) => ({
     set({ projectID: id });
   },
   setPageID: (id: string) => {
+    console.log(id);
+
     set({ pageID: id });
   },
-  setRegister: (register: Register) => {
+  setRegister: (register: Project[]) => {
     set({ register })
   },
-  updateRegisterItem: (projectID: string, oldPageID: string, newPageID: string) => {
-    const newRegister = { ...get().register };
+  updatePageName: (projectName: string, oldPageName: string, newPageName: string, ) => {
+    const register = [ ...get().register ]
+    console.log("register before:", register);
 
-    // Find the project array and rename the page, if found
-    if (newRegister[projectID]) {
-      newRegister[projectID] = newRegister[projectID].map(page =>
-        page === oldPageID ? newPageID : page
-      );
-    }
-    console.log(`updated register item`, newRegister);
+    console.log(projectName, newPageName, );
+    
 
-    set({ register: newRegister })
+    const projectIndex = getProjectIndex(register, projectName);
+    const pageIndex = getPageIndex(register, projectIndex, oldPageName);
+    console.log("project index: ",  projectIndex, "page index: ", pageIndex);
+    
+    register[projectIndex].pages[pageIndex].name = newPageName
+
+    console.log("register after:", register);
+
+    set({ register })
   },
 }));
 

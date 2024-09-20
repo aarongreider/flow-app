@@ -53,7 +53,7 @@ function Firebase() {
         // need to find a firebase native way to get a user's data.
   
         const get = async () => {
-            console.log("fetching page...");
+            console.log("fetching page...", projectID, pageID);
 
             const response = await fetchPage(user, projectID, pageID)
             console.log("recieved response", response);
@@ -68,11 +68,11 @@ function Firebase() {
             }
             if (metadata) {
                 const {register} = metadata;
-                setRegister(register)
+                //setRegister(register)
             }
         }
         get();
-    }, [user])
+    }, [user, pageID])
 
     useEffect(() => { // properly handle login persistence and changes
         const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -180,6 +180,9 @@ export const fetchPage = async (user: User | null, projectID: string, pageID: st
         } catch (error) {
             console.error('Error getting document:', error);
         };
+    } else {
+        console.log(`no user!`);
+        
     }
 
     return { nodes: [], edges: [] }
@@ -203,7 +206,7 @@ export const fetchMetadata = async (user: User | null): Promise<MetadataFetch> =
         };
     }
 
-    return { register: {}, tokens:"dummy token" }
+    return { register: [], tokens:"dummy token" }
 }
 
 export const setPage = async (user: User | null, projectID: string, pageID: string, nodes: Node[], edges: Edge[]) => {

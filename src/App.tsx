@@ -27,6 +27,7 @@ import './css/nodeStyles.css';
 import Firebase, { fetchPage } from './Firebase';
 import TokenNode from './components/TokenNode';
 import ProjectsPopup from './components/ProjectsPopup';
+import { nanoid } from 'nanoid';
 //#endregion
 
 const selector = (state: any) => ({
@@ -52,6 +53,7 @@ export default function App() {
 
   const { nodes, edges, onNodesChange, onEdgesChange, onConnect } = useStore(selector, shallow);
   const setNodes = useStore((state) => state.setNodes);
+  const updatePageName = useStore((state) => state.updatePageName);
 
   const [reactFlowInstance, setReactFlowInstance] = useState<any>(null);
   const [idCount, setIdCount] = useState<number>(nodes.length + 1)
@@ -104,7 +106,7 @@ export default function App() {
   }
 
   const addNode = (type: string, xPos: number = 0, yPos: number = 100) => {
-    setNodes([...nodes, { id: `${idCount}`, position: { x: xPos, y: yPos }, data: {}, type: type }])
+    setNodes([...nodes, { id: nanoid(), position: { x: xPos, y: yPos }, data: {}, type: type }])
   }
 
   const onDragStart = (event: any, nodeType: any) => {
@@ -144,6 +146,12 @@ export default function App() {
     let toggle = !registerVisible;
     setRegisterVisible(toggle);
   }
+
+  const doThing = () =>{
+    //console.log(findProjectKeyFromName('project 1'))
+    
+    updatePageName("project 1", "new page", "page 1")
+  }
   //#endregion
 
   return (
@@ -175,7 +183,10 @@ export default function App() {
           {/* {isMobile ? undefined : <MiniMap zoomable pannable />} */}
           <Panel position="bottom-right" style={{ display: "flex", gap: '8px', flexDirection: 'column', bottom: '10px'}}>
             <button onClick={togglePageList} style={{zIndex: 101}}>
-              <span className="material-symbols-outlined">description </span>
+              <span className="material-symbols-outlined">description</span>
+            </button>
+            <button onClick={doThing} style={{zIndex: 101}}>
+              <span className="material-symbols-outlined">token</span>
             </button>
           </Panel>
 

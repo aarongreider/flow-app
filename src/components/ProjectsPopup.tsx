@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import useStore from '../store';
+import { setPage } from '../Firebase';
+import { Page, Project } from '../types';
 
 interface PopupProps {
     visible: boolean
@@ -21,8 +23,8 @@ function ProjectsPopup({ visible, toggleVisible }: PopupProps) {
                 </button>
                 <h1 className='ProjectsPopup'>Projects</h1>
                 <ul>
-                    {Object.keys(register).map((project) => (
-                        <ProjectWidget key={project} project={project} pages={register[project]}></ProjectWidget>
+                    {register.map((project) => (
+                        <ProjectWidget key={project.name} projectName={project.name} pages={register[0].pages}></ProjectWidget>
                     ))}
                 </ul>
             </div>
@@ -33,16 +35,16 @@ function ProjectsPopup({ visible, toggleVisible }: PopupProps) {
 export default ProjectsPopup;
 
 interface ProjectWidgetProps {
-    project: string;
-    pages: string[];
+    projectName: string;
+    pages: Page[];
 }
 
-function ProjectWidget({ project, pages }: ProjectWidgetProps) {
+function ProjectWidget({ projectName, pages }: ProjectWidgetProps) {
     const setRegister = useStore((state) => state.setRegister);
     const [toggled, setToggled] = useState<boolean>(false)
 
     const addPage = () => {
-
+        // update register to 
     }
 
 
@@ -50,12 +52,12 @@ function ProjectWidget({ project, pages }: ProjectWidgetProps) {
         {/* classname toggle is used to designate which elements will toggle the pages */}
         <li className='toggle' onClick={(e) => { if (e.target instanceof Element && e.target.classList.contains("toggle")) { setToggled(!toggled) } }} style={{ listStyleType: `${toggled ? "disclosure-open" : "disclosure-closed"}` }}>
             <div className="toggle" style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                {project}
+                {projectName}
                 <span onClick={addPage} className="material-symbols-outlined">add</span>
             </div>
             <ul style={{ display: `${toggled ? 'block' : 'none'}` }}>
                 {pages.map((page) => (
-                    <PageWidget key={page} project={project} page={page}></PageWidget>
+                    <PageWidget key={page.name} project={projectName} page={page.name}></PageWidget>
                 ))}
             </ul>
         </li>
@@ -71,15 +73,16 @@ function PageWidget({ project, page }: PageWidgetProps) {
     const [isRenaming, setIsRenaming] = useState<boolean>(false)
     const [pageName, setPageName] = useState<string>(page)
 
-    const updateRegisterItem = useStore((state) => state.updateRegisterItem);
-
+    const setPageID = useStore((state) => state.setPageID);
+    const updatePageName = useStore((state) => state.updatePageName);
+ 
     const renamePage = (newName: string) => {
-        updateRegisterItem(project, pageName, newName)
+        updatePageName(project, pageName, newName)
         setPageName(newName)
     }
 
     return <>
-        <li key={page}>
+        <li key={page} onClick={()=> {setPageID(page)}}>
 
             {/* conditionally display the input field when isRenaming is true */}
             {isRenaming ? (<>
