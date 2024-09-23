@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import useStore from '../store';
-import { Page } from '../types';
+import { Project, Page } from '../types';
 import { Link } from 'react-router-dom';
 
 interface PopupProps {
@@ -34,8 +34,17 @@ export function ProjectHome() {
 
 function ProjectSelect() {
     const register = useStore((state) => state.register);
+    const addProject = useStore((state) => state.addProject);
+    const handleAddProject = () => {
+        const response = prompt('New Project Name:');
+        if (response) {
+            addProject(response)
+        }
+    }
     return <>
-        <h1>Projects</h1>
+        <h1 style={{ display: "flex", alignItems: 'center', gap: '.5em' }}>Projects
+            <span style={{ fontSize: '1em' }} className="material-symbols-outlined toolbarButton" onClick={handleAddProject}>add</span>
+        </h1>
         <ul>
             {register.map((project) => (
                 <ProjectWidget key={project.name} projectName={project.name} pages={project.pages}></ProjectWidget>
@@ -61,6 +70,7 @@ function ProjectWidget({ projectName, pages }: ProjectWidgetProps) {
             addPage(projectName, response)
         }
     }
+
     return <>
         {/* classname toggle is used to designate which elements will toggle the pages */}
         <li className='toggle' style={{ listStyleType: `${toggled ? "disclosure-open" : "disclosure-closed"}` }} onClick={(e) => {
@@ -69,12 +79,13 @@ function ProjectWidget({ projectName, pages }: ProjectWidgetProps) {
         }}>
             <div className="toggle" style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                 {projectName}
-                <span onClick={handleAddPage} className="material-symbols-outlined">add</span>
+                <span onClick={handleAddPage} className="material-symbols-outlined toolbarButton">add</span>
             </div>
             <ul style={{ display: `${toggled ? 'block' : 'none'}` }}>
-                {pages.map((page) => (
+                {pages.length == 0 ? <li><i style={{ fontFamily: "IvyJournal", color: 'grey' }}>{`No pages yet :)`}</i></li> : pages.map((page) => (
                     <PageWidget key={page.key} project={projectName} page={page}></PageWidget>
                 ))}
+
             </ul>
         </li>
     </>
@@ -83,7 +94,7 @@ function ProjectWidget({ projectName, pages }: ProjectWidgetProps) {
 
 
 interface PageWidgetProps {
-    project: string;
+    project: Project;
     page: Page;
 }
 
@@ -125,7 +136,7 @@ function PageWidget({ project, page }: PageWidgetProps) {
 
                 <div className='pageToolbar' style={{ display: "flex", gap: "2px", alignItems: "center" }}>
                     {/* <span className="material-symbols-outlined">more_horiz</span> */}
-                    <span style={{ fontSize: "1em" }} className="material-symbols-outlined" onClick={() => setIsRenaming(!isRenaming)}>
+                    <span style={{ fontSize: "1em" }} className="material-symbols-outlined toolbarButton" onClick={() => setIsRenaming(!isRenaming)}>
                         {isRenaming ? "check" : "edit"}
                     </span>
                     {/* <span className="material-symbols-outlined">chevron_right</span> */}

@@ -12,7 +12,7 @@ export type MetadataFetch = {
 }
 
 export type PagePath = {
-    projectKey: string, 
+    projectKey: string,
     pageKey: string
 }
 
@@ -20,18 +20,22 @@ export type PagePath = {
     { name: string, pages: Page[] }
 ] */
 
-export type Project = { name: string, pages: Page[] }
+export type Project = { name: string, key: string, pages: Page[], tokens?: string[] }
 
 export type Page = { name: string, key: string }
 
 const register: Project[] = [
     {
         name: 'project 1',
-        pages: [{ name: 'page1', key: nanoid() }, { name: 'page2', key: nanoid() }, { name: 'page3', key: nanoid() },]
+        key: nanoid(),
+        pages: [{ name: 'page1', key: nanoid() }, { name: 'page2', key: nanoid() }, { name: 'page3', key: nanoid() },],
+        tokens: ['tokenKey1', 'tokenKey2'],
     },
     {
         name: 'project 2',
-        pages: [{ name: 'page1', key: nanoid() }, { name: 'page2', key: nanoid() }, { name: 'page3', key: nanoid() },]
+        key: nanoid(),
+        pages: [{ name: 'page1', key: nanoid() }, { name: 'page2', key: nanoid() }, { name: 'page3', key: nanoid() },],
+        tokens: ['tokenKey1', 'tokenKey2'],
     },
 ]
 

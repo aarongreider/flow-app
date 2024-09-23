@@ -35,6 +35,7 @@ type RFState = {
   setRegister: (register: Project[]) => void;
   updatePageName: (project: string, oldPageName: string, newPageName: string) => void;
   addPage: (projectName: string, pageName: string, pageKey?: string) => void;
+  addProject: (projectName: string, projectKey?: string, pages?: Page[]) => void;
 };
 
 // this is our useStore hook that we can use in our components to get parts of the store and call actions
@@ -45,7 +46,16 @@ const useStore = create<RFState>((set, get) => ({
   activePath: undefined, //{projectKey: '', pageKey: ''},
   /* CUSTOM VARIABLES */
   user: null,
-  register: [],
+  register: [], /* [
+    {
+        name: 'project 1',
+        pages: [{ name: 'page1', key: nanoid() }, { name: 'page2', key: nanoid() }, { name: 'page3', key: nanoid() },]
+    },
+    {
+        name: 'project 2',
+        pages: [{ name: 'page1', key: nanoid() }, { name: 'page2', key: nanoid() }, { name: 'page3', key: nanoid() },]
+    },
+], */
 
   /* REACTFLOW STORE SETTERS */
   onNodesChange: (changes: NodeChange[]) => {
@@ -100,7 +110,7 @@ const useStore = create<RFState>((set, get) => ({
 
     const projectIndex = getProjectIndex(register, projectName);
     const pageIndex = getPageIndex(register, projectIndex, pageKey);
-    console.log("project index: ", projectIndex, "page index: ", pageIndex); 
+    console.log("project index: ", projectIndex, "page index: ", pageIndex);
 
     register[projectIndex].pages[pageIndex].name = newPageName
 
@@ -112,7 +122,7 @@ const useStore = create<RFState>((set, get) => ({
     const newRegister = [...get().register] // shallow clone of register
     const projectIndex = getProjectIndex(newRegister, projectName);
     const newPage: Page = { name: pageName, key: pageKey ?? nanoid() }
-    
+
     if (projectIndex !== -1) {
       // deep clone the project being modified
       const updatedProject = {
@@ -121,10 +131,17 @@ const useStore = create<RFState>((set, get) => ({
       };
       // Replace the specific project in the register array
       newRegister[projectIndex] = updatedProject;
+      set({ register: newRegister })
     } else {
       // else push new project to the register project array
-      newRegister.push({ name: projectName, pages: [newPage] })
+      get().addProject(projectName, undefined, [newPage])
     }
+    
+  },
+  addProject: (projectName: string, projectKey?: string, pages?: Page[]) => {
+    const newRegister = [...get().register] // shallow clone of register
+
+    newRegister.push({ name: projectName, key: projectKey ?? nanoid(), pages: pages ?? [], tokens: [] })
     set({ register: newRegister })
   }
 }));

@@ -61,12 +61,12 @@ li::marker {
   font-size: 0.7em;
 }
 
-.pageToolbar span {
-  font-size: 1em;
+.toolbarButton {
+  font-size: 24px;
   padding: 3px;
   border-radius: 5px;
   transition: background-color 100ms ease-out;
 }
-.pageToolbar span:hover {
+.toolbarButton:hover {
   background-color: #d8d8d8;
 }/*# sourceMappingURL=components.css.map */
