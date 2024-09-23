@@ -54,7 +54,7 @@ export const fetchPage = async (user: User | null, projectID: string, pageID: st
 
     return { nodes: [], edges: [] }
 }
-export const fetchMetadata = async (user: User | null): Promise<MetadataFetch> => {
+export const fetchMetadata = async (user: User | null): Promise<MetadataFetch | undefined> => {
     // fetch all metadata, including the register and all tokens
 
     if (user) {
@@ -73,7 +73,7 @@ export const fetchMetadata = async (user: User | null): Promise<MetadataFetch> =
         };
     }
 
-    return { register: [], tokens:"dummy token" }
+    return undefined;
 }
 
 export const setPage = async (user: User | null, projectName: string, pageKey: string, nodes: Node[], edges: Edge[]) => {

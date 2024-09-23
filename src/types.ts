@@ -9,7 +9,6 @@ export type PageFetch = {
 
 export type MetadataFetch = {
     register: Project[];
-    tokens: string;
 }
 
 export type PagePath = {

@@ -23,33 +23,41 @@
   border: 1.5px solid lightgrey;
   border-radius: 10px;
 }
-.projectPopupContainer .projectPopup h1 {
+
+.projectHome {
+  margin: 50px;
+}
+
+h1 {
   margin: 0;
 }
-.projectPopupContainer .projectPopup ul {
+
+ul {
   margin-bottom: 10px;
 }
-.projectPopupContainer .projectPopup ul ul {
+ul ul {
   padding: 8px 0 0 12px;
   list-style-type: none;
 }
-.projectPopupContainer .projectPopup li {
+
+li {
   cursor: pointer;
 }
-.projectPopupContainer .projectPopup li li {
+li li {
   border-top: 1px solid #d8d8d8;
   padding: 4px;
   display: flex;
   justify-content: space-between;
   transition: background-color 100ms ease-out;
 }
-.projectPopupContainer .projectPopup li li:hover {
+li li:hover {
   background-color: #f2f2f2;
 }
-.projectPopupContainer .projectPopup li li:last-child {
+li li:last-child {
   border-bottom: 1px solid #d8d8d8;
 }
-.projectPopupContainer .projectPopup li::marker {
+
+li::marker {
   font-size: 0.7em;
 }
 

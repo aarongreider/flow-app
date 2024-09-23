@@ -20,28 +20,28 @@ function Firebase() {
     const setEdges = useStore((state) => state.setEdges);
     const updateUser = useStore((state) => state.updateUser);
     const setRegister = useStore((state) => state.setRegister);
-    const setActivePath = useStore((state) => state.setActivePath);
-    const addPage = useStore((state) => state.addPage);
 
     const [error, setError] = useState(null);
 
 
     useEffect(() => { // if the user is logged in, set the nodes to match what is stored in their user database
 
-        //TODO: support pages and handle setting the nodes more gracefully
-        // set nodes based on result of firestore request
-
         // manually getting user's data with users uid matched with firebase's dictionary
-        // need to find a firebase native way to get a user's data.
-        
-
         const get = async () => {
             //get metadata
             const metadata = await fetchMetadata(user);
             console.log("recieved metadata", metadata);
-            if (metadata) {
-                const { register } = metadata;
-                setRegister(register)
+            if (metadata?.register) {
+                // merge the active register and the register from the server
+                // TODO: resolve duplicates?
+                const newRegister = [...register, ...metadata.register]
+
+                console.log("REGISTER SETTING on USER UPDATE");
+                console.log(register);
+                console.log(metadata.register);
+                console.log(newRegister);
+
+                setRegister(newRegister)
             }
         }
         if (user && !hasFetchedData.current) {
@@ -65,11 +65,11 @@ function Firebase() {
             } else {
                 // add a page in the register
                 console.log("no page found, ");
-                
-                const projectKey = "Uncategorized Pages"
+
+                /* const projectKey = "Uncategorized Pages"
                 const pageKey = nanoid()
                 addPage(projectKey, pageKey, pageKey)
-                setActivePath({projectKey, pageKey})
+                setActivePath({ projectKey, pageKey }) */
             }
 
             if (response) {
@@ -80,8 +80,6 @@ function Firebase() {
         }
         get();
     }, [activePath])
-
-
 
     useEffect(() => { // properly handle login persistence and changes
         const unsubscribe = onAuthStateChanged(auth, (user) => {
