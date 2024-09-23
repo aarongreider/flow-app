@@ -12,6 +12,11 @@ export type MetadataFetch = {
     tokens: string;
 }
 
+export type PagePath = {
+    projectKey: string, 
+    pageKey: string
+}
+
 /* export type Register = [
     { name: string, pages: Page[] }
 ] */
@@ -33,13 +38,13 @@ const register: Project[] = [
 
 export const getProjectIndex = (register: Project[], projectName: string): number => {
     const projectIndex = register.findIndex(project => project.name === projectName);
-    console.log("project index found", projectIndex); // Output: 0 (if 'project 1' is the first project)
+    console.log(`${projectName} project index found`, projectIndex); // Output: 0 (if 'project 1' is the first project)
     return projectIndex;
 }
 
-export const getPageIndex = (register: Project[], projectIndex: number, pageName: string): number => {
-    const pageIndex = register[projectIndex].pages.findIndex(page => page.name === pageName);
+export const getPageIndex = (register: Project[], projectIndex: number, pageKey: string): number => {
+    const pageIndex = register[projectIndex].pages.findIndex(page => page.key === pageKey);
 
-    console.log("page index found", pageIndex);
+    console.log(`${pageKey} page index found`, pageIndex);
     return pageIndex;
 }

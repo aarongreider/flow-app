@@ -14,7 +14,7 @@ import {
   applyEdgeChanges,
 } from 'reactflow';
 import { initialNodes, initialEdges } from './InitialNodes';
-import { getPageIndex, getProjectIndex, Project } from './types';
+import { getPageIndex, getProjectIndex, Page, PagePath, Project } from './types';
 import { nanoid } from 'nanoid';
 
 // reactflow default state type
@@ -22,8 +22,7 @@ type RFState = {
   nodes: Node[];
   edges: Edge[];
   user: User | null;
-  projectID: string;
-  pageID: string;
+  activePath: PagePath | undefined;
   register: Project[];
   onNodesChange: OnNodesChange;
   onEdgesChange: OnEdgesChange;
@@ -32,10 +31,10 @@ type RFState = {
   setEdges: (edges: Edge[]) => void;
   updateNodeText: (nodeID: string, props: object) => void;
   updateUser: (user: User) => void;
-  setProjectID: (id: string) => void;
-  setPageID: (id: string) => void;
+  setActivePath: (path: PagePath) => void;
   setRegister: (register: Project[]) => void;
   updatePageName: (project: string, oldPageName: string, newPageName: string) => void;
+  addPage: (projectName: string, pageName: string, pageKey?: string) => void;
 };
 
 // this is our useStore hook that we can use in our components to get parts of the store and call actions
@@ -43,20 +42,10 @@ const useStore = create<RFState>((set, get) => ({
   /* REACTFLOW VARIABLES */
   nodes: initialNodes,
   edges: initialEdges,
-  projectID: "project 1",
-  pageID: "page 1",
+  activePath: undefined, //{projectKey: '', pageKey: ''},
   /* CUSTOM VARIABLES */
   user: null,
-  register: [
-    {
-        name: 'project 1',
-        pages: [{ name: 'page1', key: nanoid() }, { name: 'page2', key: nanoid() }, { name: 'page3', key: nanoid() },]
-    },
-    {
-        name: 'project 2',
-        pages: [{ name: 'page1', key: nanoid() }, { name: 'page2', key: nanoid() }, { name: 'page3', key: nanoid() },]
-    },
-],
+  register: [],
 
   /* REACTFLOW STORE SETTERS */
   onNodesChange: (changes: NodeChange[]) => {
@@ -80,6 +69,9 @@ const useStore = create<RFState>((set, get) => ({
   setEdges: (edges: Edge[]) => {
     set({ edges });
   },
+  setActivePath: (path: PagePath) => {
+    set({ activePath: path })
+  },
 
   /* CUSTOM STORE SETTERS */
   updateNodeText: (nodeId: string, props: object) => {
@@ -96,34 +88,45 @@ const useStore = create<RFState>((set, get) => ({
   updateUser: (user: User) => {
     set({ user });
   },
-  setProjectID: (id: string) => {
-    set({ projectID: id });
-  },
-  setPageID: (id: string) => {
-    console.log(id);
-
-    set({ pageID: id });
-  },
   setRegister: (register: Project[]) => {
     set({ register })
   },
-  updatePageName: (projectName: string, oldPageName: string, newPageName: string, ) => {
-    const register = [ ...get().register ]
+  updatePageName: (projectName: string, pageKey: string, newPageName: string,) => {
+    const register = [...get().register]
     console.log("register before:", register);
 
-    console.log(projectName, newPageName, );
-    
+    console.log(projectName, newPageName,);
+
 
     const projectIndex = getProjectIndex(register, projectName);
-    const pageIndex = getPageIndex(register, projectIndex, oldPageName);
-    console.log("project index: ",  projectIndex, "page index: ", pageIndex);
-    
+    const pageIndex = getPageIndex(register, projectIndex, pageKey);
+    console.log("project index: ", projectIndex, "page index: ", pageIndex); 
+
     register[projectIndex].pages[pageIndex].name = newPageName
 
     console.log("register after:", register);
 
     set({ register })
   },
+  addPage: (projectName: string, pageName: string, pageKey?: string) => {
+    const newRegister = [...get().register] // shallow clone of register
+    const projectIndex = getProjectIndex(newRegister, projectName);
+    const newPage: Page = { name: pageName, key: pageKey ?? nanoid() }
+    
+    if (projectIndex !== -1) {
+      // deep clone the project being modified
+      const updatedProject = {
+        ...newRegister[projectIndex],
+        pages: [...newRegister[projectIndex].pages, newPage] // create a new array with the new page
+      };
+      // Replace the specific project in the register array
+      newRegister[projectIndex] = updatedProject;
+    } else {
+      // else push new project to the register project array
+      newRegister.push({ name: projectName, pages: [newPage] })
+    }
+    set({ register: newRegister })
+  }
 }));
 
 export default useStore;

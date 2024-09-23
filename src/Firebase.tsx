@@ -1,45 +1,27 @@
-import { initializeApp } from "firebase/app";
-//import { getAnalytics } from "firebase/analytics";
+import { doc, updateDoc } from "firebase/firestore"; queueMicrotask
+import { useState, useEffect, useRef } from "react";
+import { signInWithPopup, signOut, onAuthStateChanged } from "firebase/auth";
+
 import useStore from './store';
-import { Edge, Node, } from 'reactflow';
-import { MetadataFetch, PageFetch } from "./types";
+import { db, auth, provider, fetchPage, fetchMetadata, setPage } from './firebaseUtils';
+import { nanoid } from "nanoid";
 
-import { getFirestore, doc, getDoc, updateDoc, setDoc } from "firebase/firestore"; queueMicrotask
-import { useState, useEffect } from "react";
-import { getAuth, Auth, GoogleAuthProvider, signInWithPopup, signOut, browserLocalPersistence, onAuthStateChanged, User } from "firebase/auth";
-
-const firebaseConfig = {
-    apiKey: "AIzaSyAQOWLW33YmcldSc_tpJgpcH9Nl-jXF5Ec",
-    authDomain: "winged-precinct-418901.firebaseapp.com",
-    projectId: "winged-precinct-418901",
-    storageBucket: "winged-precinct-418901.appspot.com",
-    messagingSenderId: "908912265044",
-    appId: "1:908912265044:web:350310428d15ffc2b56ac1",
-    measurementId: "G-3NF1PZKCYX"
-};
-
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-
-// Initialize Cloud Firestore and get a reference to the service
-const db = getFirestore(app);
-const auth: Auth = getAuth();
-console.log(auth.currentUser);
-
-const provider = new GoogleAuthProvider();
-auth.setPersistence(browserLocalPersistence)
-
+//#region Component
 function Firebase() {
+    const hasFetchedData = useRef(false); // persistent boolean value
+
     const nodes = useStore((state) => state.nodes);
     const edges = useStore((state) => state.edges);
     const user = useStore((state) => state.user);
-    const projectID = useStore((state) => state.projectID);
-    const pageID = useStore((state) => state.pageID);
+    const activePath = useStore((state) => state.activePath);
     const register = useStore((state) => state.register);
+
     const setNodes = useStore((state) => state.setNodes);
     const setEdges = useStore((state) => state.setEdges);
     const updateUser = useStore((state) => state.updateUser);
     const setRegister = useStore((state) => state.setRegister);
+    const setActivePath = useStore((state) => state.setActivePath);
+    const addPage = useStore((state) => state.addPage);
 
     const [error, setError] = useState(null);
 
@@ -51,28 +33,55 @@ function Firebase() {
 
         // manually getting user's data with users uid matched with firebase's dictionary
         // need to find a firebase native way to get a user's data.
-  
+        
+
         const get = async () => {
-            console.log("fetching page...", projectID, pageID);
-
-            const response = await fetchPage(user, projectID, pageID)
-            console.log("recieved response", response);
-
+            //get metadata
             const metadata = await fetchMetadata(user);
             console.log("recieved metadata", metadata);
+            if (metadata) {
+                const { register } = metadata;
+                setRegister(register)
+            }
+        }
+        if (user && !hasFetchedData.current) {
+            get();
+            hasFetchedData.current = true; // Mark as fetched
+        }
+    }, [user])
+
+    useEffect(() => { // if the user is logged in, set the nodes to match what is stored in their user database
+
+        // when activePath is set, set the nodes, otherwise, init a new page
+
+        const get = async () => {
+            // when activePath changes, load the new content. If no path is found (first render), then init a new page under an umbrella project
+            let response;
+            if (activePath) {
+                console.log("fetching page...", activePath.projectKey, activePath.pageKey);
+
+                response = await fetchPage(user, activePath.projectKey, activePath.pageKey)
+                console.log("recieved response", response);
+            } else {
+                // add a page in the register
+                console.log("no page found, ");
+                
+                const projectKey = "Uncategorized Pages"
+                const pageKey = nanoid()
+                addPage(projectKey, pageKey, pageKey)
+                setActivePath({projectKey, pageKey})
+            }
 
             if (response) {
                 const { edges, nodes } = response;
                 setEdges(edges);
                 setNodes(nodes);
             }
-            if (metadata) {
-                const {register} = metadata;
-                //setRegister(register)
-            }
         }
         get();
-    }, [user, pageID])
+    }, [activePath])
+
+
 
     useEffect(() => { // properly handle login persistence and changes
         const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -106,7 +115,7 @@ function Firebase() {
     const handleSave = async () => { // when the user hits the save button
         try {
             await syncRegister();
-            await setPage(user, projectID, pageID, nodes, edges)
+            activePath ? await setPage(user, activePath.projectKey, activePath.pageKey, nodes, edges) : undefined;
         } catch (error) {
             console.log("set page error", error);
         }
@@ -160,80 +169,4 @@ function Firebase() {
 }
 
 export default Firebase;
-
-
-
-
-export const fetchPage = async (user: User | null, projectID: string, pageID: string): Promise<PageFetch> => {
-
-    if (user) {
-        const docRef = (doc(db, `flow-users/${user.uid}/projects/${projectID}/pages/${pageID}`))
-
-        try {
-            const response = await getDoc(docRef);
-            if (response.exists()) {
-                console.log('Document data:', response.data());
-                return response.data() as PageFetch;
-            } else {
-                console.log('No such document!');
-            }
-        } catch (error) {
-            console.error('Error getting document:', error);
-        };
-    } else {
-        console.log(`no user!`);
-        
-    }
-
-    return { nodes: [], edges: [] }
-}
-export const fetchMetadata = async (user: User | null): Promise<MetadataFetch> => {
-    // fetch all metadata, including the register and all tokens
-
-    if (user) {
-        const docRef = (doc(db, `flow-users/${user.uid}`))
-
-        try {
-            const response = await getDoc(docRef);
-            if (response.exists()) {
-                console.log('Document data:', response.data());
-                return response.data() as MetadataFetch;
-            } else {
-                console.log('No such document!');
-            }
-        } catch (error) {
-            console.error('Error getting document:', error);
-        };
-    }
-
-    return { register: [], tokens:"dummy token" }
-}
-
-export const setPage = async (user: User | null, projectID: string, pageID: string, nodes: Node[], edges: Edge[]) => {
-    // if the user is logged in, attempt to update the nodes and edges of the specified page within the project 
-    // if updateDoc runs an error, then use setDoc. this is for efficiency and data saving
-    if (user) {
-        const docRef = (doc(db, `flow-users/${user.uid}/projects/${projectID}/pages/${pageID}`))
-
-        try {
-            await updateDoc(docRef, { nodes: [...nodes], edges: [...edges] })
-            console.log(`${projectID} ${pageID} updated successfully`);
-        } catch (error) {
-            console.log(error);
-            try {
-                setDoc(docRef, { nodes: [...nodes], edges: [...edges] }, { merge: true })
-                    .then(() => {
-                        console.log(`${projectID} ${pageID} set successfully`, { nodes: [...nodes], edges: [...edges] })
-                    }).catch((error) => {
-                        console.error('Error setting document:', error);
-                    });
-            } catch (error) {
-                console.log(error);
-                
-            }
-        }
-    } else {
-        alert("You must be logged in to use the Cloud Save feature.")
-        return;
-    }
-}
+//#endregion
