@@ -47,7 +47,7 @@ function ProjectSelect() {
         </h1>
         <ul>
             {register.map((project) => (
-                <ProjectWidget key={project.name} projectName={project.name} pages={project.pages}></ProjectWidget>
+                <ProjectWidget key={project.name} project={project} pages={project.pages}></ProjectWidget>
             ))}
         </ul>
     </>
@@ -56,19 +56,27 @@ function ProjectSelect() {
 
 
 interface ProjectWidgetProps {
-    projectName: string;
+    project: Project;
     pages: Page[];
 }
 
-function ProjectWidget({ projectName, pages }: ProjectWidgetProps) {
+function ProjectWidget({ project, pages }: ProjectWidgetProps) {
     const addPage = useStore((state) => state.addPage);
+    const updateProjectName = useStore((state) => state.updateProjectName);
     const [toggled, setToggled] = useState<boolean>(false)
+    const [isRenaming, setIsRenaming] = useState<boolean>(false)
+    const [projectName, setProjectName] = useState<string>(project.name)
 
     const handleAddPage = () => {
         const response = prompt('New Page Name:');
         if (response) {
-            addPage(projectName, response)
+            addPage(project.key, response)
         }
+    }
+
+    const handleRenameProject = (newName: string) => {
+        updateProjectName(project.key, newName)
+        setProjectName(newName)
     }
 
     return <>
@@ -78,12 +86,29 @@ function ProjectWidget({ projectName, pages }: ProjectWidgetProps) {
                 setToggled(!toggled)
         }}>
             <div className="toggle" style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                {projectName}
-                <span onClick={handleAddPage} className="material-symbols-outlined toolbarButton">add</span>
+                {/* conditionally display the input field when isRenaming is true */}
+                {isRenaming ? (<>
+                    <input type="text"
+                        value={projectName}
+                        onChange={(e) => setProjectName(e.target.value)}
+                        onBlur={(e) => {
+                            handleRenameProject(e.target.value)
+                            console.log(`renaming ${projectName}`, e.target.value)
+                        }} // Rename on blur
+                    /></>
+                ) : (
+                    <>{projectName}</>
+                )}
+                <div className='toolbar'>
+                    <span style={{ fontSize: "1em" }} className="material-symbols-outlined toolbarButton" onClick={() => setIsRenaming(!isRenaming)}>
+                        {isRenaming ? "check" : "edit"}
+                    </span>
+                    <span onClick={handleAddPage} className="material-symbols-outlined toolbarButton">add</span>
+                </div>
             </div>
             <ul style={{ display: `${toggled ? 'block' : 'none'}` }}>
                 {pages.length == 0 ? <li><i style={{ fontFamily: "IvyJournal", color: 'grey' }}>{`No pages yet :)`}</i></li> : pages.map((page) => (
-                    <PageWidget key={page.key} project={projectName} page={page}></PageWidget>
+                    <PageWidget key={page.key} project={project} page={page}></PageWidget>
                 ))}
 
             </ul>
@@ -105,17 +130,17 @@ function PageWidget({ project, page }: PageWidgetProps) {
     const setActivePath = useStore((state) => state.setActivePath);
     const updatePageName = useStore((state) => state.updatePageName);
 
-    const renamePage = (newName: string) => {
-        updatePageName(project, page.key, newName)
+    const handleRenamePage = (newName: string) => {
+        updatePageName(project.key, page.key, newName)
         setPageName(newName)
     }
 
     return <>
-        <Link to={`/editor/${project}/${page.key}`}>
+        <Link to={`/editor/${project.key}/${page.key}`}>
             <li key={page.key} onClick={(e) => {
                 if (e.target === e.currentTarget) {
                     if (!isRenaming) {
-                        setActivePath({ projectKey: project, pageKey: page.key })
+                        setActivePath({ projectKey: project.key, pageKey: page.key })
                     }
                 }
             }}>
@@ -126,7 +151,7 @@ function PageWidget({ project, page }: PageWidgetProps) {
                         value={pageName}
                         onChange={(e) => setPageName(e.target.value)}
                         onBlur={(e) => {
-                            renamePage(e.target.value)
+                            handleRenamePage(e.target.value)
                             console.log(`renaming ${pageName}`, e.target.value)
                         }} // Rename on blur
                     /></>
@@ -134,7 +159,7 @@ function PageWidget({ project, page }: PageWidgetProps) {
                     <>{pageName}</>
                 )}
 
-                <div className='pageToolbar' style={{ display: "flex", gap: "2px", alignItems: "center" }}>
+                <div className='toolbar'>
                     {/* <span className="material-symbols-outlined">more_horiz</span> */}
                     <span style={{ fontSize: "1em" }} className="material-symbols-outlined toolbarButton" onClick={() => setIsRenaming(!isRenaming)}>
                         {isRenaming ? "check" : "edit"}

@@ -20,7 +20,6 @@ import MetaNode from './MetaNode';
 import SignalNode from './SignalNode';
 import TextReceiverNode from './TextReceiverNode';
 import CustomEdge from './EdgeButton';
-import Firebase from '../Firebase';
 import TokenNode from './TokenNode';
 import { PopupContainer } from './ProjectsPopup';
 
@@ -55,9 +54,13 @@ export default function NodeEditor() {
 
     const { nodes, edges, onNodesChange, onEdgesChange, onConnect } = useStore(selector, shallow);
     const activePath = useStore((state) => state.activePath);
+    const lastChange = useStore((state) => state.lastChange);
+    const lastSave = useStore((state) => state.lastSave);
+
     const setNodes = useStore((state) => state.setNodes);
     const updatePageName = useStore((state) => state.updatePageName);
     const setActivePath = useStore((state) => state.setActivePath);
+    const setLastChange = useStore((state) => state.setLastChange);
 
     const [reactFlowInstance, setReactFlowInstance] = useState<any>(null);
 
@@ -70,8 +73,8 @@ export default function NodeEditor() {
     //#region useEffect
 
     useEffect(() => { /* SET ACTIVE PATH */
-        console.log("url params:",projectKey, pageKey);
-        
+        console.log("url params:", projectKey, pageKey);
+
         if (projectKey && pageKey) {
             setActivePath({ projectKey, pageKey })
         }
@@ -107,7 +110,24 @@ export default function NodeEditor() {
         // set the nodes in localstorage
         localStorage.setItem('nodes', JSON.stringify(nodes));
         localStorage.setItem('edges', JSON.stringify(edges));
+        setLastChange(new Date);
     }, [nodes, edges])
+
+    useEffect(() => {
+        // evaluate and set the before unload listener
+        const handleBeforeUnload = (event: BeforeUnloadEvent) => {
+            if (lastChange > lastSave) {
+              event.preventDefault();
+              event.returnValue = ''; // Standard for preventing navigation
+            }
+          };
+        
+          window.addEventListener('beforeunload', handleBeforeUnload);
+        
+          return () => {
+            window.removeEventListener('beforeunload', handleBeforeUnload);
+          };
+    }, [lastSave, lastChange])
     //#endregion
 
     //#region functions
@@ -167,7 +187,6 @@ export default function NodeEditor() {
         <ReactFlowProvider>
 
             <div style={{ width: '100svw', height: '100svh' }}>
-                <Firebase />
                 <PopupContainer visible={registerVisible} toggleVisible={togglePageList} />
                 <p style={{ position: "absolute", right: "50%", top: 0, fontSize: ".75em" }}>{activePath ? `${activePath.projectKey} / ${activePath.pageKey}` : "undefined"}</p>
 
@@ -186,7 +205,7 @@ export default function NodeEditor() {
                     edgeTypes={edgeTypes}
                     minZoom={.25}
                     maxZoom={2}
-                    fitView
+                /* fitView */
                 >
 
                     {/* <Controls style={{ top: '0', left: 'auto', right: '0', bottom: 'auto', display: 'flex' }} /> */}

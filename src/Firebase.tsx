@@ -1,10 +1,9 @@
-import { doc, updateDoc } from "firebase/firestore"; queueMicrotask
-import { useState, useEffect, useRef } from "react";
+import { doc, setDoc, updateDoc } from "firebase/firestore"; queueMicrotask
+import { useEffect, useRef } from "react";
 import { signInWithPopup, signOut, onAuthStateChanged } from "firebase/auth";
 
 import useStore from './store';
 import { db, auth, provider, fetchPage, fetchMetadata, setPage } from './firebaseUtils';
-import { nanoid } from "nanoid";
 
 //#region Component
 function Firebase() {
@@ -20,8 +19,9 @@ function Firebase() {
     const setEdges = useStore((state) => state.setEdges);
     const updateUser = useStore((state) => state.updateUser);
     const setRegister = useStore((state) => state.setRegister);
-
-    const [error, setError] = useState(null);
+    const setActivePath = useStore((state) => state.setActivePath);
+    const setLastChange = useStore((state) => state.setLastChange);
+    const setLastSave = useStore((state) => state.setLastSave);
 
 
     useEffect(() => { // if the user is logged in, set the nodes to match what is stored in their user database
@@ -30,7 +30,6 @@ function Firebase() {
         const get = async () => {
             //get metadata
             const metadata = await fetchMetadata(user);
-            console.log("recieved metadata", metadata);
             if (metadata?.register) {
                 // merge the active register and the register from the server
                 // TODO: resolve duplicates?
@@ -47,6 +46,9 @@ function Firebase() {
         if (user && !hasFetchedData.current) {
             get();
             hasFetchedData.current = true; // Mark as fetched
+            if (activePath) {
+                setActivePath({ projectKey: activePath?.projectKey, pageKey: activePath?.pageKey })
+            }
         }
     }, [user])
 
@@ -57,11 +59,10 @@ function Firebase() {
         const get = async () => {
             // when activePath changes, load the new content. If no path is found (first render), then init a new page under an umbrella project
             let response;
-            if (activePath) {
+            if (activePath && user) {
                 console.log("fetching page...", activePath.projectKey, activePath.pageKey);
 
                 response = await fetchPage(user, activePath.projectKey, activePath.pageKey)
-                console.log("recieved response", response);
             } else {
                 // add a page in the register
                 console.log("no page found, ");
@@ -96,16 +97,31 @@ function Firebase() {
         return () => unsubscribe(); // Clean up the listener
     }, [updateUser])
 
+    useEffect(() => {
+        localStorage.setItem("register", JSON.stringify(register))
+        localStorage.setItem("active path", JSON.stringify(activePath))
+        setLastChange(new Date);
+
+    }, [register, activePath])
+
 
     const syncRegister = async () => {
         if (user) {
             const docRef = (doc(db, `flow-users/${user.uid}`))
 
             try {
-                await updateDoc(docRef, { register })
+                await updateDoc(docRef, { register });
                 console.log(`register updated successfully`);
             } catch (error) {
                 console.log(error);
+
+                try {
+                    await setDoc(docRef, { register })
+                    console.log(`register set successfully`);
+                } catch (error) {
+                    console.log(error);
+                }
+
             }
         }
     }
@@ -114,6 +130,7 @@ function Firebase() {
         try {
             await syncRegister();
             activePath ? await setPage(user, activePath.projectKey, activePath.pageKey, nodes, edges) : undefined;
+            setLastSave(new Date);
         } catch (error) {
             console.log("set page error", error);
         }
@@ -127,7 +144,8 @@ function Firebase() {
             updateUser(result.user)
 
         } catch (error: any) {
-            setError(error.message);
+            console.log("error signing in", error);
+            
         }
     };
 

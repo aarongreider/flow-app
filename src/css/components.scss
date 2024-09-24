@@ -70,6 +70,11 @@ li::marker {
 }
 
 
+.toolbar {
+    display: flex;
+    gap: 2px;
+    align-items: center;
+}
 
 .toolbarButton {
     font-size: 24px;

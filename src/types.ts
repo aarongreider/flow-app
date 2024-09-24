@@ -1,5 +1,4 @@
-import { nanoid } from 'nanoid';
-import { Edge, Node, useStore, } from 'reactflow';
+import { Edge, Node } from 'reactflow';
 
 // Define general types used across the project
 export type PageFetch = {
@@ -16,15 +15,11 @@ export type PagePath = {
     pageKey: string
 }
 
-/* export type Register = [
-    { name: string, pages: Page[] }
-] */
-
 export type Project = { name: string, key: string, pages: Page[], tokens?: string[] }
 
 export type Page = { name: string, key: string }
 
-const register: Project[] = [
+/* const register: Project[] = [
     {
         name: 'project 1',
         key: nanoid(),
@@ -37,11 +32,11 @@ const register: Project[] = [
         pages: [{ name: 'page1', key: nanoid() }, { name: 'page2', key: nanoid() }, { name: 'page3', key: nanoid() },],
         tokens: ['tokenKey1', 'tokenKey2'],
     },
-]
+] */
 
-export const getProjectIndex = (register: Project[], projectName: string): number => {
-    const projectIndex = register.findIndex(project => project.name === projectName);
-    console.log(`${projectName} project index found`, projectIndex); // Output: 0 (if 'project 1' is the first project)
+export const getProjectIndex = (register: Project[], projectKey: string): number => {
+    const projectIndex = register.findIndex(project => project.key === projectKey);
+    console.log(`${projectKey} project index found`, projectIndex); // Output: 0 (if 'project 1' is the first project)
     return projectIndex;
 }
 

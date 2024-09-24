@@ -1,10 +1,9 @@
 import { signInWithRedirect, GoogleAuthProvider, getRedirectResult } from "firebase/auth";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import auth from '../Firebase';
 
 
 const LoginButtonGoogle = () => {
-    const [error, setError] = useState(null);
 
     const handleGoogleSignIn = async () => {
         try {
@@ -14,7 +13,8 @@ const LoginButtonGoogle = () => {
             await signInWithRedirect(auth, provider);
             // Handle successful login (e.g., redirect to a protected route)
         } catch (error: any) {
-            setError(error.message);
+            console.log("error with google sign in button", error);
+            
         }
     };
 

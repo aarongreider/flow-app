@@ -36,20 +36,20 @@ export const fetchPage = async (user: User | null, projectID: string, pageID: st
     if (user) {
         try {
             const docRef = (doc(db, `flow-users/${user.uid}/projects/${projectID}/pages/${pageID}`))
+            //const docRef = (doc(db, `flow-users/111849099028816590365`)) //mongame source
             const response = await getDoc(docRef);
             if (response.exists()) {
-                console.log('Document data:', response.data());
+                console.log('Received node data:', response.data());
                 return response.data() as PageFetch;
             } else {
-                console.log('No such document!');
+                console.log('No such page!');
             }
         } catch (error) {
-            console.error('Error getting document:', error);
+            console.error('Error getting page:', error);
             // set path to be a new page
         };
     } else {
         console.log(`no user!`);
-        
     }
 
     return { nodes: [], edges: [] }
@@ -63,10 +63,10 @@ export const fetchMetadata = async (user: User | null): Promise<MetadataFetch | 
         try {
             const response = await getDoc(docRef);
             if (response.exists()) {
-                console.log('Document data:', response.data());
+                console.log('Received Metadata:', response.data());
                 return response.data() as MetadataFetch;
             } else {
-                console.log('No such document!');
+                console.log('No such metadata!');
             }
         } catch (error) {
             console.error('Error getting document:', error);
@@ -76,21 +76,21 @@ export const fetchMetadata = async (user: User | null): Promise<MetadataFetch | 
     return undefined;
 }
 
-export const setPage = async (user: User | null, projectName: string, pageKey: string, nodes: Node[], edges: Edge[]) => {
+export const setPage = async (user: User | null, projectKey: string, pageKey: string, nodes: Node[], edges: Edge[]) => {
     // if the user is logged in, attempt to update the nodes and edges of the specified page within the project 
     // if updateDoc runs an error, then use setDoc. this is for efficiency and data saving
     if (user) {
-        const docRef = (doc(db, `flow-users/${user.uid}/projects/${projectName}/pages/${pageKey}`))
+        const docRef = (doc(db, `flow-users/${user.uid}/projects/${projectKey}/pages/${pageKey}`))
 
         try {
             await updateDoc(docRef, { nodes: [...nodes], edges: [...edges] })
-            console.log(`${projectName} ${pageKey} updated successfully`);
+            console.log(`${projectKey} ${pageKey} updated successfully`);
         } catch (error) {
             console.log(error);
             try {
                 setDoc(docRef, { nodes: [...nodes], edges: [...edges] }, { merge: true })
                     .then(() => {
-                        console.log(`${projectName} ${pageKey} set successfully`, { nodes: [...nodes], edges: [...edges] })
+                        console.log(`${projectKey} ${pageKey} set successfully`, { nodes: [...nodes], edges: [...edges] })
                     }).catch((error) => {
                         console.error('Error setting document:', error);
                     });
