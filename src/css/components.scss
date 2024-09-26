@@ -86,3 +86,51 @@ li::marker {
         background-color: #d8d8d8;
     }
 }
+
+.chipsDash {
+    display: flex;
+    align-items: center;
+    padding-left: 16px;
+    box-sizing: border-box;
+    gap: 10px;
+    width: 100svw;
+    background: rgb(32, 32, 32);
+    z-index: 100;
+    overflow: hidden;
+    transition: height 150ms ease;
+
+    &.open {
+        height: 70px;
+    }
+
+    &.closed {
+        height: 0px;
+    }
+}
+
+.chip {
+    display: flex;
+    align-items: center;
+    height: min-content;
+    width: min-content;
+    background-color: #4f4f4f;
+    //border: 2px solid black;
+    border-radius: 30px;
+    color: white;
+    padding: 4px;
+    padding-right: 14px;
+    cursor: pointer;
+
+    &:hover {
+        outline: #636363 solid 2px;
+    }
+
+    p {
+         font-size: 1em;
+         
+    }
+    span {
+        font-size: 1.25em;
+        cursor:grab;
+    }
+}

@@ -69,4 +69,8 @@ button:focus, button:focus-visible {
 
 .hidden {
   display: none;
+}
+
+.react-flow__attribution {
+  display: none;
 }/*# sourceMappingURL=general.css.map */

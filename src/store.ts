@@ -16,6 +16,7 @@ import {
 import { initialNodes, initialEdges } from './InitialNodes';
 import { getPageIndex, getProjectIndex, Page, PagePath, Project } from './types';
 import { nanoid } from 'nanoid';
+import { ChipSet } from './components/chipsDashboard';
 
 // reactflow default state type
 type RFState = {
@@ -23,6 +24,8 @@ type RFState = {
   edges: Edge[];
   user: User | null;
   activePath: PagePath | undefined;
+  projectChipSets: ChipSet[] | undefined;
+  activeChipSet: ChipSet | undefined;
   register: Project[];
   lastChange: Date;
   lastSave: Date;
@@ -34,6 +37,7 @@ type RFState = {
   updateNodeText: (nodeID: string, props: object) => void;
   updateUser: (user: User) => void;
   setActivePath: (path: PagePath) => void;
+  setActiveChipSet: (chipSet: ChipSet) => void;
   setRegister: (register: Project[]) => void;
   updateProjectName: (projectKey: string, newProjectName: string) => void;
   updatePageName: (projectKey: string, oldPageName: string, newPageName: string) => void;
@@ -48,8 +52,20 @@ const useStore = create<RFState>((set, get) => ({
   /* REACTFLOW VARIABLES */
   nodes: initialNodes,
   edges: initialEdges,
-  activePath: undefined, //{projectKey: '', pageKey: ''},
+
   /* CUSTOM VARIABLES */
+  activePath: undefined, //{projectKey: '', pageKey: ''},
+  projectChipSets: [
+    { key: nanoid(), name: "signals", chips: ['getMasterSword', 'slayGanon', 'getFetchQuest'] },
+    { key: nanoid(), name: "characters", chips: ['Aragorn', 'Frodo', 'Gandalf'] },
+    { key: nanoid(), name: "tokens", chips: ['hasSword', 'hasShield', 'hasFetchQuest'] },
+    { key: nanoid(), name: "quests", chips: ['FindTheRing', 'DestroyTheRing'] },
+    { key: nanoid(), name: "signals", chips: ['getMasterSword', 'slayGanon', 'getFetchQuest'] },
+    { key: nanoid(), name: "characters", chips: ['Aragorn', 'Frodo', 'Gandalf'] },
+    { key: nanoid(), name: "tokens", chips: ['hasSword', 'hasShield', 'hasFetchQuest'] },
+    { key: nanoid(), name: "quests", chips: ['FindTheRing', 'DestroyTheRing'] },
+  ],
+  activeChipSet: undefined,
   user: null,
   register: [],
   lastChange: new Date,
@@ -80,6 +96,11 @@ const useStore = create<RFState>((set, get) => ({
   },
   setActivePath: (path: PagePath) => {
     set({ activePath: path })
+  },
+  setActiveChipSet: (chipSet: ChipSet) => {
+    set({ activeChipSet: chipSet })
+    console.log("setting active chipset");
+
   },
 
   /* CUSTOM STORE SETTERS */

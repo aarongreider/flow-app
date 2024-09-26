@@ -1,5 +1,6 @@
 //#region imports
 import { useState, useCallback, useEffect } from 'react';
+
 import ReactFlow, {
     ReactFlowProvider,
     //MiniMap,
@@ -7,48 +8,27 @@ import ReactFlow, {
     SelectionMode,
     Panel,
 } from 'reactflow';
+
 import { shallow } from 'zustand/shallow';
 import { nanoid } from 'nanoid';
 import useStore from '../store';
+import { PopupContainer } from './ProjectsPopup';
+import { useParams } from 'react-router-dom';
+import {DndContext} from '@dnd-kit/core';
+import { selector, nodeTypes, edgeTypes, useWindowResizer, useActivePathEffect } from '../nodeEditorUtils';
 
 import 'reactflow/dist/style.css';
-
-import DialogueNode from './DialogueNode';
-import ResponseNode from './ResponseNode';
-import ExpositionNode from './ExpositionNode';
-import MetaNode from './MetaNode';
-import SignalNode from './SignalNode';
-import TextReceiverNode from './TextReceiverNode';
-import CustomEdge from './EdgeButton';
-import TokenNode from './TokenNode';
-import { PopupContainer } from './ProjectsPopup';
-
 import '../css/general.css'
 import '../css/components.css'
 import '../css/nodeStyles.css';
-import { useParams } from 'react-router-dom';
+import { NodePanel } from './PanelNodes';
+import { ActionsPanel } from './PanelActions';
+import ChipsDashboard from './chipsDashboard';
 
 
 //#endregion
 
-const selector = (state: any) => ({
-    nodes: state.nodes,
-    edges: state.edges,
-    onNodesChange: state.onNodesChange,
-    onEdgesChange: state.onEdgesChange,
-    onConnect: state.onConnect,
-});
 
-const nodeTypes = {
-    dialogue: DialogueNode,
-    textReceiver: TextReceiverNode,
-    response: ResponseNode,
-    exposition: ExpositionNode,
-    meta: MetaNode,
-    signal: SignalNode,
-    token: TokenNode,
-};
-const edgeTypes = { customEdge: CustomEdge };
 
 export default function NodeEditor() {
 
@@ -58,7 +38,6 @@ export default function NodeEditor() {
     const lastSave = useStore((state) => state.lastSave);
 
     const setNodes = useStore((state) => state.setNodes);
-    const updatePageName = useStore((state) => state.updatePageName);
     const setActivePath = useStore((state) => state.setActivePath);
     const setLastChange = useStore((state) => state.setLastChange);
 
@@ -66,44 +45,18 @@ export default function NodeEditor() {
 
     const [isMobile, setIsMobile] = useState(false);
     const [registerVisible, setRegisterVisible] = useState(false);
+    const [chipsVisible, setChipsVisible] = useState(false);
 
     const { projectKey, pageKey } = useParams();
 
+    useWindowResizer(setIsMobile);
+    useActivePathEffect(projectKey, pageKey, setActivePath);
 
     //#region useEffect
-
-    useEffect(() => { /* SET ACTIVE PATH */
-        console.log("url params:", projectKey, pageKey);
-
-        if (projectKey && pageKey) {
-            setActivePath({ projectKey, pageKey })
-        }
-    }, [])
-
-    useEffect(() => { /* WINDOW RESIZER */
-        // keep tabs on window resizes to check if user is mobile
-        const handleResize = () => {
-            setIsMobile(window.innerWidth < 770); // Adjust the width threshold as needed
-        };
-
-        handleResize(); // Initial check
-        window.addEventListener('resize', handleResize);
-
-        window.addEventListener('touchstart', function (event) {
-            // Handle touchstart event here
-            event.preventDefault();
-        });
-
-        return () => {
-            window.removeEventListener('resize', handleResize);
-        };
-    }, []);
-
     useEffect(() => { /* INIT NODES ON LOAD */
         // this is a bit of a hacky way to force the viewport to initialize itself
         // otherwise, it won't initialize until a node is moved or added
         setNodes([...nodes])
-        //console.log("first refresh of nodes")
     }, [reactFlowInstance])
 
     useEffect(() => { /* LOCAL STORAGE */
@@ -113,27 +66,24 @@ export default function NodeEditor() {
         setLastChange(new Date);
     }, [nodes, edges])
 
-    useEffect(() => {
+    useEffect(() => { /* BEFORE UNLOAD */
         // evaluate and set the before unload listener
         const handleBeforeUnload = (event: BeforeUnloadEvent) => {
             if (lastChange > lastSave) {
-              event.preventDefault();
-              event.returnValue = ''; // Standard for preventing navigation
+                event.preventDefault();
+                event.returnValue = ''; // Standard for preventing navigation
             }
-          };
-        
-          window.addEventListener('beforeunload', handleBeforeUnload);
-        
-          return () => {
+        };
+
+        window.addEventListener('beforeunload', handleBeforeUnload);
+
+        return () => {
             window.removeEventListener('beforeunload', handleBeforeUnload);
-          };
+        };
     }, [lastSave, lastChange])
     //#endregion
 
     //#region functions
-    const printState = () => {
-        console.log(nodes)
-    }
 
     const addNode = (type: string, xPos: number = 0, yPos: number = 100) => {
         setNodes([...nodes, { id: nanoid(), position: { x: xPos, y: yPos }, data: {}, type: type }])
@@ -174,11 +124,12 @@ export default function NodeEditor() {
         let toggle = !registerVisible;
         setRegisterVisible(toggle);
     }
+    const toggleChips = () => {
+        let toggle = !chipsVisible
+        setChipsVisible(toggle);
+    }
 
     const doThing = () => {
-        //console.log(findProjectKeyFromName('project 1'))
-
-        updatePageName("project 1", "new page", "page 1")
     }
     //#endregion
 
@@ -186,64 +137,35 @@ export default function NodeEditor() {
         /* if no params exist, prompt user to create a new page */
         <ReactFlowProvider>
 
-            <div style={{ width: '100svw', height: '100svh' }}>
+            <div style={{ width: '100svw', height: '100svh', display: 'flex', flexDirection: 'column' }}>
+                <p style={{ position: "absolute", bottom: 0, fontSize: ".75em" }}>{activePath ? `${activePath.projectKey} / ${activePath.pageKey}` : "undefined"}</p>
                 <PopupContainer visible={registerVisible} toggleVisible={togglePageList} />
-                <p style={{ position: "absolute", right: "50%", top: 0, fontSize: ".75em" }}>{activePath ? `${activePath.projectKey} / ${activePath.pageKey}` : "undefined"}</p>
 
-                <ReactFlow
-                    onInit={setReactFlowInstance}
-                    nodes={nodes}
-                    edges={edges}
-                    onNodesChange={onNodesChange}
-                    onEdgesChange={onEdgesChange}
-                    onConnect={onConnect}
-
-                    onDrop={onDrop}
-                    onDragOver={onDragOver}
-                    selectionMode={SelectionMode.Partial}
-                    nodeTypes={nodeTypes} // DO NOT FORGET THIS PART
-                    edgeTypes={edgeTypes}
-                    minZoom={.25}
-                    maxZoom={2}
-                /* fitView */
-                >
-
-                    {/* <Controls style={{ top: '0', left: 'auto', right: '0', bottom: 'auto', display: 'flex' }} /> */}
-                    {/* {isMobile ? undefined : <MiniMap zoomable pannable />} */}
-                    <Panel position="bottom-right" style={{ display: "flex", gap: '8px', flexDirection: 'column', bottom: '10px' }}>
-                        <button onClick={togglePageList} style={{ zIndex: 101 }}>
-                            <span className="material-symbols-outlined">description</span>
-                        </button>
-                        <button onClick={doThing} style={{ zIndex: 101 }}>
-                            <span className="material-symbols-outlined">token</span>
-                        </button>
-                    </Panel>
-
-                    <Background gap={12} size={1} />
-
-                    <Panel position="top-left" style={{ display: "flex", gap: '8px', flexDirection: 'column',/*  left: '10px', top: '10px' */ }}>
-                        {isMobile ? undefined : <button onClick={printState}>Print State</button>}
-                        <button onClick={() => { addNode('dialogue') }} onDragStart={(event) => onDragStart(event, 'dialogue')} draggable>
-                            <span className="material-symbols-outlined">maps_ugc </span> {isMobile ? undefined : "Add Dialogue"}
-                        </button>
-                        <button onClick={() => { addNode('response') }} onDragStart={(event) => onDragStart(event, 'response')} draggable>
-                            <span className="material-symbols-outlined">comic_bubble</span>{isMobile ? undefined : "Add Response"}
-                        </button>
-                        <button onClick={() => { addNode('exposition') }} onDragStart={(event) => onDragStart(event, 'exposition')} draggable>
-                            <span className="material-symbols-outlined">local_library</span>{isMobile ? undefined : 'Add Exposition'}
-                        </button>
-                        <button onClick={() => { addNode('meta') }} onDragStart={(event) => onDragStart(event, 'meta')} draggable>
-                            <span className="material-symbols-outlined">select_all</span>{isMobile ? undefined : "Add Meta Node"}
-                        </button>
-                        <button onClick={() => { addNode('signal') }} onDragStart={(event) => onDragStart(event, 'signal')} draggable>
-                            <span className="material-symbols-outlined">sensors</span>{isMobile ? undefined : "Add Signal"}
-                        </button>
-                        <button onClick={() => { addNode('token') }} onDragStart={(event) => onDragStart(event, 'token')} draggable>
-                            <span className="material-symbols-outlined">{/* poker_chip */} {/* deployed_code */} key_vertical</span>{isMobile ? undefined : "Add Token"}
-                        </button>
-                    </Panel>
-
-                </ReactFlow>
+                <DndContext>
+                    <ReactFlow
+                        onInit={setReactFlowInstance}
+                        nodes={nodes}
+                        edges={edges}
+                        onNodesChange={onNodesChange}
+                        onEdgesChange={onEdgesChange}
+                        onConnect={onConnect}
+                        onDrop={onDrop}
+                        onDragOver={onDragOver}
+                        selectionMode={SelectionMode.Partial}
+                        nodeTypes={nodeTypes} // DO NOT FORGET THIS PART
+                        edgeTypes={edgeTypes}
+                        minZoom={.25}
+                        maxZoom={2}
+                    /* fitView */
+                    >
+                        <NodePanel isMobile={isMobile} addNode={addNode} onDragStart={onDragStart}></NodePanel>
+                        <ActionsPanel togglePageList={togglePageList} toggleChips={toggleChips} doThing={doThing}></ActionsPanel>
+                        {/* <Controls style={{ top: '0', left: 'auto', right: '0', bottom: 'auto', display: 'flex' }} /> */}
+                        {/* {isMobile ? undefined : <MiniMap zoomable pannable />} */}
+                        <Background gap={12} size={1} />
+                    </ReactFlow>
+                    <ChipsDashboard visible={chipsVisible}></ChipsDashboard>
+                </DndContext>
             </div>
         </ReactFlowProvider>
     );
