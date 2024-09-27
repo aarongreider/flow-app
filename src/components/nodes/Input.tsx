@@ -1,5 +1,5 @@
 import { useState, useCallback, useEffect, useRef } from 'react';
-import useStore from '../store';
+import useStore from '../../store/store';
 
 interface InputProps {
     id: string,
@@ -11,7 +11,7 @@ interface InputProps {
 
 function Input({ id, dataKey, className, defaultText, onChange = () => {} }: InputProps) {
     const nodes = useStore((state) => state.nodes);
-    const updateNodeText = useStore((state) => state.updateNodeText);
+    const updateNodeText = useStore((state) => state.updateNodeData);
 
     const [textValue, setTextValue] = useState(nodes.find(node => node.id === id)?.data[dataKey] ?? defaultText);
 

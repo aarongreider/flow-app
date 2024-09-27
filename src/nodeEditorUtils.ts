@@ -1,12 +1,39 @@
-import DialogueNode from './components/DialogueNode';
-import ResponseNode from './components/ResponseNode';
-import ExpositionNode from './components/ExpositionNode';
-import MetaNode from './components/MetaNode';
-import SignalNode from './components/SignalNode';
-import TextReceiverNode from './components/TextReceiverNode';
-import CustomEdge from './components/EdgeButton';
-import TokenNode from './components/TokenNode';
+import DialogueNode from './components/nodes/DialogueNode';
+import ResponseNode from './components/nodes/ResponseNode';
+import ExpositionNode from './components/nodes/ExpositionNode';
+import MetaNode from './components/nodes/MetaNode';
+import SignalNode from './components/nodes/SignalNode';
+import TextReceiverNode from './components/nodes/TextReceiverNode';
+import CustomEdge from './components/nodes/EdgeButton';
+import TokenNode from './components/nodes/TokenNode';
+import { Chip, ChipSet } from "./types";
 import { useEffect, useState } from 'react';
+
+
+/* GENERIC SETTERS AND GETTERS */
+export function renameChipSet(chipSets: ChipSet[], setKey: string, newName: string): void {
+    const chipSet = chipSets.find(chipSet => chipSet.key === setKey);
+    if (chipSet) {
+        chipSet.name = newName;
+    } else {
+        console.log(`ChipSet with key "${setKey}" not found.`);
+    }
+}
+
+export function getChipSetNames(chipSets: ChipSet[]): string[] {
+    // cycle through all the keys in the global set of chipsets and return an array of names
+    const names = chipSets.reduce((acc: string[], chipSet) => {
+        acc.push(chipSet.name)
+        return acc
+    }, [])
+    return names
+}
+
+export function getChipName(chipSets: ChipSet[], setKey: string, chipKey: string,) {
+    const chipSet: ChipSet | undefined = chipSets.find(chipSet => chipSet.key === setKey);
+    const chip = chipSet ? chipSet.chips.find(chip => chip.key === chipKey) : undefined
+    return chip?.name ?? undefined
+}
 
 /* REACTFLOW BOILERPLATE */
 export const selector = (state: any) => ({

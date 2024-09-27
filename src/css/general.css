@@ -1,6 +1,9 @@
 html {
   background: #E3E3E3;
   font-family: ivyepic, "IvyEpic Variable";
+  overflow: hidden;
+  height: 100svh;
+  width: 100svw;
 }
 
 body {

@@ -1,5 +1,5 @@
 import { useState, useCallback, useEffect, useRef } from 'react';
-import useStore from '../store';
+import useStore from '../../store/store';
 
 interface TextAreaProps {
     id: string,
@@ -10,7 +10,7 @@ interface TextAreaProps {
 
 function TextArea({ id, dataKey, className, defaultText }: TextAreaProps) {
     const nodes = useStore((state) => state.nodes);
-    const updateNodeText = useStore((state) => state.updateNodeText);
+    const updateNodeText = useStore((state) => state.updateNodeData);
 
     const [textValue, setTextValue] = useState(nodes.find(node => node.id === id)?.data[dataKey] ?? defaultText);
 
@@ -18,7 +18,7 @@ function TextArea({ id, dataKey, className, defaultText }: TextAreaProps) {
 
 
     useEffect(() => {
-        // set the state of the id passd in
+        // set the state of the id passed in
         updateNodeText(id, { [dataKey]: textValue })
 
 

@@ -1,6 +1,6 @@
 import { signInWithRedirect, GoogleAuthProvider, getRedirectResult } from "firebase/auth";
 import { useEffect } from "react";
-import auth from '../Firebase';
+import auth from './Firebase';
 
 
 const LoginButtonGoogle = () => {

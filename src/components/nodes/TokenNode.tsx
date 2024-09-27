@@ -1,7 +1,7 @@
 import { Handle, Position, NodeProps } from 'reactflow';
 import { useEffect, useState } from 'react';
 
-import useStore from '../store';
+import useStore from '../../store/store';
 import Input from './Input';
 import DeleteNodeButton from './DeleteNodeButton';
 import SelectNodeButton from './SelectNodeButton';

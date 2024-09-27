@@ -2,8 +2,8 @@ import { doc, setDoc, updateDoc } from "firebase/firestore"; queueMicrotask
 import { useEffect, useRef } from "react";
 import { signInWithPopup, signOut, onAuthStateChanged } from "firebase/auth";
 
-import useStore from './store';
-import { db, auth, provider, fetchPage, fetchMetadata, setPage } from './firebaseUtils';
+import useStore from '../store/store';
+import { db, auth, provider, fetchPage, fetchMetadata, setPage } from '../firebaseUtils';
 
 //#region Component
 function Firebase() {

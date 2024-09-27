@@ -11,11 +11,11 @@ import ReactFlow, {
 
 import { shallow } from 'zustand/shallow';
 import { nanoid } from 'nanoid';
-import useStore from '../store';
+import useStore from '../store/store';
 import { PopupContainer } from './ProjectsPopup';
 import { useParams } from 'react-router-dom';
-import {DndContext} from '@dnd-kit/core';
-import { selector, nodeTypes, edgeTypes, useWindowResizer, useActivePathEffect } from '../nodeEditorUtils';
+import { DndContext, DragEndEvent } from '@dnd-kit/core';
+import { selector, nodeTypes, edgeTypes, useWindowResizer, useActivePathEffect, getChipName } from '../nodeEditorUtils';
 
 import 'reactflow/dist/style.css';
 import '../css/general.css'
@@ -23,7 +23,7 @@ import '../css/components.css'
 import '../css/nodeStyles.css';
 import { NodePanel } from './PanelNodes';
 import { ActionsPanel } from './PanelActions';
-import ChipsDashboard from './chipsDashboard';
+import ChipsDashboard from './chips/ChipsDashboard';
 
 
 //#endregion
@@ -31,13 +31,16 @@ import ChipsDashboard from './chipsDashboard';
 
 
 export default function NodeEditor() {
-
-    const { nodes, edges, onNodesChange, onEdgesChange, onConnect } = useStore(selector, shallow);
+    //#region init variables
+    const { edges, onNodesChange, onEdgesChange, onConnect } = useStore(selector, shallow);
     const activePath = useStore((state) => state.activePath);
+    const nodes = useStore((state) => state.nodes);
     const lastChange = useStore((state) => state.lastChange);
     const lastSave = useStore((state) => state.lastSave);
+    const projectChipSets = useStore((state) => state.projectChipSets);
 
     const setNodes = useStore((state) => state.setNodes);
+    const updateNodeData = useStore((state) => state.updateNodeData);
     const setActivePath = useStore((state) => state.setActivePath);
     const setLastChange = useStore((state) => state.setLastChange);
 
@@ -51,6 +54,7 @@ export default function NodeEditor() {
 
     useWindowResizer(setIsMobile);
     useActivePathEffect(projectKey, pageKey, setActivePath);
+    //#endregion
 
     //#region useEffect
     useEffect(() => { /* INIT NODES ON LOAD */
@@ -133,6 +137,25 @@ export default function NodeEditor() {
     }
     //#endregion
 
+    const handleDragEnd = (e: DragEndEvent) => {
+        // for dnd-kit dragging
+        const { active, over } = e;
+
+        if (over && over.data.current?.accepts.includes(active.data.current?.type)) {
+            // do stuff
+            /* console.log("OVER")
+            console.log(over);
+            console.log(active); */
+
+            //TODO: eventually this will have to be a register of node id's matched with the chip id so they can be managed in state (and thus be renameable)
+            // for now it's just a text string that will not update with state changes 
+            projectChipSets ? updateNodeData(`${over.id}`, { [`setKey`]: active.data.current?.setKey, [`chipKey`]: active.data.current?.chipKey })
+                : undefined;
+
+            /* console.log(nodes.find(node => node.id === over.id)); */
+        } 
+    }
+
     return (
         /* if no params exist, prompt user to create a new page */
         <ReactFlowProvider>
@@ -141,7 +164,7 @@ export default function NodeEditor() {
                 <p style={{ position: "absolute", bottom: 0, fontSize: ".75em" }}>{activePath ? `${activePath.projectKey} / ${activePath.pageKey}` : "undefined"}</p>
                 <PopupContainer visible={registerVisible} toggleVisible={togglePageList} />
 
-                <DndContext>
+                <DndContext onDragEnd={handleDragEnd}>
                     <ReactFlow
                         onInit={setReactFlowInstance}
                         nodes={nodes}
