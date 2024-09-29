@@ -16,7 +16,7 @@ export const createReactFlowSLice = (set: any, get: any) => ({
 
   getNode: (id: string) => {
     //@ts-ignore
-    return get().nodes.filter(node => node.id===id)[0]
+    return get().nodes.filter(node => node.id === id)[0]
   },
 
   onNodesChange: (changes: NodeChange[]) => {
@@ -46,6 +46,25 @@ export const createReactFlowSLice = (set: any, get: any) => ({
         if (node.id === nodeId) {
           // it's important to create a new object here, to inform React Flow about the changes
           return { ...node, data: { ...node.data, ...props } };
+        }
+        return node;
+      }),
+    });
+  },
+  deleteNodeData: (nodeId: string, props: object) => {
+    set({
+      nodes: get().nodes.map((node: Node) => {
+        if (node.id === nodeId) {
+          // Create a new object without the properties in props
+          const { data } = node;
+          const updatedData = { ...data };
+
+          // Loop through the keys of props and delete them from updatedData
+          Object.keys(props).forEach(key => {
+            delete updatedData[key];
+          });
+
+          return { ...node, data: updatedData };
         }
         return node;
       }),

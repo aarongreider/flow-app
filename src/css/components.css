@@ -87,8 +87,10 @@ li::marker {
   z-index: 100;
   overflow: hidden;
   transition: height 150ms ease;
-  -ms-overflow-style: none; /* IE and Edge */
-  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+  /* Firefox */
 }
 .chipsDash::-webkit-scrollbar {
   display: none;
@@ -113,7 +115,7 @@ li::marker {
   width: -moz-min-content;
   width: min-content;
   background-color: #4f4f4f;
-  border-radius: 30px;
+  border-radius: 8px;
   color: white;
   padding: 4px;
   padding-right: 14px;

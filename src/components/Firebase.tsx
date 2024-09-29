@@ -14,11 +14,13 @@ function Firebase() {
     const user = useStore((state) => state.user);
     const activePath = useStore((state) => state.activePath);
     const register = useStore((state) => state.register);
+    const projectChipSets = useStore((state) => state.projectChipSets);
 
     const setNodes = useStore((state) => state.setNodes);
     const setEdges = useStore((state) => state.setEdges);
     const updateUser = useStore((state) => state.updateUser);
     const setRegister = useStore((state) => state.setRegister);
+    const setChips = useStore((state) => state.setChips);
     const setActivePath = useStore((state) => state.setActivePath);
     const setLastChange = useStore((state) => state.setLastChange);
     const setLastSave = useStore((state) => state.setLastSave);
@@ -41,6 +43,9 @@ function Firebase() {
                 console.log(newRegister);
 
                 setRegister(newRegister)
+            }
+            if (metadata?.projectChipSets) {
+                setChips(metadata.projectChipSets)
             }
         }
         if (user && !hasFetchedData.current) {
@@ -126,9 +131,31 @@ function Firebase() {
         }
     }
 
+    const syncChips = async () => {
+        if (user) {
+            const docRef = (doc(db, `flow-users/${user.uid}`))
+
+            try {
+                await updateDoc(docRef, { projectChipSets });
+                console.log(`chips updated successfully`);
+            } catch (error) {
+                console.log(error);
+
+                try {
+                    await setDoc(docRef, { projectChipSets })
+                    console.log(`chips set successfully`);
+                } catch (error) {
+                    console.log(error);
+                }
+
+            }
+        }
+    }
+
     const handleSave = async () => { // when the user hits the save button
         try {
             await syncRegister();
+            await syncChips();
             activePath ? await setPage(user, activePath.projectKey, activePath.pageKey, nodes, edges) : undefined;
             setLastSave(new Date);
         } catch (error) {
@@ -145,7 +172,7 @@ function Firebase() {
 
         } catch (error: any) {
             console.log("error signing in", error);
-            
+
         }
     };
 

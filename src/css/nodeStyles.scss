@@ -102,11 +102,17 @@ $dropShadow: drop-shadow(0px 1px 3px rgba(0, 0, 0, 0.2)) drop-shadow(0px 2px 8px
   @include multiInputNode();
   width: min-content;
 
+  .inner {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
   input {
     font-family: $serif;
     font-size: 30px;
     font-weight: 500;
-    margin-bottom: 10px;
+    //margin-bottom: 10px;
   }
 
 }
@@ -140,7 +146,8 @@ $dropShadow: drop-shadow(0px 1px 3px rgba(0, 0, 0, 0.2)) drop-shadow(0px 2px 8px
   //width: auto;
 }
 
-.signal-node, .token-node {
+.signal-node,
+.token-node {
   @include singleInputNode();
   background-color: $sage-light;
 

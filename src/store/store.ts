@@ -41,9 +41,11 @@ type RFState = {
   setNodes: (nodes: Node[]) => void;
   setEdges: (edges: Edge[]) => void;
   updateNodeData: (nodeID: string, props: object) => void;
+  deleteNodeData: (nodeID: string, props: object) => void;
   updateUser: (user: User) => void;
   setActivePath: (path: PagePath) => void;
   setActiveChipSet: (chipSet: ChipSet) => void;
+  setChips: (chipSets: ChipSet[]) => void;
   setRegister: (register: Project[]) => void;
   updateProjectName: (projectKey: string, newProjectName: string) => void;
   updatePageName: (projectKey: string, oldPageName: string, newPageName: string) => void;
@@ -58,7 +60,7 @@ const useStore = create<RFState>((set, get) => ({
   ...createReactFlowSLice(set, get),
   ...createProjectMgmtSlice(set, get),
   ...createChipsSlice(set, get),
-  
+
   user: null,
   updateUser: (user: User) => {
     set({ user });

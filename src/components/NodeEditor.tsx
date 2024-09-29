@@ -153,9 +153,10 @@ export default function NodeEditor() {
                 : undefined;
 
             /* console.log(nodes.find(node => node.id === over.id)); */
-        } 
+        }
     }
 
+    //#region component
     return (
         /* if no params exist, prompt user to create a new page */
         <ReactFlowProvider>
@@ -193,3 +194,4 @@ export default function NodeEditor() {
         </ReactFlowProvider>
     );
 }
+//#endregion

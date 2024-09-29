@@ -73,11 +73,15 @@
   width: -moz-min-content;
   width: min-content;
 }
+.dialogue-node .inner {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
 .dialogue-node input {
   font-family: ivyora-display, "IvyOra Display";
   font-size: 30px;
   font-weight: 500;
-  margin-bottom: 10px;
 }
 
 .response-node {
@@ -129,7 +133,8 @@
   color: #777;
 }
 
-.signal-node, .token-node {
+.signal-node,
+.token-node {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -144,11 +149,13 @@
   overflow: hidden;
   background-color: #87BC83;
 }
-.signal-node .handle, .token-node .handle {
+.signal-node .handle,
+.token-node .handle {
   background-color: white;
   filter: drop-shadow(0px 1px 3px rgba(0, 0, 0, 0.2)) drop-shadow(0px 2px 8px rgba(0, 0, 0, 0.15));
 }
-.signal-node input, .token-node input {
+.signal-node input,
+.token-node input {
   color: white;
   font-weight: 600;
   overflow: visible;

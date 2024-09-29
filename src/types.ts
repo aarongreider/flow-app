@@ -8,6 +8,7 @@ export type PageFetch = {
 
 export type MetadataFetch = {
     register: Project[];
+    projectChipSets: ChipSet[];
 }
 
 export type PagePath = {

@@ -1,7 +1,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import useStore from "../../store/store";
-import { useDraggable } from "@dnd-kit/core";
+import { DndContext, useDraggable } from "@dnd-kit/core";
 import { getChipName } from "../../nodeEditorUtils";
 
 
@@ -44,6 +44,8 @@ export function ChipChip({ chipKey, altID, setKey, draggable, onClick, setIsDrag
 
     useEffect(() => { // Draggability Bubble Up
         setIsDragNDropping && setIsDragNDropping(isDragging)
+        console.log("IS DRAGGING", isDragging);
+
     }, [isDragging])
 
 
@@ -51,7 +53,7 @@ export function ChipChip({ chipKey, altID, setKey, draggable, onClick, setIsDrag
         <div className="chip" onClick={onClick}
             style={style} // Draggable Styles
         >
-            {draggable ? <span className="material-symbols-outlined"
+            {draggable ? <span className="material-symbols-outlined nodrag"
                 ref={setNodeRef}
                 {...attributes} // Attributes for drag functionality
                 {...(draggable && listeners)} // Apply listeners only if draggable
