@@ -40,12 +40,16 @@ function DialogueNode(props: NodeProps) {
       // then set the states of setKey and chipKey
       setSetKey(node.data.setKey)
       setChipKey(node.data.chipKey)
+    } else {
+      setChipKey(undefined)
+      setSetKey(undefined)
     }
   }, [nodes])
 
   const handleDeleteChip = () => {
     // find node in store and remove node
-    deleteNodeData(props.id, { [`chipKey`]: })
+    deleteNodeData(props.id, { [`chipKey`]: '' })
+    deleteNodeData(props.id, { [`setKey`]: '' })
   }
 
 
@@ -59,9 +63,9 @@ function DialogueNode(props: NodeProps) {
 
         {/* DROPPABLE */}
         <div ref={setNodeRef} style={{ marginTop: `${chipKey ? 0 : '-10px'}`, display: 'flex', alignItems: 'center', gap: '4px' }}>
-          {(chipKey && setKey) && <ChipChip chipKey={chipKey} setKey={setKey} draggable={true} altID={nanoid()}></ChipChip>}
+          {(chipKey && setKey) && <ChipChip chipKey={chipKey} setKey={setKey} draggable={false} altID={nanoid()}></ChipChip>}
           {/* DELETE CHIP */}
-          <span className="material-symbols-outlined chip" style={{ paddingRight: '4px' }} onClick={handleDeleteChip}>delete</span>
+          {chipKey ? <span className="material-symbols-outlined chip" style={{ paddingRight: '4px' }} onClick={handleDeleteChip}>delete</span> : undefined}
           {chipKey ? undefined : <Input id={props.id} dataKey={"character"} defaultText='Character' />}
         </div>
         <TextArea id={props.id} dataKey={"dialogue"} defaultText='Hi! How are you today?'></TextArea>

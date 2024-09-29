@@ -44,8 +44,7 @@ export function ChipChip({ chipKey, altID, setKey, draggable, onClick, setIsDrag
 
     useEffect(() => { // Draggability Bubble Up
         setIsDragNDropping && setIsDragNDropping(isDragging)
-        console.log("IS DRAGGING", isDragging);
-
+        //console.log("IS DRAGGING", isDragging);
     }, [isDragging])
 
 
