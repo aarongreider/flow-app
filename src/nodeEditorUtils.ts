@@ -8,6 +8,7 @@ import CustomEdge from './components/nodes/EdgeButton';
 import TokenNode from './components/nodes/TokenNode';
 import { Chip, ChipSet } from "./types";
 import { useEffect, useState } from 'react';
+import useStore from './store/store';
 
 
 /* GENERIC SETTERS AND GETTERS */
@@ -88,32 +89,48 @@ export const useActivePathEffect = (projectKey: string | undefined, pageKey: str
 }
 
 export const useDragBoundaries = (contentRef: React.RefObject<HTMLDivElement>) => {
-     //#region FRAMER MOTION
-     const [boundaries, setBoundaries] = useState<{ left: number; right: number }>({
-         left: 0,
-         right: 0,
-     });
- 
-     const updateBoundaries = () => {
-         if (contentRef.current) {
-             // Update boundaries based on viewport width
-             const contentWidth = contentRef.current.offsetWidth;
-             const viewportWidth = window.innerWidth;
-             setBoundaries({ left: contentWidth > viewportWidth ? -(contentWidth - viewportWidth + 50) : 0, right: 0 });
-         }
-     }
- 
-     useEffect(() => {
-         setTimeout(updateBoundaries, 1000)  // Initial call
- 
-         // Add resize listener to update boundaries when the window size changes
-         window.addEventListener('resize', updateBoundaries);
- 
-         return () => {
-             window.removeEventListener('resize', updateBoundaries); // Clean up listener
-         };
-     }, [contentRef]);
-     
-     return boundaries
-     //#endregion
+    /* FRAMER MOTION */
+    const activeChipSet = useStore((state) => state.activeChipSet);
+    const [boundaries, setBoundaries] = useState<{ left: number; right: number }>({
+        left: 0,
+        right: 0,
+    });
+
+    const updateBoundaries = () => {
+        if (contentRef.current) {
+            // Update boundaries based on viewport width
+            const contentWidth = contentRef.current.offsetWidth;
+            const viewportWidth = window.innerWidth - 100;
+            setBoundaries({ left: contentWidth > viewportWidth ? -(contentWidth - viewportWidth) : 0, right: 0 });
+
+        }
+    }
+
+    useEffect(() => {
+        console.log("updating boundaries", boundaries);
+
+    }, [boundaries])
+
+
+    useEffect(() => {
+        //call when setting active path
+        setTimeout(updateBoundaries, 200)
+        console.log("AHHHHHHH SETTING BOUNDAIRES");
+
+
+    }, [activeChipSet])
+
+
+    useEffect(() => {
+        setTimeout(updateBoundaries, 1000)  // Initial call
+
+        // Add resize listener to update boundaries when the window size changes
+        window.addEventListener('resize', updateBoundaries);
+
+        return () => {
+            window.removeEventListener('resize', updateBoundaries); // Clean up listener
+        };
+    }, [contentRef]);
+
+    return boundaries
 }

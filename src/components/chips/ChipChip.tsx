@@ -50,7 +50,7 @@ export function ChipChip({ chipKey, altID, setKey, draggable, onClick, setIsDrag
 
     return (
         <div className="chip" onClick={onClick}
-            style={style} // Draggable Styles
+            style={{ ...style, paddingRight: '14px' }} // Draggable Styles
         >
             {draggable ? <span className="material-symbols-outlined nodrag"
                 ref={setNodeRef}
