@@ -1,5 +1,4 @@
-import { nanoid } from "nanoid";
-import { ChipSet } from '../types';
+import { ChipSet, Chip } from '../types';
 
 
 export const createChipsSlice = (set: any, get: any) => ({
@@ -19,5 +18,28 @@ export const createChipsSlice = (set: any, get: any) => ({
 
     setChips: (chipSets: ChipSet[]) => {
         set({ projectChipSets: chipSets })
-    }
+    },
+
+    renameChip: (setKey: string, chipKey: string, newName: string) => {
+        const projectChipSets: ChipSet[] = [...get().projectChipSets];
+        const chipSetIndex = projectChipSets.findIndex(chipSet => chipSet.key === setKey);
+        const chipIndex = projectChipSets[chipSetIndex].chips.findIndex(chip => chip.key === chipKey);
+        projectChipSets[chipSetIndex].chips[chipIndex].name = newName;
+        set({ projectChipSets })
+    },
+
+    renameChipSet: (setKey: string, newName: string) => {
+        const projectChipSets: ChipSet[] = [...get().projectChipSets];
+        const chipSetIndex = projectChipSets.findIndex(chipSet => chipSet.key === setKey);
+        projectChipSets[chipSetIndex].name = newName;
+        set({ projectChipSets })
+    },
+
+    addChip: (setKey: string, chip: Chip) => {
+
+    },
+
+    addChipSet: (chipSet: ChipSet) => {
+
+    },
 })

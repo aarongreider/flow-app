@@ -147,8 +147,6 @@ export default function NodeEditor() {
             console.log(over);
             console.log(active); */
 
-            //TODO: eventually this will have to be a register of node id's matched with the chip id so they can be managed in state (and thus be renameable)
-            // for now it's just a text string that will not update with state changes 
             projectChipSets ? updateNodeData(`${over.id}`, { [`setKey`]: active.data.current?.setKey, [`chipKey`]: active.data.current?.chipKey })
                 : undefined;
 

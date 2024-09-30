@@ -12,15 +12,6 @@ import useStore from './store/store';
 
 
 /* GENERIC SETTERS AND GETTERS */
-export function renameChipSet(chipSets: ChipSet[], setKey: string, newName: string): void {
-    const chipSet = chipSets.find(chipSet => chipSet.key === setKey);
-    if (chipSet) {
-        chipSet.name = newName;
-    } else {
-        console.log(`ChipSet with key "${setKey}" not found.`);
-    }
-}
-
 export function getChipSetNames(chipSets: ChipSet[]): string[] {
     // cycle through all the keys in the global set of chipsets and return an array of names
     const names = chipSets.reduce((acc: string[], chipSet) => {

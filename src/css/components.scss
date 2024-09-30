@@ -14,7 +14,8 @@ $hover-transition: background-color 100ms ease-out;
     .projectPopup {
         display: flex;
         flex-direction: column;
-        min-width: 360px;
+        max-width: 400px;
+        width: 75svw;
         height: min-content;
         max-height: 80svh;
         scroll-behavior: smooth;

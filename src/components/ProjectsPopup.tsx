@@ -3,6 +3,13 @@ import useStore from '../store/store';
 import { Project, Page } from '../types';
 import { Link } from 'react-router-dom';
 
+export const WithPopUpContainer = ({ }) => {
+
+}
+export const WithItemSelect = ({ }) => {
+
+}
+
 interface PopupProps {
     visible: boolean
     toggleVisible: () => void
