@@ -12,7 +12,7 @@ import ReactFlow, {
 import { shallow } from 'zustand/shallow';
 import { nanoid } from 'nanoid';
 import useStore from '../store/store';
-import { PopupContainer } from './ProjectsPopup';
+import { ProjectPopup } from './ProjectsPopup';
 import { useParams } from 'react-router-dom';
 import { DndContext, DragEndEvent } from '@dnd-kit/core';
 import { selector, nodeTypes, edgeTypes, useWindowResizer, useActivePathEffect, getChipName } from '../nodeEditorUtils';
@@ -24,6 +24,7 @@ import '../css/nodeStyles.css';
 import { NodePanel } from './PanelNodes';
 import { ActionsPanel } from './PanelActions';
 import ChipsDashboard from './chips/ChipsDashboard';
+import { ChipModal } from './chips/ChipModal';
 
 
 //#endregion
@@ -161,7 +162,7 @@ export default function NodeEditor() {
 
             <div style={{ width: '100svw', height: '100svh', display: 'flex', flexDirection: 'column' }}>
                 <p style={{ position: "absolute", bottom: 0, fontSize: ".75em" }}>{activePath ? `${activePath.projectKey} / ${activePath.pageKey}` : "undefined"}</p>
-                <PopupContainer visible={registerVisible} toggleVisible={togglePageList} />
+                <ProjectPopup visible={registerVisible} toggleVisible={togglePageList} />
 
                 <DndContext onDragEnd={handleDragEnd}>
                     <ReactFlow

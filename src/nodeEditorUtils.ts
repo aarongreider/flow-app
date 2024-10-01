@@ -97,10 +97,10 @@ export const useDragBoundaries = (contentRef: React.RefObject<HTMLDivElement>) =
         }
     }
 
-    useEffect(() => {
+    /* useEffect(() => {
         console.log("updating boundaries", boundaries);
 
-    }, [boundaries])
+    }, [boundaries]) */
 
 
     useEffect(() => {

@@ -3,6 +3,8 @@ import { ChipChip } from "./ChipChip";
 import { WithBarScrolling, WithLoading } from "./ChipSelectWrappers";
 import useStore from "../../store/store";
 import { ChipSet } from "../../types";
+import { WithUlModal } from "../genericWrappers";
+import { ChipModal } from "./ChipModal";
 
 interface ChipSetSelectProps {
     visible: boolean;
@@ -14,6 +16,8 @@ export function ChipSetSelect({ visible, setChildVisible }: ChipSetSelectProps) 
     const setActiveChipSet = useStore((state) => state.setActiveChipSet);
     const renameChipSet = useStore((state) => state.renameChipSet);
     const [isLoading, setIsLoading] = useState<boolean>(true)
+    const [modalVisible, setModalVisible] = useState<boolean>(true)
+
     useEffect(() => {
         localStorage.setItem('chips', JSON.stringify(projectChipSets))
 
@@ -23,14 +27,18 @@ export function ChipSetSelect({ visible, setChildVisible }: ChipSetSelectProps) 
     }, [projectChipSets])
 
     const handleAddChip = () => {
-        
+
     }
-    const handleOpenSettings = () => {
-        renameChipSet('WxrgoglYdvt7kRYYn_Wl_', 'events')
-        console.log('renaming chipset!');
+
+    const toggleModal = () => {
+        setModalVisible(!modalVisible)
     }
+
+    
+
     return <>
-        <WithBarScrolling visible={visible} overflow="hidden" drag="x" handleAddChip={handleAddChip} handleOpenSettings={handleOpenSettings}>
+        <ChipModal visible={modalVisible} toggleVisible={toggleModal}></ChipModal>
+        <WithBarScrolling visible={visible} overflow="hidden" drag="x" handleAddChip={handleAddChip} handleOpenSettings={toggleModal}>
             <WithLoading isLoading={isLoading}>
                 {projectChipSets?.map((chipSet: ChipSet) => {
                     return <ChipChip key={chipSet.key} setKey={chipSet.key} draggable={false} onClick={() => { setActiveChipSet(chipSet); setChildVisible(true) }}></ChipChip>
