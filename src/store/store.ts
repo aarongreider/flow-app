@@ -42,8 +42,8 @@ type RFState = {
   setChips: (chipSets: ChipSet[]) => void;
   renameChip: (setKey: string, chipKey: string, newName: string) => void;
   renameChipSet: (setKey: string, newName: string) => void;
-  addChip: (setKey: string, chip: Chip) => void;
-  addChipSet: (chipSet: ChipSet) => void;
+  addChip: (setKey: string, name: string) => void;
+  addChipSet: (name: string) => void;
 
   //register
   activePath: PagePath | undefined;

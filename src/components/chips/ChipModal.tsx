@@ -2,6 +2,8 @@ import { useState } from "react";
 import useStore from "../../store/store";
 import { Chip, ChipSet } from "../../types";
 import { AsSelectableLi, AsSelectableUl, WithPopUp, WithUlModal } from "../genericWrappers";
+import { nanoid } from "nanoid";
+import ChipsDashboard from "./ChipsDashboard";
 
 interface ChipModalProps {
     visible: boolean
@@ -12,6 +14,9 @@ export const ChipModal = ({ visible, toggleVisible }: ChipModalProps) => {
     const projectChipSets = useStore((state) => state.projectChipSets);
 
     const handleAddChipSet = () => {
+
+    }
+    const handleRenameChipSet = () => {
 
     }
 
@@ -27,16 +32,26 @@ export const ChipModal = ({ visible, toggleVisible }: ChipModalProps) => {
     </>
 }
 
+
 interface ChipSetLineItemProps {
     chipSet: ChipSet
 }
-const ChipSetLineItem = ({ chipSet }: ChipSetLineItemProps) => {
-    const [chipSetName, setChipSetName] = useState<string>(chipSet.name)
-    const handleRenameChipSet = (newName: string) => {
 
+const ChipSetLineItem = ({ chipSet }: ChipSetLineItemProps) => {
+    // the project level line item
+    const [chipSetName, setChipSetName] = useState<string>(chipSet.name)
+    const renameChipSet = useStore((state) => state.renameChipSet);
+    const addChip = useStore((state) => state.addChip);
+
+    const handleRenameChipSet = (newName: string) => {
+        renameChipSet(chipSet.key, newName)
     }
     const handleAddChip = () => {
-
+        const newName = prompt(`new ${chipSet.name} chip`)
+        if (newName) {
+           // const chip: Chip = { key: nanoid(), name: newName}
+            addChip(chipSet.key, newName)
+        }
     }
     return <>
         <AsSelectableUl title={chipSetName} setTitle={setChipSetName} handleNewTitle={handleRenameChipSet} handleAddItem={handleAddChip} >
@@ -48,11 +63,15 @@ const ChipSetLineItem = ({ chipSet }: ChipSetLineItemProps) => {
     </>
 }
 
+
 interface ChipLineItemProps {
     chip: Chip
     chipSetKey: string
 }
+
+
 const ChipLineItem = ({ chip, chipSetKey }: ChipLineItemProps) => {
+    // the page level line item
     const [chipName, setChipName] = useState<string>(chip.name)
     const handleRenameChip = (newName: string) => {
 
