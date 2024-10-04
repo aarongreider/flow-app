@@ -1,9 +1,10 @@
-import { ReactNode, useState } from 'react';
+import { ReactNode, useRef, useState } from 'react';
 import useStore from '../store/store';
 import { Project, Page } from '../types';
 import { Link } from 'react-router-dom';
 import { setPage } from '../firebaseUtils';
 import { AsSelectableLi, AsSelectableUl, WithPopUp, WithUlModal } from './genericWrappers';
+import { nanoid } from 'nanoid';
 
 
 
@@ -58,6 +59,7 @@ function ProjectWidget({ project, pages }: ProjectWidgetProps) {
     const addPage = useStore((state) => state.addPage);
     const updateProjectName = useStore((state) => state.updateProjectName);
     const [projectName, setProjectName] = useState<string>(project.name)
+    const uniqueKey = useRef(nanoid())
 
     const handleAddPage = () => {
         const response = prompt('New Page Name:');
@@ -75,7 +77,7 @@ function ProjectWidget({ project, pages }: ProjectWidgetProps) {
         {/* classname toggle is used to designate which elements will toggle the pages */}
         <AsSelectableUl title={projectName} setTitle={setProjectName} handleNewTitle={handleRenameProject} handleAddItem={handleAddPage}>
             {pages.length == 0 ? <li><i style={{ fontFamily: "IvyJournal", color: 'grey' }}>{`No pages yet :)`}</i></li> : pages.map((page) => (
-                <PageWidget key={page.key} project={project} page={page}></PageWidget>
+                <PageWidget key={`${page.key}-${uniqueKey}`} project={project} page={page}></PageWidget>
             ))}
         </AsSelectableUl>
     </>
@@ -86,6 +88,7 @@ function PageWidget({ project, page }: PageWidgetProps) {
     const [pageName, setPageName] = useState<string>(page.name)
     const setActivePath = useStore((state) => state.setActivePath);
     const updatePageName = useStore((state) => state.updatePageName);
+    const uniqueKey = useRef(nanoid())
 
     const handleRenamePage = (newName: string) => {
         updatePageName(project.key, page.key, newName)
@@ -98,7 +101,7 @@ function PageWidget({ project, page }: PageWidgetProps) {
 
     return <>
         <Link to={`/editor/${project.key}/${page.key}`}>
-            <AsSelectableLi title={pageName} key={page.key} setTitle={setPageName} handleNewTitle={handleRenamePage} handleClickItem={handleClick}>
+            <AsSelectableLi title={pageName} keyStr={`${page.key}-${uniqueKey}`} setTitle={setPageName} handleNewTitle={handleRenamePage} handleClickItem={handleClick}>
                 {pageName}
             </AsSelectableLi>
         </Link>

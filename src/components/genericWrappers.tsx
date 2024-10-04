@@ -1,5 +1,5 @@
 import { nanoid } from "nanoid"
-import { ReactNode, useState } from "react"
+import { ReactNode, useEffect, useRef, useState } from "react"
 
 
 
@@ -52,9 +52,11 @@ interface SelectableUlProps {
 export const AsSelectableUl = ({ title, setTitle, handleNewTitle, handleAddItem, children }: SelectableUlProps) => {
     const [toggled, setToggled] = useState<boolean>(false)
     const [isRenaming, setIsRenaming] = useState<boolean>(false)
+    const [tempTitle, setTempTitle] = useState<string>(title)
+    const uniqueKey = useRef(nanoid())
 
     return <>
-        <li key={`${title}-${nanoid}`} className='toggle' style={{ listStyleType: `${toggled ? "disclosure-open" : "disclosure-closed"}` }} onClick={(e) => {
+        <li key={`${title}-${uniqueKey}`} className='toggle' style={{ listStyleType: `${toggled ? "disclosure-open" : "disclosure-closed"}` }} onClick={(e) => {
             if (e.target instanceof Element && e.target.classList.contains("toggle"))
                 setToggled(!toggled)
         }}>
@@ -62,9 +64,9 @@ export const AsSelectableUl = ({ title, setTitle, handleNewTitle, handleAddItem,
                 {/* conditionally display the input field when isRenaming is true */}
                 {isRenaming ? (<>
                     <input type="text"
-                        value={title}
-                        onChange={(e) => setTitle(e.target.value)}
-                        onBlur={(e) => {
+                        value={tempTitle}
+                        onChange={(e) => setTempTitle(e.target.value)}
+                        onBlur={(e) => {                            
                             handleNewTitle(e.target.value)
                             console.log(`renaming ${title}`, e.target.value)
                         }} // Rename on blur
@@ -87,16 +89,24 @@ export const AsSelectableUl = ({ title, setTitle, handleNewTitle, handleAddItem,
 
 interface SelectableLiProps {
     title: string
-    key: string
+    keyStr: string
     setTitle: (newTitle: string) => void
     handleNewTitle: (newTitle: string) => void
     handleClickItem: () => void
     children: ReactNode
 }
-export const AsSelectableLi = ({ title, key, setTitle, handleNewTitle, handleClickItem, children }: SelectableLiProps) => {
+export const AsSelectableLi = ({ title, keyStr, setTitle, handleNewTitle, handleClickItem, children }: SelectableLiProps) => {
     const [isRenaming, setIsRenaming] = useState<boolean>(false)
+    const uniqueInputKey = useRef(nanoid())
+    const [tempTitle, setTempTitle] = useState<string>(title)
+    
+    useEffect(() => {
+        console.log('isRenaming li', isRenaming);
+        
+    }, [isRenaming])
+
     return <>
-        <li key={key} onClick={(e) => {
+        <li key={`${title}-${keyStr ?? 'li'}`} onClick={(e) => {
             if (e.target === e.currentTarget) {
                 if (!isRenaming) {
                     handleClickItem();
@@ -106,12 +116,13 @@ export const AsSelectableLi = ({ title, key, setTitle, handleNewTitle, handleCli
 
             {/* conditionally display the input field when isRenaming is true */}
             {isRenaming ? (<>
-                <input type="text"
-                    value={title}
-                    onChange={(e) => setTitle(e.target.value)}
+                <input type="text" key={`${uniqueInputKey}`}
+                    value={tempTitle}
+                    onChange={(e) => setTempTitle(e.target.value) }
                     onBlur={(e) => {
                         handleNewTitle(e.target.value)
                         console.log(`renaming ${title}`, e.target.value)
+                        setIsRenaming(false)
                     }} // Rename on blur
                 /></>
             ) : (

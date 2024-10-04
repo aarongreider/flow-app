@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import useStore from "../../store/store";
 import { Chip, ChipSet } from "../../types";
 import { AsSelectableLi, AsSelectableUl, WithPopUp, WithUlModal } from "../genericWrappers";
@@ -25,7 +25,7 @@ export const ChipModal = ({ visible, toggleVisible }: ChipModalProps) => {
             <WithUlModal header="Chips" onClickAddButton={handleAddChipSet} >
                 {/* map all chipsets */}
                 {projectChipSets ? projectChipSets.map((chipSet, index) => {
-                    return <ChipSetLineItem chipSet={chipSet}></ChipSetLineItem>
+                    return <ChipSetLineItem key={chipSet.key} chipSet={chipSet}></ChipSetLineItem>
                 }) : <p>{"No Chipsets :)"}</p>}
             </WithUlModal>
         </WithPopUp>
@@ -43,21 +43,22 @@ const ChipSetLineItem = ({ chipSet }: ChipSetLineItemProps) => {
     const renameChipSet = useStore((state) => state.renameChipSet);
     const addChip = useStore((state) => state.addChip);
 
-    const handleRenameChipSet = (newName: string) => {
+    const handleRenameChipSet = useCallback((newName: string) => {
         renameChipSet(chipSet.key, newName)
-    }
-    const handleAddChip = () => {
+    }, [renameChipSet, chipSet.key]);
+
+    const handleAddChip = useCallback(() => {
         const newName = prompt(`new ${chipSet.name} chip`)
         if (newName) {
            // const chip: Chip = { key: nanoid(), name: newName}
             addChip(chipSet.key, newName)
         }
-    }
+    }, [addChip, chipSet.key])
     return <>
-        <AsSelectableUl title={chipSetName} setTitle={setChipSetName} handleNewTitle={handleRenameChipSet} handleAddItem={handleAddChip} >
+        <AsSelectableUl key={chipSet.key} title={chipSetName} setTitle={setChipSetName} handleNewTitle={handleRenameChipSet} handleAddItem={handleAddChip} >
             {/* map chips in chipset */}
             {chipSet.chips.map((chip, index) => {
-                return <ChipLineItem chip={chip} chipSetKey={chipSet.key}></ChipLineItem>
+                return <ChipLineItem key={chip.key} chip={chip} chipSetKey={chipSet.key}></ChipLineItem>
             })}
         </AsSelectableUl>
     </>
@@ -80,7 +81,7 @@ const ChipLineItem = ({ chip, chipSetKey }: ChipLineItemProps) => {
         // prompt for user specific chip name
     }
     return <>
-        <AsSelectableLi key={chip.key} title={chipName} setTitle={setChipName} handleNewTitle={handleRenameChip} handleClickItem={handleAddChip}>
+        <AsSelectableLi keyStr={chip.key} title={chipName} setTitle={setChipName} handleNewTitle={handleRenameChip} handleClickItem={handleAddChip}>
             {/* chip name */}
             {chip.name}
         </AsSelectableLi>
