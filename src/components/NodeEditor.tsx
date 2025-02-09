@@ -20,11 +20,11 @@ import { selector, nodeTypes, edgeTypes, useWindowResizer, useActivePathEffect, 
 import 'reactflow/dist/style.css';
 import '../css/general.css'
 import '../css/components.css'
-import '../css/nodeStyles.css';
+import './nodes/css/nodeStyles.css'
 import { NodePanel } from './PanelNodes';
 import { ActionsPanel } from './PanelActions';
-import ChipsDashboard from './chips/ChipsDashboard';
-import { ChipModal } from './chips/ChipModal';
+import ChipsDashboard from './Chip Dashboard/ChipsDashboard';
+import { ChipModal } from './Chip Modal/ChipModal';
 
 
 //#endregion

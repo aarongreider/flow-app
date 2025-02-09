@@ -1,12 +1,12 @@
-import DialogueNode from './components/nodes/DialogueNode';
-import ResponseNode from './components/nodes/ResponseNode';
-import ExpositionNode from './components/nodes/ExpositionNode';
-import MetaNode from './components/nodes/MetaNode';
-import SignalNode from './components/nodes/SignalNode';
-import TextReceiverNode from './components/nodes/TextReceiverNode';
-import CustomEdge from './components/nodes/EdgeButton';
-import TokenNode from './components/nodes/TokenNode';
-import { Chip, ChipSet } from "./types";
+import DialogueNode from './components/nodes/components/DialogueNode';
+import ResponseNode from './components/nodes/components/ResponseNode';
+import ExpositionNode from './components/nodes/components/ExpositionNode';
+import MetaNode from './components/nodes/components/MetaNode';
+import SignalNode from './components/nodes/components/SignalNode';
+import TextReceiverNode from './components/nodes/components/TextReceiverNode';
+import CustomEdge from './components/nodes/components/EdgeButton';
+import TokenNode from './components/nodes/components/TokenNode';
+import { ChipSet } from "./types";
 import { useEffect, useState } from 'react';
 import useStore from './store/store';
 
@@ -106,9 +106,6 @@ export const useDragBoundaries = (contentRef: React.RefObject<HTMLDivElement>) =
     useEffect(() => {
         //call when setting active path
         setTimeout(updateBoundaries, 200)
-        console.log("AHHHHHHH SETTING BOUNDAIRES");
-
-
     }, [activeChipSet])
 
 

@@ -3,7 +3,7 @@ import NodeEditor from './components/NodeEditor';
 import { Link, Route, Routes } from 'react-router-dom';
 import { ProjectHome } from './components/ProjectsPopup';
 import Firebase from './components/Firebase';
-import { DndContextComp } from './components/Draggable';
+import { DndContextComp } from './components/DragNDrop/DnDContext';
 //#endregion
 
 

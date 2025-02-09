@@ -1,7 +1,7 @@
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import useStore from "../../store/store";
-import { DndContext, useDraggable } from "@dnd-kit/core";
+import { useDraggable } from "@dnd-kit/core";
 import { getChipName } from "../../nodeEditorUtils";
 
 
@@ -14,7 +14,8 @@ interface ChipProps {
     setIsDragNDropping?: (bool: boolean) => void;
 }
 
-export function ChipChip({ chipKey, altID, setKey, draggable, onClick, setIsDragNDropping }: ChipProps) {
+export function ChipItem({ chipKey, altID, setKey, draggable, onClick, setIsDragNDropping }: ChipProps) {
+    // The lowest level of chip, its the draggable chip display
     const projectChipSets = useStore((state) => state.projectChipSets);
     const [chipName, setChipName] = useState<string>()
     const { attributes, listeners, setNodeRef, transform, isDragging } = useDraggable({

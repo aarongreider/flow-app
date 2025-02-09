@@ -1,7 +1,7 @@
 import { Handle, Position, NodeProps } from 'reactflow';
 import { useEffect, useState } from 'react';
 
-import useStore from '../../store/store';
+import useStore from '../../../store/store';
 import Input from './Input';
 import DeleteNodeButton from './DeleteNodeButton';
 import SelectNodeButton from './SelectNodeButton';
@@ -30,7 +30,7 @@ function TokenNode(props: NodeProps) {
 
     useEffect(() => {
         const currentNode = nodes.find(node => node.id === props.id)
-        
+
         if (currentNode?.data.token) {
             const keyMatch = nodes.find(node => node.data.token === currentNode.data.token && node.id !== props.id)
             if (keyMatch) {
@@ -55,7 +55,7 @@ function TokenNode(props: NodeProps) {
                 <Handle className="handle target" type="target" position={Position.Top} isConnectable={props.isConnectable} />
             }
             {hasKeyMatch ? <span style={{ color: 'white', paddingRight: '5px' }} className="material-symbols-outlined">kid_star</span> : undefined}
-            <Input id={props.id} dataKey="token" defaultText='TokenKey' onChange={onInputChange}/>
+            <Input id={props.id} dataKey="token" defaultText='TokenKey' onChange={onInputChange} />
             {isBroadcasting || isBroadcasting === undefined ?
                 <Handle className="handle source" type="source" position={Position.Bottom} isConnectable={props.isConnectable} />
                 : undefined}

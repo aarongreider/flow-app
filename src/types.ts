@@ -17,12 +17,9 @@ export type PagePath = {
 }
 
 export type Project = { name: string, key: string, pages: Page[], tokens?: string[] }
-
 export type Page = { name: string, key: string }
-
 export type Chip = { key: string, name: string }
 export type ChipSet = { key: string, name: string, chips: Chip[] }
-
 
 /* const register: Project[] = [
     {

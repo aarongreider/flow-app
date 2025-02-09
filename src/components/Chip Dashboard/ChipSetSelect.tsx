@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
-import { ChipChip } from "./ChipChip";
-import { WithBarScrolling, WithLoading } from "./ChipSelectWrappers";
+import { ChipItem } from "./Chip";
+import { WithBarScrolling } from "./WithBarScrolling";
 import useStore from "../../store/store";
 import { ChipSet } from "../../types";
-import { WithUlModal } from "../genericWrappers";
-import { ChipModal } from "./ChipModal";
+import { ChipModal } from "../Chip Modal/ChipModal";
+import { WithLoading } from "./WithLoading";
 
 interface ChipSetSelectProps {
     visible: boolean;
@@ -34,14 +34,12 @@ export function ChipSetSelect({ visible, setChildVisible }: ChipSetSelectProps) 
         setModalVisible(!modalVisible)
     }
 
-    
-
     return <>
         <ChipModal visible={modalVisible} toggleVisible={toggleModal}></ChipModal>
-        <WithBarScrolling visible={visible} overflow="hidden" drag="x" handleAddChip={handleAddChip} handleOpenSettings={toggleModal}>
+        <WithBarScrolling visible={visible} overflow="hidden" drag="x" handleAddChip={handleAddChip} handleOpenSettings={toggleModal} controls={true}>
             <WithLoading isLoading={isLoading}>
                 {projectChipSets?.map((chipSet: ChipSet) => {
-                    return <ChipChip key={chipSet.key} setKey={chipSet.key} draggable={false} onClick={() => { setActiveChipSet(chipSet); setChildVisible(true) }}></ChipChip>
+                    return <ChipItem key={chipSet.key} setKey={chipSet.key} draggable={false} onClick={() => { setActiveChipSet(chipSet); setChildVisible(true) }}></ChipItem>
                 })}
             </WithLoading>
         </WithBarScrolling>

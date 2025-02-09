@@ -1,5 +1,5 @@
 import { useState, useCallback, useEffect, useRef } from 'react';
-import useStore from '../../store/store';
+import useStore from '../../../store/store';
 
 interface TextAreaProps {
     id: string,

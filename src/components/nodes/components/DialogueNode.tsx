@@ -5,10 +5,10 @@ import Input from './Input'
 import DeleteNodeButton from './DeleteNodeButton';
 import SelectNodeButton from './SelectNodeButton';
 import { useDroppable } from '@dnd-kit/core';
-import { getChipName } from '../../nodeEditorUtils';
-import useStore from '../../store/store';
+import { getChipName } from '../../../nodeEditorUtils';
+import useStore from '../../../store/store';
 import { Node } from 'reactflow';
-import { ChipChip } from '../chips/ChipChip';
+import { ChipItem } from '../../Chip Dashboard/Chip';
 import { nanoid } from 'nanoid';
 
 function DialogueNode(props: NodeProps) {
@@ -63,7 +63,7 @@ function DialogueNode(props: NodeProps) {
 
         {/* DROPPABLE */}
         <div ref={setNodeRef} style={{ marginTop: `${chipKey ? 0 : '-10px'}`, display: 'flex', alignItems: 'center', gap: '4px' }}>
-          {(chipKey && setKey) && <ChipChip chipKey={chipKey} setKey={setKey} draggable={false} altID={nanoid()}></ChipChip>}
+          {(chipKey && setKey) && <ChipItem chipKey={chipKey} setKey={setKey} draggable={false} altID={nanoid()}></ChipItem>}
           {/* DELETE CHIP */}
           {chipKey ? <span className="material-symbols-outlined chip" style={{ paddingRight: '4px' }} onClick={handleDeleteChip}>delete</span> : undefined}
           {chipKey ? undefined : <Input id={props.id} dataKey={"character"} defaultText='Character' />}

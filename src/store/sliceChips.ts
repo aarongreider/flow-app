@@ -36,10 +36,10 @@ export const createChipsSlice = (set: any, get: any) => ({
     },
 
     addChip: (setKey: string, chip: Chip) => {
-
+        console.log("adding chips feature isn't finished yet");
     },
 
     addChipSet: (chipSet: ChipSet) => {
-
+        console.log("adding chip set feature isn't finished yet");
     },
 })

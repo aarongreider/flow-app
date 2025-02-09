@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Handle, Position, NodeProps, Edge } from 'reactflow';
-import useStore from '../../store/store';
+import useStore from '../../../store/store';
 
 function TextReceiverNode(props: NodeProps) {
   const nodes = useStore((state) => state.nodes);
