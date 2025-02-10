@@ -36,7 +36,12 @@ export function ChipSetSelect({ visible, setChildVisible }: ChipSetSelectProps) 
 
     return <>
         <ChipModal visible={modalVisible} toggleVisible={toggleModal}></ChipModal>
-        <WithBarScrolling visible={visible} overflow="hidden" drag="x" handleAddChip={handleAddChip} handleOpenSettings={toggleModal} controls={true}>
+        <WithBarScrolling visible={visible}
+            overflow="hidden" drag="x"
+            handleAddChip={handleAddChip}
+            handleOpenSettings={toggleModal}
+            controls={[true, true]}
+        >
             <WithLoading isLoading={isLoading}>
                 {projectChipSets?.map((chipSet: ChipSet) => {
                     return <ChipItem key={chipSet.key} setKey={chipSet.key} draggable={false} onClick={() => { setActiveChipSet(chipSet); setChildVisible(true) }}></ChipItem>

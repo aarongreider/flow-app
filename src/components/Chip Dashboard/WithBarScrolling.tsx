@@ -7,7 +7,7 @@ interface WithBarScrollingProps {
     overflow: string;
     drag: any;
     children: ReactNode;
-    controls: boolean;
+    controls: boolean[];
     handleAddChip?: () => void;
     handleOpenSettings?: () => void;
 }
@@ -28,12 +28,17 @@ export const WithBarScrolling = ({ visible, overflow, drag, children, controls, 
                 {children}
             </motion.div>
 
-            {controls ? <div style={{
+            <div style={{
                 width: '100px', display: "flex", flexDirection: "row", gap: '6px', position: 'absolute', right: 0, padding: '10px', zIndex: '101', justifyContent: 'flex-end',
                 pointerEvents: 'none', background: 'linear-gradient(90deg, rgba(32,32,32,0) 0%, rgba(32,32,32,0.32) 8%, rgba(32,32,32,1) 36%)'
             }}>
-                <span className="material-symbols-outlined chip" style={{ pointerEvents: "fill" }} onClick={handleAddChip}>add</span>
-                <span className="material-symbols-outlined chip" style={{ pointerEvents: "fill" }} onClick={handleOpenSettings}>settings</span>
-            </div> : undefined}
+                {controls[0]
+                    ? <span className="material-symbols-outlined chip" style={{ pointerEvents: "fill" }} onClick={handleAddChip}>add</span>
+                    : undefined}
+                {controls[1]
+                    ? <span className="material-symbols-outlined chip" style={{ pointerEvents: "fill" }} onClick={handleOpenSettings}>settings</span>
+                    : undefined}
+            </div>
+
         </div>)
 }

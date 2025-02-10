@@ -1,4 +1,3 @@
-import { nanoid } from "nanoid"
 import { ReactNode, useState } from "react"
 
 interface SelectableUlProps {
@@ -13,7 +12,7 @@ export const AsSelectableUl = ({ title, setTitle, handleNewTitle, handleAddItem,
     const [isRenaming, setIsRenaming] = useState<boolean>(false)
 
     return <>
-        <li key={`${title}-${nanoid}`} className='toggle' style={{ listStyleType: `${toggled ? "disclosure-open" : "disclosure-closed"}` }} onClick={(e) => {
+        <li className='toggle' style={{ listStyleType: `${toggled ? "disclosure-open" : "disclosure-closed"}` }} onClick={(e) => {
             if (e.target instanceof Element && e.target.classList.contains("toggle"))
                 setToggled(!toggled)
         }}>

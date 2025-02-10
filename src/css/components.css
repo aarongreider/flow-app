@@ -126,6 +126,7 @@ li::marker {
 }
 .chip p {
   font-size: 1em;
+  text-wrap: nowrap;
 }
 .chip span {
   font-size: 1.25em;

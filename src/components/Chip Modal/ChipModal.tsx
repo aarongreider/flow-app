@@ -11,16 +11,19 @@ interface ChipModalProps {
 
 export const ChipModal = ({ visible, toggleVisible }: ChipModalProps) => {
     const projectChipSets = useStore((state) => state.projectChipSets);
-
+    const addChipSet = useStore((state) => state.addChipSet);
     const handleAddChipSet = () => {
-
+        const response = prompt('New Chip Set Name:');
+        if (response) {
+            addChipSet(response)
+        }
     }
 
     return <>
         <WithPopUp visible={visible} toggleVisible={toggleVisible}>
             <WithUlModal header="Chips" onClickAddButton={handleAddChipSet} >
                 {/* map all chipsets */}
-                {projectChipSets ? projectChipSets.map((chipSet, index) => {
+                {projectChipSets && projectChipSets?.length > 0 ? projectChipSets.map((chipSet, index) => {
                     return <ChipSetLineItem chipSet={chipSet} key={index}></ChipSetLineItem>
                 }) : <p>{"No Chipsets :)"}</p>}
             </WithUlModal>

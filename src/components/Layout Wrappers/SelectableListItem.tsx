@@ -27,7 +27,6 @@ export const AsSelectableLi = ({ title, setTitle, handleNewTitle, handleClickIte
                     onChange={(e) => setTitle(e.target.value)}
                     onBlur={(e) => {
                         handleNewTitle(e.target.value)
-                        console.log(`renaming ${title}`, e.target.value)
                     }} // Rename on blur
                 /></>
             ) : (

@@ -36,7 +36,7 @@ export type ChipSet = { key: string, name: string, chips: Chip[] }
     },
 ] */
 
-export const getProjectIndex = (register: Project[], projectKey: string): number => {
+export const getProjectIndex = (register: Project[] | ChipSet[], projectKey: string): number => {
     const projectIndex = register.findIndex(project => project.key === projectKey);
     console.log(`${projectKey} project index found`, projectIndex); // Output: 0 (if 'project 1' is the first project)
     return projectIndex;

@@ -12,7 +12,7 @@ import ReactFlow, {
 import { shallow } from 'zustand/shallow';
 import { nanoid } from 'nanoid';
 import useStore from '../store/store';
-import { ProjectPopup } from './ProjectsPopup';
+import { ProjectPopup } from './Projects Modal/ProjectsPopup';
 import { useParams } from 'react-router-dom';
 import { DndContext, DragEndEvent } from '@dnd-kit/core';
 import { selector, nodeTypes, edgeTypes, useWindowResizer, useActivePathEffect, getChipName } from '../nodeEditorUtils';

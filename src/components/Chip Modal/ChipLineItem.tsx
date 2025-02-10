@@ -13,9 +13,9 @@ export default function ChipLi({ chip, chipSetKey }: ChipLineItemProps) {
     const renameChip = useStore((state) => state.renameChip);
 
     const handleRenameChip = (newName: string) => {
-        console.log("renaming a new chip", newName, chipSetKey);
+        console.log("renaming chip: ", newName, chipSetKey);
         setChipName(newName)
-        renameChip(chipSetKey, chipName, newName)
+        renameChip(chipSetKey, chip.key, newName)
     }
     const handleClick = () => {
         console.log("you clicked", chip);

@@ -59,7 +59,6 @@ export const createProjectMgmtSlice = (set: any, get: any) => ({
             // else push new project to the register project array
             get().addProject(projectKey, undefined, [newPage])
         }
-
     },
     addProject: (projectName: string, projectKey?: string, pages?: Page[]) => {
         const newRegister = [...get().register] // shallow clone of register

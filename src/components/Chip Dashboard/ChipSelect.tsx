@@ -31,7 +31,7 @@ export function ChipSelect({ visible, draggable }: ChipSelectProps) {
             visible={visible}
             overflow={isDragNDropping ? 'visible' : 'hidden'}
             drag={drag}
-            controls={false}
+            controls={[true, false]}
         >
             <WithLoading isLoading={isLoading}>
                 {activeChipSet?.chips.map((chip: Chip) => {

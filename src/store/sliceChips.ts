@@ -1,4 +1,5 @@
-import { ChipSet, Chip } from '../types';
+import { nanoid } from 'nanoid';
+import { ChipSet, Chip, getProjectIndex } from '../types';
 
 
 export const createChipsSlice = (set: any, get: any) => ({
@@ -35,11 +36,35 @@ export const createChipsSlice = (set: any, get: any) => ({
         set({ projectChipSets })
     },
 
-    addChip: (setKey: string, chip: Chip) => {
+    addChip: (setKey: string, chip: Chip, chipkey?: string) => {
         console.log("adding chips feature isn't finished yet");
+        console.log(setKey, chip, chipkey && chipkey);
+
+
+        const newProjectChipSets: ChipSet[] = [...get().projectChipSets]; // shallow clone of chipsets
+        const chipSetIndex = getProjectIndex(newProjectChipSets, setKey);
+        const newChip: Chip = { name: chip.name, key: chipkey ?? nanoid() }
+
+        if (chipSetIndex !== -1) {
+            // deep clone the project being modified
+            const updatedChipSet = {
+                ...newProjectChipSets[chipSetIndex],
+                chips: [...newProjectChipSets[chipSetIndex].chips, newChip] // create a new array with the new page
+            };
+            // Replace the specific project in the register array
+            newProjectChipSets[chipSetIndex] = updatedChipSet;
+            set({ register: newProjectChipSets })
+        } else {
+            // else push new project to the register project array
+            // no chipset index found, creating new chipset for new chip
+            get().addChipSet(setKey, undefined, [chip])
+        }
     },
 
-    addChipSet: (chipSet: ChipSet) => {
-        console.log("adding chip set feature isn't finished yet");
+    addChipSet: (chipSetName: string, chipSetKey?: string, chips?: Chip[]) => {
+        const newProjectChipSets: ChipSet[] = [...get().projectChipSets]; // shallow clone of chipsets
+
+        newProjectChipSets.push({ name: chipSetName, key: chipSetKey ?? nanoid(), chips: chips ?? [] })
+        set({ projectChipSets: newProjectChipSets })
     },
 })
