@@ -52,8 +52,10 @@ export const createChipsSlice = (set: any, get: any) => ({
                 chips: [...newProjectChipSets[chipSetIndex].chips, newChip] // create a new array with the new page
             };
             // Replace the specific project in the register array
+            console.log("found chipset: ", newProjectChipSets[chipSetIndex]);
+
             newProjectChipSets[chipSetIndex] = updatedChipSet;
-            set({ register: newProjectChipSets })
+            set({ projectChipSets: newProjectChipSets })
         } else {
             // else push new project to the register project array
             // no chipset index found, creating new chipset for new chip

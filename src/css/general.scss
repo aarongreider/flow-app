@@ -59,13 +59,13 @@ button {
     width: min-content;
     text-wrap: nowrap;
     margin: 0;
-    padding: 10px;
+    padding: 5px;
 
     display: flex;
     align-items: center;
     gap: 8px;
 
-    border-radius: 50px;
+    border-radius: 8px;
     border: 2px solid transparent;
     color: $dark-grey;
 
@@ -75,6 +75,8 @@ button {
     //background-color: #1a1a1a;
     cursor: pointer;
     transition: border-color 0.25s;
+
+    filter: drop-shadow(1px 2px 2px rgba(0, 0, 0, 0.05)) drop-shadow(3px 5px 11px rgba(0, 0, 0, 0.05));
 
     &:hover {
         border-color: $sage-text;
@@ -92,4 +94,16 @@ button {
 
 .react-flow__attribution {
     display: none;
+}
+
+.nodeTypePanel {
+    padding-right: 10px;
+
+    .material-symbols-rounded {
+        font-variation-settings:
+            'FILL' 0,
+            'wght' 400,
+            'GRAD' 100,
+            'opsz' 30;
+    }
 }

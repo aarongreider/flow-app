@@ -5,7 +5,6 @@ import Input from './Input'
 import DeleteNodeButton from './DeleteNodeButton';
 import SelectNodeButton from './SelectNodeButton';
 import { useDroppable } from '@dnd-kit/core';
-import { getChipName } from '../../../nodeEditorUtils';
 import useStore from '../../../store/store';
 import { Node } from 'reactflow';
 import { ChipItem } from '../../Chip Dashboard/Chip';
@@ -13,7 +12,6 @@ import { nanoid } from 'nanoid';
 
 function DialogueNode(props: NodeProps) {
   const nodes = useStore((state) => state.nodes);
-  const projectChipSets = useStore((state) => state.projectChipSets);
   const deleteNodeData = useStore((state) => state.deleteNodeData);
   const getNode = useStore((state) => state.getNode);
 

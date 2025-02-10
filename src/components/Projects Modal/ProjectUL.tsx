@@ -29,7 +29,7 @@ export function ProjectUL({ project, pages }: ProjectULProps) {
     return <>
         {/* classname toggle is used to designate which elements will toggle the pages */}
         <AsSelectableUl title={projectName} setTitle={setProjectName} handleNewTitle={handleRenameProject} handleAddItem={handleAddPage}>
-            {!pages || pages.length == 0 //todo: WTF IS GOING ON HERE TYPE ERROR????
+            {!pages || pages.length == 0
                 ? <li><i style={{ fontFamily: "IvyJournal", color: 'grey' }}>{`No pages yet :)`}</i></li>
                 : pages.map((page) => (
                     <PageWidget key={page.key} project={project} page={page}></PageWidget>

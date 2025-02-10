@@ -14,7 +14,6 @@ interface ChipSetSelectProps {
 export function ChipSetSelect({ visible, setChildVisible }: ChipSetSelectProps) {
     const projectChipSets = useStore((state) => state.projectChipSets);
     const setActiveChipSet = useStore((state) => state.setActiveChipSet);
-    const renameChipSet = useStore((state) => state.renameChipSet);
     const [isLoading, setIsLoading] = useState<boolean>(true)
     const [modalVisible, setModalVisible] = useState<boolean>(true)
 

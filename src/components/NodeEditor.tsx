@@ -6,7 +6,6 @@ import ReactFlow, {
     //MiniMap,
     Background,
     SelectionMode,
-    Panel,
 } from 'reactflow';
 
 import { shallow } from 'zustand/shallow';
@@ -15,7 +14,7 @@ import useStore from '../store/store';
 import { ProjectPopup } from './Projects Modal/ProjectsPopup';
 import { useParams } from 'react-router-dom';
 import { DndContext, DragEndEvent } from '@dnd-kit/core';
-import { selector, nodeTypes, edgeTypes, useWindowResizer, useActivePathEffect, getChipName } from '../nodeEditorUtils';
+import { selector, nodeTypes, edgeTypes, useWindowResizer, useActivePathEffect } from '../nodeEditorUtils';
 
 import 'reactflow/dist/style.css';
 import '../css/general.css'
@@ -24,7 +23,6 @@ import './nodes/css/nodeStyles.css'
 import { NodePanel } from './PanelNodes';
 import { ActionsPanel } from './PanelActions';
 import ChipsDashboard from './Chip Dashboard/ChipsDashboard';
-import { ChipModal } from './Chip Modal/ChipModal';
 
 
 //#endregion

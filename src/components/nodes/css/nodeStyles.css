@@ -12,6 +12,9 @@
 .handle.source {
   bottom: -15px;
 }
+.handle:hover {
+  filter: drop-shadow(0px 0px 1px rgba(122, 122, 122, 0.469));
+}
 
 .nodeWrapper.selected {
   outline: 4px #87BC83 solid;
