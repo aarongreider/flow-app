@@ -34,11 +34,15 @@ export const createReactFlowSLice = (set: any, get: any) => ({
       edges: addEdge({ ...connection, type: 'customEdge' }, get().edges),
     });
   },
-  setNodes: (nodes: Node[]) => {
-    set({ nodes });
-  },
   setEdges: (edges: Edge[]) => {
     set({ edges });
+  },
+  setNodes: (nodes: Node[]) => {
+    set({
+      nodes: nodes.map(node => (
+        { ...node, data: { ...node.data } }
+      ))
+    });
   },
   updateNodeData: (nodeId: string, props: object) => {
     set({

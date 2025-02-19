@@ -26,6 +26,8 @@ function Firebase() {
     const setLastSave = useStore((state) => state.setLastSave);
     const setAppLoaded = useStore((state) => state.setAppLoaded);
 
+    //TODO: need to code something that indicates when the user's activepath is not registered (in the registry)
+    //TODO: then need to display all unregistered data in the projects modal
 
     useEffect(() => { // if the user is logged in, set the nodes to match what is stored in their user database
 
@@ -83,7 +85,10 @@ function Firebase() {
                 const { edges, nodes } = response;
                 setEdges(edges);
                 setNodes(nodes);
-                setAppLoaded(true)
+                setTimeout(() => {
+                    setAppLoaded(true)
+                }, 1000);
+
             }
         }
         setAppLoaded(false)

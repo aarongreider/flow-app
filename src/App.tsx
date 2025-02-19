@@ -10,14 +10,14 @@ import { DndContextComp } from './components/DragNDrop/DnDContext';
 export default function App() {
 
   return <>
-    <ul style={{ position: 'absolute', left: '50%', zIndex: 200 }}>
+    {/* <ul style={{ position: 'absolute', left: '50%', zIndex: 200, display:`${window.innerWidth > 450 ? 'block' : 'none'}` }}>
       <li><Link to="/">Projects</Link></li>
       <li><Link to="/editor">Node Editor</Link></li>
       <li><Link to="/Dnd">DragNDrop</Link></li>
-    </ul>
+    </ul> */}
     <Firebase />
 
-    <Routes>
+    <Routes >
       <Route path="/editor/:projectKey/:pageKey" element={<NodeEditor></NodeEditor>} />
       <Route path="/" element={<ProjectHome></ProjectHome>} />
       <Route path="/Dnd" element={<DndContextComp></DndContextComp>} />
