@@ -95,39 +95,33 @@ export function UndoManager() {
             console.log("No item to undo!", lastEl);
         }
 
-        //console.log('undoStack after undo ', numUndos.current, undoStack.current.length, undoStack)
+        console.log('undoStack after undo ', numUndos.current, undoStack.current.length, undoStack)
     }
 
     const handleRedo = () => {
-        console.log('redo!!')
-         // if the length is 1, then don't pop anything off, or else we won't ever return to the initial state
-         if (undoStack.current.length > 1) {
-            // pop it off the top
-            const popped = redoStack.current.pop()
-            popped && undoStack.current.push(popped)
-        }
+        const popped = redoStack.current.pop()
+        popped && redoStack.current.push(popped)
 
-        // lastEl is the item to set the state to
-        const lastEl = undoStack.current[undoStack.current.length - 1]
-
-        if (lastEl) {
+        if (popped) {
             skipNextStash.current = true
-            setNodes(lastEl.nodes.map((node: any) => (
+            setNodes(popped.nodes.map((node: any) => (
                 { ...node, data: { ...node.data } }
             )),)
-            setEdges(lastEl.edges)
-            setChips(lastEl.chips)
+            setEdges(popped.edges)
+            setChips(popped.chips)
         } else {
-            console.log("No item to redo!", lastEl);
+            console.log("No item to redo!", popped);
         }
+
+        console.log('redoStack after redo ', redoStack.current.length, redoStack)
     }
 
     const handleAddToStack = useCallback(() => {
         const newUndo: AppState = {
             nodes: nodesRef.current.map(node => (
                 { ...node, data: { ...node.data } }
-            )), 
-            edges: edgesRef.current, 
+            )),
+            edges: edgesRef.current,
             chips: chipsRef.current
         }
         undoStack.current.length >= 50 && undoStack.current.shift() // shift array to the left
@@ -140,7 +134,7 @@ export function UndoManager() {
         <button onClick={handleUndo} style={{ zIndex: 101, opacity: `${undoStack.current.length < 2 ? '.5' : '1'}` }}>
             <span className="material-symbols-outlined">undo</span>
         </button>
-        <button onClick={handleUndo} style={{ zIndex: 101, opacity: `${redoStack.current.length < 1 ? '.5' : '1'}` }}>
+        <button onClick={handleRedo} style={{ zIndex: 101, opacity: `${redoStack.current.length < 1 ? '.5' : '1'}` }}>
             <span className="material-symbols-outlined">redo</span>
         </button>
     </>
