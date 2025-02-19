@@ -21,7 +21,6 @@ export function UndoManager() {
 
     const [undoStack, setUndoStack] = useState<AppState[]>([])
     const numUndos = useRef(0);
-    const firstRender = useRef(true)
 
     // make 10 backups whenever something changes
 
@@ -43,25 +42,37 @@ export function UndoManager() {
 
     useEffect(() => {
         if (appLoaded) {
-            debouncedHandleAppState()
+            setTimeout(() => {
+                debouncedHandleAppState()
+            }, 1000);
+
         } else {
             console.log("app not loaded yet!", appLoaded);
         }
-
-    }, [register, projectChipSets, nodes, edges])
+    }, [projectChipSets, nodes, edges])
 
     useEffect(() => {
-        console.log('undoStack: ', undoStack)
+        console.log('undoStack has change: ', numUndos.current, undoStack.length, undoStack)
     }, [undoStack])
 
 
     const handleUndo = () => {
-        console.log('undo!!', numUndos.current)
-        console.log('undoStack undo: ', undoStack)
         numUndos.current += 1;
-        setNodes(undoStack[2].nodes)
-        setEdges(undoStack[2].edges)
-        setChips(undoStack[2].chips)
+        console.log('handle undo undoStack ', numUndos.current, undoStack.length, undoStack)
+
+        const lastEl = undoStack[undoStack.length - 1]
+        if (undoStack[undoStack.length - 1]) {
+            console.log("popped el", lastEl);
+            setNodes(lastEl.nodes)
+            setEdges(lastEl.edges)
+            setChips(lastEl.chips)
+            setUndoStack(prevArray => prevArray.slice(0, -1))
+        } else {
+            console.log("No item to undo!", lastEl);
+
+        }
+
+
     }
 
     const handleRedo = () => {
