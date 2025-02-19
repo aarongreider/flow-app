@@ -20,7 +20,7 @@ export type Project = { name: string, key: string, pages: Page[], tokens?: strin
 export type Page = { name: string, key: string }
 export type Chip = { key: string, name: string }
 export type ChipSet = { key: string, name: string, chips: Chip[] }
-
+export type AppState = { nodes: Node[], edges: Edge[], chipSets: ChipSet[], register?: Project[] }
 /* const register: Project[] = [
     {
         name: 'project 1',

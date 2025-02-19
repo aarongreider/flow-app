@@ -33,7 +33,9 @@ type RFState = {
 
   //user
   user: User | null;
+  appLoaded: boolean;
   updateUser: (user: User) => void;
+  setAppLoaded: (appLoaded: boolean) => void;
 
   //chips
   projectChipSets: ChipSet[] | undefined;
@@ -58,6 +60,7 @@ type RFState = {
   addProject: (projectName: string, projectKey?: string, pages?: Page[]) => void;
   setLastChange: (lastChange: Date) => void;
   setLastSave: (lastSave: Date) => void;
+
 };
 
 // this is our useStore hook that we can use in our components to get parts of the store and call actions
@@ -69,6 +72,11 @@ const useStore = create<RFState>((set, get) => ({
   user: null,
   updateUser: (user: User) => {
     set({ user });
+  },
+
+  appLoaded: false,
+  setAppLoaded: (appLoaded: boolean) => {
+    set({ appLoaded });
   },
 
 }));

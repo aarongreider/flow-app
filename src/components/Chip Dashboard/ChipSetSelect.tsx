@@ -15,7 +15,7 @@ export function ChipSetSelect({ visible, setChildVisible }: ChipSetSelectProps) 
     const projectChipSets = useStore((state) => state.projectChipSets);
     const setActiveChipSet = useStore((state) => state.setActiveChipSet);
     const [isLoading, setIsLoading] = useState<boolean>(true)
-    const [modalVisible, setModalVisible] = useState<boolean>(true)
+    const [modalVisible, setModalVisible] = useState<boolean>(false)
 
     useEffect(() => {
         localStorage.setItem('chips', JSON.stringify(projectChipSets))

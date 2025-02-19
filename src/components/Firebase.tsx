@@ -24,6 +24,7 @@ function Firebase() {
     const setActivePath = useStore((state) => state.setActivePath);
     const setLastChange = useStore((state) => state.setLastChange);
     const setLastSave = useStore((state) => state.setLastSave);
+    const setAppLoaded = useStore((state) => state.setAppLoaded);
 
 
     useEffect(() => { // if the user is logged in, set the nodes to match what is stored in their user database
@@ -58,8 +59,8 @@ function Firebase() {
     }, [user])
 
     useEffect(() => { // if the user is logged in, set the nodes to match what is stored in their user database
-
         // when activePath is set, set the nodes, otherwise, init a new page
+        // also set app loaded to false bc we are loading new content from the server
 
         const get = async () => {
             // when activePath changes, load the new content. If no path is found (first render), then init a new page under an umbrella project
@@ -82,8 +83,10 @@ function Firebase() {
                 const { edges, nodes } = response;
                 setEdges(edges);
                 setNodes(nodes);
+                setAppLoaded(true)
             }
         }
+        setAppLoaded(false)
         get();
     }, [activePath])
 

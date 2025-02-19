@@ -122,3 +122,14 @@ export const useDragBoundaries = (contentRef: React.RefObject<HTMLDivElement>) =
 
     return boundaries
 }
+
+export const debounce = (callback: CallableFunction, wait: number) => {
+
+    let timeoutId: any = null;
+    return (...args: any) => {
+        window.clearTimeout(timeoutId);
+        timeoutId = window.setTimeout(() => {
+            callback(...args);
+        }, wait);
+    };
+}
