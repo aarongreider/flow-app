@@ -1,6 +1,6 @@
 //#region imports
 import NodeEditor from './components/NodeEditor';
-import { Link, Route, Routes } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import { ProjectHome } from './components/Projects Modal/ProjectsPopup';
 import Firebase from './components/Firebase';
 import { DndContextComp } from './components/DragNDrop/DnDContext';

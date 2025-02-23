@@ -23,7 +23,6 @@ import './nodes/css/nodeStyles.css'
 import { NodePanel } from './PanelNodes';
 import { ActionsPanel } from './PanelActions';
 import ChipsDashboard from './Chip Dashboard/ChipsDashboard';
-import { UndoManager } from '../undoManager';
 
 
 //#endregion

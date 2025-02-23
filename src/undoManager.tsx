@@ -27,6 +27,8 @@ export function UndoManager() {
     const skipNextStash = useRef<boolean>(false)
     const numUndos = useRef(0);
 
+    const emphasisStyle = 'font-weight: 900; background-color: #735f32; color: #f2b830'
+
 
 
     // make 10 backups whenever something changes
@@ -100,7 +102,7 @@ export function UndoManager() {
 
     const handleRedo = () => {
         const popped = redoStack.current.pop()
-        popped && redoStack.current.push(popped)
+        popped && undoStack.current.push(popped)
 
         if (popped) {
             skipNextStash.current = true
@@ -116,18 +118,44 @@ export function UndoManager() {
         console.log('redoStack after redo ', redoStack.current.length, redoStack)
     }
 
+    const isStateDifferent = (prev: AppState, next: AppState) => {
+        return (
+            prev.nodes.length !== next.nodes.length ||
+            prev.edges.length !== next.edges.length ||
+            prev.chips.length !== next.chips.length ||
+            JSON.stringify(prev.nodes) !== JSON.stringify(next.nodes) ||
+            JSON.stringify(prev.edges) !== JSON.stringify(next.edges) ||
+            JSON.stringify(prev.chips) !== JSON.stringify(next.chips)
+        );
+    };
+
     const handleAddToStack = useCallback(() => {
         const newUndo: AppState = {
             nodes: nodesRef.current.map(node => (
                 { ...node, data: { ...node.data } }
             )),
-            edges: edgesRef.current,
-            chips: chipsRef.current
+            edges: edgesRef.current.map(edge => (
+                { ...edge }
+            )),
+            chips: chipsRef.current ? chipsRef.current.map(chip => (
+                { ...chip }
+            )) : chipsRef.current
         }
-        undoStack.current.length >= 50 && undoStack.current.shift() // shift array to the left
-        undoStack.current.push(newUndo)
-        redoStack.current = []
-        //console.log("adding to the undoStack!", undoStack.current.length, undoStack.current);
+
+        if (undoStack.current.length === 0 || isStateDifferent(undoStack.current[undoStack.current.length - 1], newUndo)) {
+            undoStack.current.length >= 50 && undoStack.current.shift() // shift array to the left
+            undoStack.current.push(newUndo)
+
+            // Keep one redo item unless a new user change occurs
+            if (!skipNextStash.current) {
+                redoStack.current = [];
+                console.log("%cchange occurred, resetting redo stack", emphasisStyle);
+
+            } else {
+                skipNextStash.current = false;
+            }
+            //console.log("adding to the undoStack!", undoStack.current.length, undoStack.current);
+        }
     }, [nodes, edges, projectChipSets])
 
     return <>
