@@ -22,7 +22,7 @@ export default function App() {
       <Route path={`/editor/:projectKey/:pageKey`} element={<NodeEditor></NodeEditor>} />
       <Route path={`/projects`} element={<ProjectHome></ProjectHome>} />
       <Route path={`/Dnd`} element={<DndContextComp></DndContextComp>} />
-      <Route path={`*`} element={<h1>404</h1>} />
+      <Route path={`*`} element={<ProjectHome></ProjectHome>} />
     </Routes>
   </>
 }
