@@ -1,14 +1,14 @@
 import { useEffect, useState } from 'react';
-import { Handle, Position, NodeProps } from 'reactflow';
-import TextArea from './TextArea';
-import Input from './Input'
-import DeleteNodeButton from './DeleteNodeButton';
-import SelectNodeButton from './SelectNodeButton';
+import { NodeProps } from 'reactflow';
+import TextArea from '../TextArea';
+import Input from '../Input'
+import DeleteNodeButton from '../DeleteNodeButton';
 import { useDroppable } from '@dnd-kit/core';
-import useStore from '../../../store/store';
+import useStore from '../../../../store/store';
 import { Node } from 'reactflow';
-import { ChipItem } from '../../Chip Dashboard/Chip';
+import { ChipItem } from '../../../Chip Dashboard/Chip';
 import { nanoid } from 'nanoid';
+import NodeWrapper from './NodeWrapper';
 
 function DialogueNode(props: NodeProps) {
   const nodes = useStore((state) => state.nodes);
@@ -52,13 +52,9 @@ function DialogueNode(props: NodeProps) {
 
 
   return (
-    <div className={`dialogue-node nodeWrapper ${selected ? 'selected' : ''}`}>
+    <NodeWrapper nodeProps={props} className='dialogue-node' selected={selected} setSelected={setSelected}>
       {selected ? <DeleteNodeButton id={props.id} /> : undefined}
-      <SelectNodeButton selected={selected} onSelect={() => setSelected(!selected)} />
-      <Handle className="handle target" type="target" position={Position.Top} isConnectable={props.isConnectable} />
       <div className='inner'>
-        <p className='characterLabel'>Character</p>
-
         {/* DROPPABLE */}
         <div ref={setNodeRef} style={{ marginTop: `${chipKey ? 0 : '-10px'}`, display: 'flex', alignItems: 'center', gap: '4px' }}>
           {(chipKey && setKey) && <ChipItem chipKey={chipKey} setKey={setKey} draggable={false} altID={nanoid()}></ChipItem>}
@@ -68,9 +64,7 @@ function DialogueNode(props: NodeProps) {
         </div>
         <TextArea id={props.id} dataKey={"dialogue"} defaultText='Hi! How are you today?'></TextArea>
       </div>
-      <Handle className="handle source" type="source" position={Position.Bottom} id="a" isConnectable={props.isConnectable}>
-      </Handle>
-    </div>
+    </NodeWrapper>
   );
 }
 

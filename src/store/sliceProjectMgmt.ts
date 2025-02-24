@@ -1,5 +1,5 @@
 import { nanoid } from "nanoid"
-import { getPageIndex, getProjectIndex, Page, PagePath, Project } from '../types';
+import { getPageIndex, getProjectIndex, Page, PagePath, Project } from '../utils/types';
 
 
 

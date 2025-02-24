@@ -1,5 +1,5 @@
 import { nanoid } from 'nanoid';
-import { ChipSet, Chip, getProjectIndex } from '../types';
+import { ChipSet, Chip, getProjectIndex } from '../utils/types';
 
 
 export const createChipsSlice = (set: any, get: any) => ({

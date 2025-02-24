@@ -1,4 +1,4 @@
-import { Chip } from "../../types";
+import { Chip } from "../../utils/types";
 import { useEffect, useState } from "react";
 import useStore from "../../store/store";
 import { ChipItem } from "./Chip";

@@ -1,10 +1,11 @@
-import { Handle, Position, NodeProps } from 'reactflow';
+import { NodeProps } from 'reactflow';
 import { useEffect, useState } from 'react';
 
-import useStore from '../../../store/store';
-import Input from './Input';
-import DeleteNodeButton from './DeleteNodeButton';
-import SelectNodeButton from './SelectNodeButton';
+import useStore from '../../../../store/store';
+import Input from '../Input';
+import DeleteNodeButton from '../DeleteNodeButton';
+import SelectNodeButton from '../SelectNodeButton';
+import NodeWrapper from './NodeWrapper';
 
 function TokenNode(props: NodeProps) {
     const edges = useStore((state) => state.edges);
@@ -14,7 +15,7 @@ function TokenNode(props: NodeProps) {
     const [isBroadcasting, setIsBroadcasting] = useState<boolean | undefined>(undefined)
     const [hasKeyMatch, setHasKeyMatch] = useState<boolean>(false)
     const [inputChange, setInputChange] = useState<boolean>(false);
-
+    isBroadcasting
 
 
     useEffect(() => {
@@ -48,18 +49,19 @@ function TokenNode(props: NodeProps) {
 
 
     return (
-        <div className={`token-node nodeWrapper ${selected ? 'selected' : ''}`}>
+        <NodeWrapper nodeProps={props} className='token-node' selected={selected} setSelected={setSelected}>
             {selected ? <DeleteNodeButton id={props.id} /> : undefined}
             <SelectNodeButton selected={selected} onSelect={() => setSelected(!selected)} />
-            {isBroadcasting ? undefined :
-                <Handle className="handle target" type="target" position={Position.Top} isConnectable={props.isConnectable} />
-            }
+            {/*     {isBroadcasting ? undefined :
+                    <Handle className="handle target" type="target" position={Position.Top} isConnectable={props.isConnectable} />
+                } */}
             {hasKeyMatch ? <span style={{ color: 'white', paddingRight: '5px' }} className="material-symbols-outlined">kid_star</span> : undefined}
             <Input id={props.id} dataKey="token" defaultText='TokenKey' onChange={onInputChange} />
-            {isBroadcasting || isBroadcasting === undefined ?
-                <Handle className="handle source" type="source" position={Position.Bottom} isConnectable={props.isConnectable} />
-                : undefined}
-        </div>
+            {/*                 {isBroadcasting || isBroadcasting === undefined ?
+                    <Handle className="handle source" type="source" position={Position.Bottom} isConnectable={props.isConnectable} />
+                    : undefined} */}
+
+        </NodeWrapper>
     );
 }
 

@@ -3,7 +3,7 @@ import { useEffect, useRef } from "react";
 import { signInWithPopup, signOut, onAuthStateChanged } from "firebase/auth";
 
 import useStore from '../store/store';
-import { db, auth, provider, fetchPage, fetchMetadata, setPage } from '../firebaseUtils';
+import { db, auth, provider, fetchPage, fetchMetadata, setPage } from '../utils/firebaseUtils';
 
 //#region Component
 function Firebase() {

@@ -14,7 +14,7 @@ import useStore from '../store/store';
 import { ProjectPopup } from './Projects Modal/ProjectsPopup';
 import { useParams } from 'react-router-dom';
 import { DndContext, DragEndEvent } from '@dnd-kit/core';
-import { selector, nodeTypes, edgeTypes, useWindowResizer, useActivePathEffect } from '../nodeEditorUtils';
+import { selector, nodeTypes, edgeTypes, useWindowResizer, useActivePathEffect } from '../utils/nodeEditorUtils';
 
 import 'reactflow/dist/style.css';
 import '../css/general.css'

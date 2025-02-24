@@ -2,7 +2,7 @@ import { useState } from "react";
 import useStore from "../../store/store";
 import { Link } from "react-router-dom";
 import { AsSelectableLi } from "../Layout Wrappers/SelectableListItem";
-import { Page, Project } from "../../types";
+import { Page, Project } from "../../utils/types";
 
 interface PageWidgetProps {
     project: Project;

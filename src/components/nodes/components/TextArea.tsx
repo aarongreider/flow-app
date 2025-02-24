@@ -12,14 +12,8 @@ function TextArea({ id, dataKey, className, defaultText }: TextAreaProps) {
     const nodes = useStore((state) => state.nodes);
     const updateNodeText = useStore((state) => state.updateNodeData);
 
-
-    //const [textValue, setTextValue] = useState(nodes.find(node => node.id === id)?.data[dataKey] ?? defaultText);
     const node = nodes.find(node => node.id === id);
     const textValue = node?.data[dataKey] ? node.data[dataKey] : defaultText
-
-    //console.log("textarea corresponding node", node, textValue);
-
-
     const textAreaRef = useRef<HTMLTextAreaElement>(null);
 
 

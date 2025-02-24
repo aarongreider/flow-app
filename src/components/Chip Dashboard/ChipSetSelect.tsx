@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { ChipItem } from "./Chip";
 import { WithBarScrolling } from "./WithBarScrolling";
 import useStore from "../../store/store";
-import { ChipSet } from "../../types";
+import { ChipSet } from "../../utils/types";
 import { ChipModal } from "../Chip Modal/ChipModal";
 import { WithLoading } from "./WithLoading";
 

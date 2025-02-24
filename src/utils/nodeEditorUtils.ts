@@ -1,14 +1,14 @@
-import DialogueNode from './components/nodes/components/DialogueNode';
-import ResponseNode from './components/nodes/components/ResponseNode';
-import ExpositionNode from './components/nodes/components/ExpositionNode';
-import MetaNode from './components/nodes/components/MetaNode';
-import SignalNode from './components/nodes/components/SignalNode';
-import TextReceiverNode from './components/nodes/components/TextReceiverNode';
-import CustomEdge from './components/nodes/components/EdgeButton';
-import TokenNode from './components/nodes/components/TokenNode';
+import DialogueNode from '../components/nodes/components/Nodes/DialogueNode';
+import ResponseNode from '../components/nodes/components/Nodes/ResponseNode';
+import ExpositionNode from '../components/nodes/components/Nodes/ExpositionNode';
+import MetaNode from '../components/nodes/components/Nodes/MetaNode';
+import SignalNode from '../components/nodes/components/Nodes/SignalNode';
+import TextReceiverNode from '../components/nodes/components/TextReceiverNode';
+import CustomEdge from '../components/nodes/components/EdgeButton';
+import TokenNode from '../components/nodes/components/Nodes/TokenNode';
 import { ChipSet } from "./types";
 import { useEffect, useState } from 'react';
-import useStore from './store/store';
+import useStore from '../store/store';
 
 
 /* GENERIC SETTERS AND GETTERS */
@@ -123,6 +123,8 @@ export const useDragBoundaries = (contentRef: React.RefObject<HTMLDivElement>) =
     return boundaries
 }
 
+
+/* OTHER UTILITY FUNCTIONS */
 export const debounce = (callback: CallableFunction, wait: number) => {
 
     let timeoutId: any = null;

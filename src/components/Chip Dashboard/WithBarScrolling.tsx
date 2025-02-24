@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { useDragBoundaries } from "../../nodeEditorUtils";
+import { useDragBoundaries } from "../../utils/nodeEditorUtils";
 import { ReactNode, useRef } from "react";
 
 interface WithBarScrollingProps {

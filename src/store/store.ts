@@ -9,9 +9,9 @@ import {
   OnConnect,
 } from 'reactflow';
 
-import { Chip, Page, PagePath, Project } from '../types';
+import { Chip, Page, PagePath, Project } from '../utils/types';
 
-import { ChipSet } from '../types';
+import { ChipSet } from '../utils/types';
 import { createReactFlowSLice } from './sliceReactFlow';
 import { createProjectMgmtSlice } from './sliceProjectMgmt';
 import { createChipsSlice } from './sliceChips';
@@ -31,11 +31,13 @@ type RFState = {
   updateNodeData: (nodeID: string, props: object) => void;
   deleteNodeData: (nodeID: string, props: object) => void;
 
-  //user
+  //app state
   user: User | null;
   appLoaded: boolean;
+  isNodeSelected: boolean;
   updateUser: (user: User) => void;
   setAppLoaded: (appLoaded: boolean) => void;
+  setIsNodeSelected: (isNodeSelected: boolean) => void;
 
   //chips
   projectChipSets: ChipSet[] | undefined;
@@ -77,6 +79,11 @@ const useStore = create<RFState>((set, get) => ({
   appLoaded: false,
   setAppLoaded: (appLoaded: boolean) => {
     set({ appLoaded });
+  },
+
+  isNodeSelected: false,
+  setIsNodeSelected: (isNodeSelected: boolean) => {
+    set({ isNodeSelected });
   },
 
 }));

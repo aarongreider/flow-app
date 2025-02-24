@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Chip, ChipSet } from "../../types";
+import { Chip, ChipSet } from "../../utils/types";
 import ChipLi from "./ChipLineItem";
 import { AsSelectableUl } from "../Layout Wrappers/SelectableUL";
 import useStore from "../../store/store";

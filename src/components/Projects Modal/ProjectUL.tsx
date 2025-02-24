@@ -1,6 +1,6 @@
 import { useState } from "react";
 import useStore from "../../store/store";
-import { Page, Project } from "../../types";
+import { Page, Project } from "../../utils/types";
 import { AsSelectableUl } from "../Layout Wrappers/SelectableUL";
 import PageWidget from "./PageLi";
 

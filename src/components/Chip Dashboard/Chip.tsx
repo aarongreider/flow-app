@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import useStore from "../../store/store";
 import { useDraggable } from "@dnd-kit/core";
-import { getChipName } from "../../nodeEditorUtils";
+import { getChipName } from "../../utils/nodeEditorUtils";
 
 
 interface ChipProps {

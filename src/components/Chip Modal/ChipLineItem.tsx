@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { Chip } from "../../types"
+import { Chip } from "../../utils/types"
 import { AsSelectableLi } from "../Layout Wrappers/SelectableListItem"
 import useStore from '../../store/store';
 

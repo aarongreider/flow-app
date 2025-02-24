@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef } from "react";
 import useStore from "./store/store";
 import { AppState } from "@auth0/auth0-react";
-import { debounce } from "./nodeEditorUtils";
+import { debounce } from "./utils/nodeEditorUtils";
 
 export function UndoManager() {
     const nodes = useStore((state) => state.nodes);
