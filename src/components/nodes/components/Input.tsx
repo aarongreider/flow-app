@@ -9,11 +9,13 @@ interface InputProps {
     onChange?: (val: string) => void,
 }
 
-function Input({ id, dataKey, className, defaultText, onChange = () => { } }: InputProps) {
+function Input({ id, dataKey, className, defaultText }: InputProps) {
     const nodes = useStore((state) => state.nodes);
     const updateNodeText = useStore((state) => state.updateNodeData);
 
-    const [textValue, setTextValue] = useState(nodes.find(node => node.id === id)?.data[dataKey] ?? defaultText);
+    //textValue = useState(nodes.find(node => node.id === id)?.data[dataKey] ?? defaultText);
+    const node = nodes.find(node => node.id === id);
+    const textValue = node?.data[dataKey] ? node.data[dataKey] : defaultText
 
     const inputRef = useRef<HTMLInputElement>(null);
 
@@ -32,19 +34,26 @@ function Input({ id, dataKey, className, defaultText, onChange = () => { } }: In
             // Now we set the height directly
             inputRef.current.style.width = `${scrollWidth}px`
         }
-        onChange(textValue)
+        //onChange(textValue)
 
     }, [inputRef, textValue])
 
 
     const onChangeInput = useCallback((evt: any) => {
-        setTextValue(evt.target.value)
+        //setTextValue(evt.target.value)
+        updateNodeText(id, { [dataKey]: evt.target.value })
     }, []);
 
     return (
         <>
             <label htmlFor={dataKey} style={{ display: 'none' }} >{dataKey}</label>
-            <input className={` ${className}`} ref={inputRef} id={dataKey} name={dataKey} onChange={(onChangeInput)} value={textValue} />
+            <input className={` ${className}`}
+                ref={inputRef}
+                id={dataKey}
+                name={dataKey}
+                onChange={(onChangeInput)}
+                value={textValue}
+            />
         </>
     );
 }
