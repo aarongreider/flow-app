@@ -9,7 +9,7 @@ import {
   OnConnect,
 } from 'reactflow';
 
-import { Chip, Page, PagePath, Project } from '../utils/types';
+import { Chip, Page, PagePath, Project, XY } from '../utils/types';
 
 import { ChipSet } from '../utils/types';
 import { createReactFlowSLice } from './sliceReactFlow';
@@ -35,9 +35,11 @@ type RFState = {
   user: User | null;
   appLoaded: boolean;
   isNodeSelected: boolean;
+  clientXY: XY;
   updateUser: (user: User) => void;
   setAppLoaded: (appLoaded: boolean) => void;
   setIsNodeSelected: (isNodeSelected: boolean) => void;
+  setClientXY: (xy: XY) => void;
 
   //chips
   projectChipSets: ChipSet[] | undefined;
@@ -84,6 +86,11 @@ const useStore = create<RFState>((set, get) => ({
   isNodeSelected: false,
   setIsNodeSelected: (isNodeSelected: boolean) => {
     set({ isNodeSelected });
+  },
+
+  clientXY: { x: 0, y: 0 },
+  setClientXY: (xy: XY) => {
+    set({ clientXY: xy });
   },
 
 }));

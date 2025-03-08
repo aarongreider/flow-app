@@ -114,7 +114,7 @@ export default function NodeEditor() {
 
         if (reactFlowInstance) {
             const position = reactFlowInstance.screenToFlowPosition({
-                x: event.clientX - 100,
+                x: event.clientX,
                 y: event.clientY,
             });
             addNode(type, position.x, position.y)
@@ -137,6 +137,8 @@ export default function NodeEditor() {
     //#endregion
 
     const handleDragEnd = (e: DragEndEvent) => {
+        console.log("drag end");
+
         // for dnd-kit dragging
         const { active, over } = e;
 
