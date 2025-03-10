@@ -4,9 +4,8 @@ import { useState } from 'react';
 import NodeWrapper from './NodeWrapper';
 
 function ResponseNode(props: NodeProps) {
-  const [selected, setSelected] = useState<boolean>(false)
   return (
-    <NodeWrapper nodeProps={props} className='response-node' selected={selected} setSelected={setSelected}>
+    <NodeWrapper nodeProps={props} className='response-node'>
       <Input id={props.id} dataKey='response' defaultText="I'm good, thanks!" />
     </NodeWrapper>
   );

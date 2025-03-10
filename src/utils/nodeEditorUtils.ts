@@ -126,7 +126,6 @@ export const useDragBoundaries = (contentRef: React.RefObject<HTMLDivElement>) =
 
 /* OTHER UTILITY FUNCTIONS */
 export const debounce = (callback: CallableFunction, wait: number) => {
-
     let timeoutId: any = null;
     return (...args: any) => {
         window.clearTimeout(timeoutId);

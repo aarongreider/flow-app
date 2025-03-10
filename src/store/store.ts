@@ -22,6 +22,7 @@ type RFState = {
   //reactflow
   nodes: Node[];
   edges: Edge[];
+  selectedNodes: string[]
   onNodesChange: OnNodesChange;
   onEdgesChange: OnEdgesChange;
   onConnect: OnConnect;
@@ -30,6 +31,7 @@ type RFState = {
   setEdges: (edges: Edge[]) => void;
   updateNodeData: (nodeID: string, props: object) => void;
   deleteNodeData: (nodeID: string, props: object) => void;
+  toggleSelectedNode: (id: string) => void;
 
   //app state
   user: User | null;
@@ -64,7 +66,6 @@ type RFState = {
   addProject: (projectName: string, projectKey?: string, pages?: Page[]) => void;
   setLastChange: (lastChange: Date) => void;
   setLastSave: (lastSave: Date) => void;
-
 };
 
 // this is our useStore hook that we can use in our components to get parts of the store and call actions

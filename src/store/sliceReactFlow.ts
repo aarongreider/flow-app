@@ -13,6 +13,7 @@ import {
 export const createReactFlowSLice = (set: any, get: any) => ({
   nodes: initialNodes,
   edges: initialEdges,
+  selectedNodes: [],
 
   getNode: (id: string) => {
     //@ts-ignore
@@ -74,4 +75,12 @@ export const createReactFlowSLice = (set: any, get: any) => ({
       }),
     });
   },
+  toggleSelectedNode: (id: string) => {
+    set({
+      selectedNodes: get().selectedNodes.includes(id)
+        //@ts-ignore
+        ? get().selectedNodes.filter(nodeId => nodeId !== id) // Remove only the selected id
+        : [...get().selectedNodes, id] // Add new id
+    })
+  }
 })

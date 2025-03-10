@@ -15,7 +15,6 @@ function DialogueNode(props: NodeProps) {
   const deleteNodeData = useStore((state) => state.deleteNodeData);
   const getNode = useStore((state) => state.getNode);
 
-  const [selected, setSelected] = useState<boolean>(false)
   const [setKey, setSetKey] = useState<string>()
   const [chipKey, setChipKey] = useState<string>()
 
@@ -52,8 +51,7 @@ function DialogueNode(props: NodeProps) {
 
 
   return (
-    <NodeWrapper nodeProps={props} className='dialogue-node' selected={selected} setSelected={setSelected}>
-      {selected ? <DeleteNodeButton id={props.id} /> : undefined}
+    <NodeWrapper nodeProps={props} className='dialogue-node'>
       <div className='inner'>
         {/* DROPPABLE */}
         <div ref={setNodeRef} style={{ marginTop: `${chipKey ? 0 : '-10px'}`, display: 'flex', alignItems: 'center', gap: '4px' }}>

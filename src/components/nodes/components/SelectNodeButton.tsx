@@ -8,18 +8,20 @@ import { XY } from "../../../utils/types";
 import { useReactFlow } from "reactflow";
 
 interface ButtonProps {
+    id: string,
     selected: boolean,
     listeners?: SyntheticListenerMap | undefined,
     attributes?: DraggableAttributes,
-    onSelect: () => void,
     onDuplicate: (/* event: MouseEvent */) => void,
 }
 
-function SelectNodeButton({ selected, /* listeners, attributes, */ onSelect, onDuplicate }: ButtonProps) {
+function SelectNodeButton({ id, selected, /* listeners, attributes, */ onDuplicate }: ButtonProps) {
     const [isLongPress, setIsLongPress] = useState<boolean>(false)
     const [isDragging, setIsDragging] = useState<boolean>(false)
     const isDraggingRef = useRef<boolean>(false)
     const clientXY = useStore((state) => state.clientXY);
+    const toggleSelectedNode = useStore((state) => state.toggleSelectedNode);
+
     const [ghostPos, setGhostPos] = useState<XY>({ x: 0, y: 0 })
     const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
     const reactFlowInstance = useReactFlow();
@@ -75,6 +77,10 @@ function SelectNodeButton({ selected, /* listeners, attributes, */ onSelect, onD
             setInitialDragPos(clientXY)
         }
     };
+
+    const onSelect = () => {
+        toggleSelectedNode(id)
+    }
 
 
 
