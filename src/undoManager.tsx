@@ -29,8 +29,6 @@ export function UndoManager() {
 
     const emphasisStyle = 'font-weight: 900; background-color: #735f32; color: #f2b830'
 
-
-
     // make 10 backups whenever something changes
 
     useEffect(() => {

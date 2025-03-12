@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { NodeProps } from 'reactflow';
 import TextArea from '../TextArea';
 import Input from '../Input'
-import DeleteNodeButton from '../DeleteNodeButton';
 import { useDroppable } from '@dnd-kit/core';
 import useStore from '../../../../store/store';
 import { Node } from 'reactflow';

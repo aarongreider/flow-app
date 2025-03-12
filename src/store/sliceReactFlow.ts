@@ -8,6 +8,7 @@ import {
   addEdge,
   applyNodeChanges,
   applyEdgeChanges,
+  NodeSelectionChange,
 } from 'reactflow';
 
 export const createReactFlowSLice = (set: any, get: any) => ({
@@ -76,6 +77,18 @@ export const createReactFlowSLice = (set: any, get: any) => ({
     });
   },
   toggleSelectedNode: (id: string) => {
+    console.log(id, get().selectedNodes);
+
+    const selectionChange: NodeSelectionChange = {
+      id: id,
+      type: 'select',
+      selected: !get().selectedNodes.includes(id)
+    };
+
+    const changes: NodeChange[] = [selectionChange]
+
+    get().onNodesChange(changes)
+
     set({
       selectedNodes: get().selectedNodes.includes(id)
         //@ts-ignore

@@ -23,6 +23,7 @@ import './nodes/css/nodeStyles.css'
 import { NodePanel } from './PanelNodes';
 import { ActionsPanel } from './PanelActions';
 import ChipsDashboard from './Chip Dashboard/ChipsDashboard';
+import Listener from './Listener';
 
 
 //#endregion
@@ -159,7 +160,7 @@ export default function NodeEditor() {
     return (
         /* if no params exist, prompt user to create a new page */
         <ReactFlowProvider>
-
+            <Listener />
             <div style={{ width: '100svw', height: '100svh', display: 'flex', flexDirection: 'column' }}>
                 <p style={{ position: "absolute", bottom: 0, fontSize: ".75em" }}>{activePath ? `${activePath.projectKey} / ${activePath.pageKey}` : "undefined"}</p>
                 <ProjectPopup visible={registerVisible} toggleVisible={togglePageList} />

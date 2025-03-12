@@ -6,9 +6,10 @@ import SignalNode from '../components/nodes/components/Nodes/SignalNode';
 import TextReceiverNode from '../components/nodes/components/TextReceiverNode';
 import CustomEdge from '../components/nodes/components/EdgeButton';
 import TokenNode from '../components/nodes/components/Nodes/TokenNode';
-import { ChipSet } from "./types";
+import { ChipSet, XY } from "./types";
 import { useEffect, useState } from 'react';
 import useStore from '../store/store';
+import { Viewport } from 'reactflow';
 
 
 /* GENERIC SETTERS AND GETTERS */
@@ -133,4 +134,34 @@ export const debounce = (callback: CallableFunction, wait: number) => {
             callback(...args);
         }, wait);
     };
+}
+
+export const getViewportCenter = (viewport: Viewport) => {
+    const { x, y, zoom } = viewport
+    const width = window.innerWidth;
+    const height = window.innerHeight;
+    const center = {
+        x: x + width / (2 * zoom),
+        y: y + height / (2 * zoom),
+    };
+    return center
+}
+
+export const centerBoundingBox = (viewport: Viewport, items: XY[]): XY => {
+    // use bounding box centering 
+    /**
+     * subtract the lowest x value from all the x's,
+     * subtract the lowest y from all the y's, 
+     * get the center point of the bounding box
+     * add the center point to half the total height of the bounding rectangle 
+    */
+
+    const vpCenter = getViewportCenter(viewport)
+    const itemsBox =
+        items.map(item => ({
+            x: 
+    }))
+
+
+    return { x: 0, y: 0 }
 }

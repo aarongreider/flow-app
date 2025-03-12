@@ -18,7 +18,6 @@ export default function App() {
       <li><Link to={`/Dnd`}>DragNDrop</Link></li>
     </ul> */}
     <Firebase />
-    <Listener />
 
     <Routes >
       <Route path={`/editor/:projectKey/:pageKey`} element={<NodeEditor></NodeEditor>} />
