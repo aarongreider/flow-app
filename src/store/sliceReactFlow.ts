@@ -46,6 +46,7 @@ export const createReactFlowSLice = (set: any, get: any) => ({
       ))
     });
   },
+  //TODO: addNodes() method that appends an array of nodes
   updateNodeData: (nodeId: string, props: object) => {
     set({
       nodes: get().nodes.map((node: Node) => {

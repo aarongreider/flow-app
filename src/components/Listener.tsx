@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import useStore from "../store/store";
 import { nanoid } from "nanoid";
-import { useViewport } from "reactflow";
+import { Node, useViewport } from "reactflow";
 
 
 export default function Listener() {
@@ -29,9 +29,9 @@ export default function Listener() {
         return () => window.removeEventListener("keydown", handleKeydown)
     }, [selectedNodes])
 
-    useEffect(() => {
+    /* useEffect(() => {
         console.log(viewport);
-    }, [viewport])
+    }, [viewport]) */
 
 
 
@@ -42,18 +42,33 @@ export default function Listener() {
     const handleKeydown = (e: KeyboardEvent) => {
         if ((e.key == "c" && e.ctrlKey) || (e.key == "c" && e.metaKey)) {
             // COPY
-            copyToClipboard(JSON.stringify(selectedNodes))
+            const newNodes: Node[] = []
+            selectedNodes.forEach(id => { // for each node that we're copying
+                const node = getNode(id)
+                console.log(`copy node before`, node);
+                if (node) {
+                    const newNode: Node = { ...node, id: nanoid(), selected: true }
+                    newNodes.push(newNode)
+                    console.log(`copy node after`, newNode);
+                }
+            });
+            copyToClipboard(JSON.stringify(newNodes))
+            //copyToClipboard(JSON.stringify(selectedNodes))
         } else if ((e.key == "v" && e.ctrlKey) || (e.key == "v" && e.metaKey)) {
             // PASTE
             pasteClipboard()
         } else if ((e.key == "a" && e.ctrlKey && e.shiftKey) || (e.key == "a" && e.metaKey && e.shiftKey)) {
             // DESELECT ALL
             e.preventDefault()
-            selectedNodes.forEach(id => {
-                toggleSelectedNode(id)
-            });
+            deselectAll()
         }
 
+    }
+
+    const deselectAll = () => {
+        selectedNodes.forEach(id => {
+            toggleSelectedNode(id)
+        });
     }
 
     const copyToClipboard = async (text: string) => {
@@ -71,21 +86,26 @@ export default function Listener() {
             await navigator.clipboard
                 .readText()
                 .then((response) => {
-                    const IDs: string[] = JSON.parse(response)
-                    console.log("Pasting:", IDs)
+                    //const IDs: string[] = JSON.parse(response)
+                    const newNodes: Node[] = JSON.parse(response)
+                    console.log("Pasting:", newNodes)
+                    deselectAll()
 
-                    IDs.forEach(id => {
-                        const node = getNode(id)
-                        console.log(node);
+                    newNodes.forEach(node => { // for each node that we're pasting
                         if (node) {
-                            const { position, data, type } = node
-                            setNodes([...nodes, { id: nanoid(), position, data, type, selected: true }])
+                            //const { position, data, type } = node
+                            //TODO: get the center and apply it to each node
+                            const newNode: Node = { ...node, position: { x: Math.random() * 100, y: Math.random() * 100 } }
+                            newNodes.push(newNode)
+                            console.log(`node after`, newNode);
                         }
                     });
+                    //TODO: write an add nodes in the react flow slice to avoid setting from a stale nodes reference
+                    setNodes([...nodes, ...newNodes])
                 })
 
         } catch (err) {
-            console.error("Failed to copy:", err);
+            console.error("Failed to paste:", err);
         }
     };
 

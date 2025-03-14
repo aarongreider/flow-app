@@ -136,12 +136,12 @@ export const debounce = (callback: CallableFunction, wait: number) => {
     };
 }
 
-export const getViewportCenter = (viewport: Viewport) => {
+export const getViewportCenter = (viewport: Viewport): XY => {
     const { x, y, zoom } = viewport
     const width = window.innerWidth;
     const height = window.innerHeight;
     const center = {
-        x: x + width / (2 * zoom),
+        x: x + width / (2 * zoom), // this is just the magical formula i guess
         y: y + height / (2 * zoom),
     };
     return center
@@ -149,6 +149,7 @@ export const getViewportCenter = (viewport: Viewport) => {
 
 export const centerBoundingBox = (viewport: Viewport, items: XY[]): XY => {
     // use bounding box centering 
+
     /**
      * subtract the lowest x value from all the x's,
      * subtract the lowest y from all the y's, 
@@ -157,11 +158,23 @@ export const centerBoundingBox = (viewport: Viewport, items: XY[]): XY => {
     */
 
     const vpCenter = getViewportCenter(viewport)
-    const itemsBox =
-        items.map(item => ({
-            x: 
-    }))
+
+    const min: XY = {
+        x: Math.min(...items.map(item => item.x)),
+        y: Math.min(...items.map(item => item.y))
+    }
+
+    const max: XY = {
+        x: Math.max(...items.map(item => item.x)),
+        y: Math.max(...items.map(item => item.y))
+    }
+
+    const place: XY = {
+        x: ((max.x - min.x) / 2) + vpCenter.x,
+        y: ((max.y - min.y) / 2) + vpCenter.y
+    }
 
 
-    return { x: 0, y: 0 }
+
+    return place
 }
