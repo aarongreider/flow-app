@@ -22,25 +22,26 @@ type RFState = {
   //reactflow
   nodes: Node[];
   edges: Edge[];
-  selectedNodes: string[]
   onNodesChange: OnNodesChange;
   onEdgesChange: OnEdgesChange;
   onConnect: OnConnect;
   getNode: (id: string) => Node | undefined;
   setNodes: (nodes: Node[]) => void;
+  appendNodes: (nodes: Node[]) => void;
   setEdges: (edges: Edge[]) => void;
   updateNodeData: (nodeID: string, props: object) => void;
   deleteNodeData: (nodeID: string, props: object) => void;
   toggleSelectedNode: (id: string) => void;
+  deselectAllNodes: () => void;
+  getSelectedNodes: () => Node[];
+  isNodeSelected: (id: string) => boolean;
 
   //app state
   user: User | null;
   appLoaded: boolean;
-  isNodeSelected: boolean;
   clientXY: XY;
   updateUser: (user: User) => void;
   setAppLoaded: (appLoaded: boolean) => void;
-  setIsNodeSelected: (isNodeSelected: boolean) => void;
   setClientXY: (xy: XY) => void;
 
   //chips
@@ -82,11 +83,6 @@ const useStore = create<RFState>((set, get) => ({
   appLoaded: false,
   setAppLoaded: (appLoaded: boolean) => {
     set({ appLoaded });
-  },
-
-  isNodeSelected: false,
-  setIsNodeSelected: (isNodeSelected: boolean) => {
-    set({ isNodeSelected });
   },
 
   clientXY: { x: 0, y: 0 },

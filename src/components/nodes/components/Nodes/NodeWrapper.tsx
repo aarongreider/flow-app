@@ -1,5 +1,5 @@
 import { Handle, NodeProps, Position, useReactFlow } from 'reactflow';
-import { ReactNode, useCallback } from 'react';
+import { ReactNode, useCallback, useEffect, useState } from 'react';
 import DeleteNodeButton from '../DeleteNodeButton';
 import SelectNodeButton from '../SelectNodeButton';
 import useStore from '../../../../store/store';
@@ -14,41 +14,35 @@ interface props {
 function NodeWrapper({ nodeProps, className, children }: props) {
 
     const nodes = useStore((state) => state.nodes);
+    const getNode = useStore((state) => state.getNode);
     const setNodes = useStore((state) => state.setNodes);
+    const appendNodes = useStore((state) => state.appendNodes);
+    const isNodeSelected = useStore((state) => state.isNodeSelected);
+    const [selected, setSelected] = useState(isNodeSelected(nodeProps.id))
 
     const clientXY = useStore((state) => state.clientXY);
-
-    const selectedNodes = useStore((state) => state.selectedNodes);
-    const toggleSelectedNode = useStore((state) => state.toggleSelectedNode);
-
     const reactFlowInstance = useReactFlow();
 
-    const isSelected = useCallback((): boolean => {
-        return selectedNodes.includes(nodeProps.id)
-    }, [selectedNodes])
-
-    const selected: boolean = isSelected();
-
+    useEffect(() => {
+        setSelected(isNodeSelected(nodeProps.id))
+    }, [nodes])
 
 
     const handleDuplicate = () => {
-        const node = nodes.find(node => node.id === nodeProps.id);
-        const data = node?.data
+        const node = getNode(nodeProps.id)
 
         const position = reactFlowInstance.screenToFlowPosition({
             x: clientXY.x,
             y: clientXY.y,
         })
 
-        addNode(nodeProps.type, position.x, position.y, data)
+        //addNode(nodeProps.type, position.x, position.y, data)
+        node && appendNodes([{ ...node, position: { x: position.x, y: position.y } }])
     }
 
-    const addNode = (type: string, xPos: number = 0, yPos: number = 100, data: any) => {
-        setNodes([...nodes, { id: nanoid(), position: { x: xPos, y: yPos }, data: { ...data }, type: type }])
-    }
     return <>
         {selected ? <DeleteNodeButton id={nodeProps.id} /> : undefined}
-        <div className={`${className} nodeWrapper ${selected ? 'selected' : ''}`} >
+        <div className={`${className} nodeWrapper ${selected ? 'selected' : ''}`} title={JSON.stringify(nodeProps)}>
             {selected ? <DeleteNodeButton id={nodeProps.id} /> : undefined}
             <SelectNodeButton id={nodeProps.id} selected={selected} onDuplicate={handleDuplicate} />
             <Handle className="handle target" type="target" position={Position.Top} isConnectable={nodeProps.isConnectable} />

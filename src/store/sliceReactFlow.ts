@@ -1,3 +1,4 @@
+import { nanoid } from 'nanoid';
 import { initialNodes, initialEdges } from '../InitialNodes';
 import {
   Connection,
@@ -14,7 +15,6 @@ import {
 export const createReactFlowSLice = (set: any, get: any) => ({
   nodes: initialNodes,
   edges: initialEdges,
-  selectedNodes: [],
 
   getNode: (id: string) => {
     //@ts-ignore
@@ -47,6 +47,13 @@ export const createReactFlowSLice = (set: any, get: any) => ({
     });
   },
   //TODO: addNodes() method that appends an array of nodes
+  appendNodes: (nodes: Node[]) => {
+    set({
+      nodes: [...get().nodes, ...nodes.map(node => (
+        { ...node, id: nanoid(), data: { ...node.data } }
+      ))]
+    });
+  },
   updateNodeData: (nodeId: string, props: object) => {
     set({
       nodes: get().nodes.map((node: Node) => {
@@ -78,23 +85,31 @@ export const createReactFlowSLice = (set: any, get: any) => ({
     });
   },
   toggleSelectedNode: (id: string) => {
-    console.log(id, get().selectedNodes);
-
     const selectionChange: NodeSelectionChange = {
       id: id,
       type: 'select',
-      selected: !get().selectedNodes.includes(id)
+      selected: !get().isNodeSelected(id)
     };
 
     const changes: NodeChange[] = [selectionChange]
 
     get().onNodesChange(changes)
-
+  },
+  deselectAllNodes: () => {
     set({
-      selectedNodes: get().selectedNodes.includes(id)
-        //@ts-ignore
-        ? get().selectedNodes.filter(nodeId => nodeId !== id) // Remove only the selected id
-        : [...get().selectedNodes, id] // Add new id
+      nodes: get().nodes.map((node: Node) => {
+        return { ...node, selected: false }
+      }),
+    });
+  },
+  getSelectedNodes: (): Node[] => {
+    return get().nodes.filter((node: Node) => {
+      return node.selected
     })
-  }
+  },
+  isNodeSelected: (id: string): boolean => {
+    return get().nodes.some((node: Node) => {
+      return node.id === id ? node.selected : false
+    })
+  },
 })

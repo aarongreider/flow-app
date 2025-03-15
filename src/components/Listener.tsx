@@ -12,7 +12,9 @@ export default function Listener() {
     const nodes = useStore((state) => state.nodes);
     const getNode = useStore((state) => state.getNode);
     const setNodes = useStore((state) => state.setNodes);
-    const selectedNodes = useStore((state) => state.selectedNodes);
+    const appendNodes = useStore((state) => state.appendNodes);
+    const deselectAllNodes = useStore((state) => state.deselectAllNodes);
+    const getSelectedNodes = useStore((state) => state.getSelectedNodes);
     const toggleSelectedNode = useStore((state) => state.toggleSelectedNode);
     const setClientXY = useStore((state) => state.setClientXY);
 
@@ -27,7 +29,7 @@ export default function Listener() {
     useEffect(() => {
         window.addEventListener("keydown", handleKeydown);
         return () => window.removeEventListener("keydown", handleKeydown)
-    }, [selectedNodes])
+    }, [])
 
     /* useEffect(() => {
         console.log(viewport);
@@ -43,32 +45,23 @@ export default function Listener() {
         if ((e.key == "c" && e.ctrlKey) || (e.key == "c" && e.metaKey)) {
             // COPY
             const newNodes: Node[] = []
-            selectedNodes.forEach(id => { // for each node that we're copying
-                const node = getNode(id)
+            getSelectedNodes().forEach(node => { // for each node that we're copying
                 console.log(`copy node before`, node);
                 if (node) {
-                    const newNode: Node = { ...node, id: nanoid(), selected: true }
+                    const newNode: Node = { ...node }
                     newNodes.push(newNode)
                     console.log(`copy node after`, newNode);
                 }
             });
             copyToClipboard(JSON.stringify(newNodes))
-            //copyToClipboard(JSON.stringify(selectedNodes))
         } else if ((e.key == "v" && e.ctrlKey) || (e.key == "v" && e.metaKey)) {
             // PASTE
             pasteClipboard()
         } else if ((e.key == "a" && e.ctrlKey && e.shiftKey) || (e.key == "a" && e.metaKey && e.shiftKey)) {
             // DESELECT ALL
             e.preventDefault()
-            deselectAll()
+            deselectAllNodes()
         }
-
-    }
-
-    const deselectAll = () => {
-        selectedNodes.forEach(id => {
-            toggleSelectedNode(id)
-        });
     }
 
     const copyToClipboard = async (text: string) => {
@@ -89,7 +82,7 @@ export default function Listener() {
                     //const IDs: string[] = JSON.parse(response)
                     const newNodes: Node[] = JSON.parse(response)
                     console.log("Pasting:", newNodes)
-                    deselectAll()
+                    deselectAllNodes()
 
                     newNodes.forEach(node => { // for each node that we're pasting
                         if (node) {
@@ -101,7 +94,8 @@ export default function Listener() {
                         }
                     });
                     //TODO: write an add nodes in the react flow slice to avoid setting from a stale nodes reference
-                    setNodes([...nodes, ...newNodes])
+                    //setNodes([...nodes, ...newNodes])
+                    appendNodes([...newNodes])
                 })
 
         } catch (err) {
