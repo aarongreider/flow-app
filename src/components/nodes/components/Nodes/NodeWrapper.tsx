@@ -15,7 +15,6 @@ function NodeWrapper({ nodeProps, className, children }: props) {
 
     const nodes = useStore((state) => state.nodes);
     const getNode = useStore((state) => state.getNode);
-    const setNodes = useStore((state) => state.setNodes);
     const appendNodes = useStore((state) => state.appendNodes);
     const isNodeSelected = useStore((state) => state.isNodeSelected);
     const [selected, setSelected] = useState(isNodeSelected(nodeProps.id))

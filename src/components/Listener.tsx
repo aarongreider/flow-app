@@ -80,11 +80,13 @@ export default function Listener() {
                 .readText()
                 .then((response) => {
                     //const IDs: string[] = JSON.parse(response)
-                    const newNodes: Node[] = JSON.parse(response)
-                    console.log("Pasting:", newNodes)
+                    const clipboard: Node[] = JSON.parse(response)
+                    const newNodes: Node[] = []
+
+                    console.log("Pasting:", clipboard)
                     deselectAllNodes()
 
-                    newNodes.forEach(node => { // for each node that we're pasting
+                    clipboard.forEach(node => { // for each node that we're pasting
                         if (node) {
                             //const { position, data, type } = node
                             //TODO: get the center and apply it to each node
