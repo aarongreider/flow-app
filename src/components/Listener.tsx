@@ -1,7 +1,8 @@
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import useStore from "../store/store";
 import { nanoid } from "nanoid";
-import { Node, useViewport } from "reactflow";
+import { Node, useReactFlow, useViewport, Viewport } from "reactflow";
+import { centerBoundingBox, centerItemsInViewport } from "../utils/nodeEditorUtils";
 
 
 export default function Listener() {
@@ -17,9 +18,12 @@ export default function Listener() {
     const getSelectedNodes = useStore((state) => state.getSelectedNodes);
     const toggleSelectedNode = useStore((state) => state.toggleSelectedNode);
     const setClientXY = useStore((state) => state.setClientXY);
+    const setViewport = useStore((state) => state.setViewport);
+    const getViewport = useStore((state) => state.getViewport);
 
-    const viewport = useViewport()
-
+    const useVp: Viewport = useViewport()
+    const RF = useReactFlow()
+    //const viewportRef = useRef(useViewport());
 
     useEffect(() => {
         window.addEventListener('mousemove', setXY)
@@ -31,9 +35,9 @@ export default function Listener() {
         return () => window.removeEventListener("keydown", handleKeydown)
     }, [])
 
-    /* useEffect(() => {
-        console.log(viewport);
-    }, [viewport]) */
+    useEffect(() => {
+        setViewport(useVp)
+    }, [useVp])
 
 
 
@@ -79,31 +83,18 @@ export default function Listener() {
             await navigator.clipboard
                 .readText()
                 .then((response) => {
-                    //const IDs: string[] = JSON.parse(response)
                     const clipboard: Node[] = JSON.parse(response)
-                    const newNodes: Node[] = []
-
                     console.log("Pasting:", clipboard)
                     deselectAllNodes()
-
-                    clipboard.forEach(node => { // for each node that we're pasting
-                        if (node) {
-                            //const { position, data, type } = node
-                            //TODO: get the center and apply it to each node
-                            const newNode: Node = { ...node, position: { x: Math.random() * 100, y: Math.random() * 100 } }
-                            newNodes.push(newNode)
-                            console.log(`node after`, newNode);
-                        }
-                    });
-                    //TODO: write an add nodes in the react flow slice to avoid setting from a stale nodes reference
-                    //setNodes([...nodes, ...newNodes])
-                    appendNodes([...newNodes])
+                    const offsetNodes = centerItemsInViewport(getViewport(), clipboard)
+                    appendNodes([...offsetNodes])
+                    RF.fitView({ nodes: offsetNodes, duration: 500 })
                 })
 
         } catch (err) {
             console.error("Failed to paste:", err);
         }
-    };
+    }
 
     return <></>
 }

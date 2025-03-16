@@ -9,7 +9,7 @@ import TokenNode from '../components/nodes/components/Nodes/TokenNode';
 import { ChipSet, XY } from "./types";
 import { useEffect, useState } from 'react';
 import useStore from '../store/store';
-import { Viewport } from 'reactflow';
+import { Node, Viewport } from 'reactflow';
 
 
 /* GENERIC SETTERS AND GETTERS */
@@ -141,8 +141,8 @@ export const getViewportCenter = (viewport: Viewport): XY => {
     const width = window.innerWidth;
     const height = window.innerHeight;
     const center = {
-        x: x + width / (2 * zoom), // this is just the magical formula i guess
-        y: y + height / (2 * zoom),
+        x: ((width / 2) - x) / (zoom),
+        y: ((height / 2) - y) / (zoom),
     };
     return center
 }
@@ -169,12 +169,49 @@ export const centerBoundingBox = (viewport: Viewport, items: XY[]): XY => {
         y: Math.max(...items.map(item => item.y))
     }
 
-    const place: XY = {
-        x: ((max.x - min.x) / 2) + vpCenter.x,
-        y: ((max.y - min.y) / 2) + vpCenter.y
+    // Compute bounding box center
+    const bboxCenter: XY = {
+        x: (min.x + max.x) / 2,
+        y: (min.y + max.y) / 2
+    };
+
+    // Adjust bounding box center to be centered relative to the viewport
+    return {
+        x: vpCenter.x - bboxCenter.x,
+        y: vpCenter.y - bboxCenter.y
+    };
+}
+
+export const centerItemsInViewport = (viewport: Viewport, nodes: Node[]): Node[] => {
+    if (nodes.length === 0) return [];
+
+    const vpCenter = getViewportCenter(viewport);
+    console.log("Viewport center:", viewport, vpCenter);
+
+
+    // Find bounding box min (upper-left corner)
+    const min: XY = {
+        x: Math.min(...nodes.map(node => node.position.x)),
+        y: Math.min(...nodes.map(node => node.position.y))
+    };
+    const max: XY = {
+        x: Math.max(...nodes.map(item => item.position.x)),
+        y: Math.max(...nodes.map(item => item.position.y))
     }
 
+    // Compute bounding box center
+    const bboxCenter: XY = {
+        x: (min.x + max.x) / 2,
+        y: (min.y + max.y) / 2
+    };
 
+    const finalNodes = nodes.map(node => ({
+        ...node,
+        position: {
+            x: node.position.x - bboxCenter.x + vpCenter.x,
+            y: node.position.y - bboxCenter.y + vpCenter.y,
+        }
+    }));
 
-    return place
-}
+    return finalNodes
+};

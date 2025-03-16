@@ -7,6 +7,7 @@ import {
   OnNodesChange,
   OnEdgesChange,
   OnConnect,
+  Viewport,
 } from 'reactflow';
 
 import { Chip, Page, PagePath, Project, XY } from '../utils/types';
@@ -40,9 +41,12 @@ type RFState = {
   user: User | null;
   appLoaded: boolean;
   clientXY: XY;
+  viewport: Viewport;
   updateUser: (user: User) => void;
   setAppLoaded: (appLoaded: boolean) => void;
   setClientXY: (xy: XY) => void;
+  getViewport: () => Viewport;
+  setViewport: (viewport: Viewport) => void;
 
   //chips
   projectChipSets: ChipSet[] | undefined;
@@ -89,6 +93,14 @@ const useStore = create<RFState>((set, get) => ({
   setClientXY: (xy: XY) => {
     set({ clientXY: xy });
   },
+
+  viewport: { x: 0, y: 0, zoom: 1 },
+  getViewport: () => {
+    return get().viewport
+  },
+  setViewport: (viewport: Viewport) => {
+    set({ viewport })
+  }
 
 }));
 
