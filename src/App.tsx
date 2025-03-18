@@ -9,6 +9,7 @@ import { DndContextComp } from './components/DragNDrop/DnDContext';
 
 export default function App() {
   //const rootDir = import.meta.env.PROD ? "https://aaron.greider.org/flow-app/dist" : ''
+  console.log("version 1.0");
 
   return <>
     {/* <ul style={{ position: 'absolute', left: '50%', zIndex: 200, display: `${window.innerWidth > 450 ? 'block' : 'none'}` }}>
