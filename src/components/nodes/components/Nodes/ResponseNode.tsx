@@ -1,6 +1,5 @@
 import { NodeProps } from 'reactflow';
 import Input from '../Input';
-import { useState } from 'react';
 import NodeWrapper from './NodeWrapper';
 
 function ResponseNode(props: NodeProps) {

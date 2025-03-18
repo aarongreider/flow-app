@@ -1,17 +1,10 @@
-import { DndContext, DraggableAttributes, useDraggable } from "@dnd-kit/core";
-import { SyntheticListenerMap } from "@dnd-kit/core/dist/hooks/utilities";
-import { transform } from "framer-motion";
-import { nanoid } from "nanoid";
-import { useCallback, useEffect, useRef, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import useStore from "../../../store/store";
 import { XY } from "../../../utils/types";
-import { useReactFlow } from "reactflow";
 
 interface ButtonProps {
     id: string,
     selected: boolean,
-    listeners?: SyntheticListenerMap | undefined,
-    attributes?: DraggableAttributes,
     onDuplicate: (/* event: MouseEvent */) => void,
 }
 
@@ -24,7 +17,6 @@ function SelectNodeButton({ id, selected, /* listeners, attributes, */ onDuplica
 
     const [ghostPos, setGhostPos] = useState<XY>({ x: 0, y: 0 })
     const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-    const reactFlowInstance = useReactFlow();
     const selectButtonRef = useRef<HTMLButtonElement>(null)
 
     const [initialDragPos, setInitialDragPos] = useState<XY>({ x: 0, y: 0 })

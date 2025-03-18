@@ -5,7 +5,6 @@ import MetaNode from '../components/nodes/components/Nodes/MetaNode';
 import SignalNode from '../components/nodes/components/Nodes/SignalNode';
 import TextReceiverNode from '../components/nodes/components/TextReceiverNode';
 import CustomEdge from '../components/nodes/components/EdgeButton';
-import TokenNode from '../components/nodes/components/Nodes/TokenNode';
 import { ChipSet, XY } from "./types";
 import { useEffect, useState } from 'react';
 import useStore from '../store/store';
@@ -44,7 +43,6 @@ export const nodeTypes = {
     exposition: ExpositionNode,
     meta: MetaNode,
     signal: SignalNode,
-    token: TokenNode,
 };
 export const edgeTypes = { customEdge: CustomEdge };
 

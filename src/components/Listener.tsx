@@ -1,8 +1,7 @@
-import { useCallback, useEffect } from "react";
+import { useEffect } from "react";
 import useStore from "../store/store";
-import { nanoid } from "nanoid";
 import { Node, useReactFlow, useViewport, Viewport } from "reactflow";
-import { centerBoundingBox, centerItemsInViewport } from "../utils/nodeEditorUtils";
+import { centerItemsInViewport } from "../utils/nodeEditorUtils";
 
 
 export default function Listener() {
@@ -10,13 +9,10 @@ export default function Listener() {
 
     // mouse movements
     // copy and paste
-    const nodes = useStore((state) => state.nodes);
-    const getNode = useStore((state) => state.getNode);
-    const setNodes = useStore((state) => state.setNodes);
+
     const appendNodes = useStore((state) => state.appendNodes);
     const deselectAllNodes = useStore((state) => state.deselectAllNodes);
     const getSelectedNodes = useStore((state) => state.getSelectedNodes);
-    const toggleSelectedNode = useStore((state) => state.toggleSelectedNode);
     const setClientXY = useStore((state) => state.setClientXY);
     const setViewport = useStore((state) => state.setViewport);
     const getViewport = useStore((state) => state.getViewport);

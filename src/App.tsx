@@ -4,7 +4,6 @@ import { Route, Routes } from 'react-router-dom';
 import { ProjectHome } from './components/Projects Modal/ProjectsPopup';
 import Firebase from './components/Firebase';
 import { DndContextComp } from './components/DragNDrop/DnDContext';
-import Listener from './components/Listener';
 //#endregion
 
 

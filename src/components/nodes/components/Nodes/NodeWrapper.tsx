@@ -1,9 +1,8 @@
 import { Handle, NodeProps, Position, useReactFlow } from 'reactflow';
-import { ReactNode, useCallback, useEffect, useState } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 import DeleteNodeButton from '../DeleteNodeButton';
 import SelectNodeButton from '../SelectNodeButton';
 import useStore from '../../../../store/store';
-import { nanoid } from 'nanoid';
 
 interface props {
     nodeProps: NodeProps
@@ -42,7 +41,6 @@ function NodeWrapper({ nodeProps, className, children }: props) {
     return <>
         {selected ? <DeleteNodeButton id={nodeProps.id} /> : undefined}
         <div className={`${className} nodeWrapper ${selected ? 'selected' : ''}`} title={JSON.stringify(nodeProps)}>
-            {selected ? <DeleteNodeButton id={nodeProps.id} /> : undefined}
             <SelectNodeButton id={nodeProps.id} selected={selected} onDuplicate={handleDuplicate} />
             <Handle className="handle target" type="target" position={Position.Top} isConnectable={nodeProps.isConnectable} />
             {children}
